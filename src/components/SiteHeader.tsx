@@ -31,9 +31,7 @@ export function SiteHeader() {
             <span className="wordmark text-xl sm:text-2xl text-ink group-hover:text-accent transition">
               PVPWire
             </span>
-            <span className="hidden sm:inline-block font-mono text-[10px] uppercase tracking-widest text-signal border border-signal/40 px-1.5 py-0.5">
-              MMXXVI
-            </span>
+            {/* Logo slot reserved for future sword / brand mark next to the wordmark. */}
           </Link>
 
           <nav className="hidden lg:flex items-center gap-7" aria-label="Primary">

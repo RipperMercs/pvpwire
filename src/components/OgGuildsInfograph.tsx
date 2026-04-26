@@ -8,16 +8,18 @@ import { TimelineIcon, NetworkIcon } from '@/components/icons';
 
 type View = 'timeline' | 'network';
 
+// Brighter palette for dark-theme readability. Each game gets a recognizable
+// hue with enough saturation to read clearly on the dark surface.
 const GAME_COLORS: Record<string, string> = {
-  'asherons-call': 'rgb(168 30 36)',
-  'dark-age-of-camelot': 'rgb(70 100 160)',
-  'darkfall-online': 'rgb(140 60 30)',
-  'ultima-online': 'rgb(80 130 80)',
-  'everquest': 'rgb(140 110 50)',
-  'shadowbane': 'rgb(110 60 110)',
-  'eve-online': 'rgb(40 80 130)',
-  'quake': 'rgb(180 90 30)',
-  default: 'rgb(112 110 105)',
+  'asherons-call': 'rgb(220 84 84)',      // accent red
+  'dark-age-of-camelot': 'rgb(110 150 220)', // bright slate blue
+  'darkfall-online': 'rgb(210 130 60)',   // burnt orange
+  'ultima-online': 'rgb(120 180 120)',    // sage green
+  'everquest': 'rgb(196 158 84)',         // signal gold
+  'shadowbane': 'rgb(170 110 200)',       // amethyst
+  'eve-online': 'rgb(80 140 200)',        // azure
+  'quake': 'rgb(230 140 80)',             // ember
+  default: 'rgb(140 138 132)',            // neutral
 };
 
 function colorFor(slug: string): string {
@@ -106,8 +108,10 @@ function TimelineView({
     return { rows: sorted, minYear: minY, maxYear: maxY };
   }, [guilds]);
 
-  const margin = { left: 160, right: 24, top: 16, bottom: 32 };
-  const rowHeight = 28;
+  // Wider label column so long names like "Test Alliance Please Ignore" fit.
+  const margin = { left: 200, right: 32, top: 20, bottom: 36 };
+  const rowHeight = 26;
+  const barHeight = 16;
   const innerWidth = Math.max(width - margin.left - margin.right, 200);
   const innerHeight = rows.length * rowHeight;
   const svgHeight = innerHeight + margin.top + margin.bottom;
@@ -116,75 +120,108 @@ function TimelineView({
   const tickYears: number[] = [];
   for (let y = Math.ceil(minYear / 5) * 5; y <= maxYear; y += 5) tickYears.push(y);
 
-  return (
-    <div ref={containerRef} className="border border-ink/15 bg-paper p-4 overflow-x-auto">
-      <svg width={width} height={svgHeight} role="img" aria-label="Timeline of OG era guilds">
-        {/* gridlines */}
-        {tickYears.map((y) => (
-          <g key={y}>
-            <line
-              x1={margin.left + yearScale(y)}
-              x2={margin.left + yearScale(y)}
-              y1={margin.top}
-              y2={margin.top + innerHeight}
-              style={{ stroke: 'rgb(var(--color-rule))', strokeOpacity: 0.12 }}
-            />
-            <text
-              x={margin.left + yearScale(y)}
-              y={svgHeight - 8}
-              fontSize="10"
-              fontFamily="JetBrains Mono, monospace"
-              style={{ fill: 'rgb(var(--color-muted))' }}
-              textAnchor="middle"
-            >
-              {y}
-            </text>
-          </g>
-        ))}
+  // Build a unique-game legend for the colors actually in use.
+  const usedGames = Array.from(new Set(rows.map((g) => g.games?.[0]?.game_slug || 'default')));
 
-        {/* guild bars */}
-        {rows.map((g, i) => {
-          const y = margin.top + i * rowHeight + 4;
-          const startX = margin.left + yearScale(g.era_active.start);
-          const endY = g.era_active.end === 'active' ? new Date().getFullYear() : g.era_active.end;
-          const endX = margin.left + yearScale(endY);
-          const w = Math.max(endX - startX, 6);
-          const primaryGame = g.games?.[0]?.game_slug || 'default';
-          const fill = colorFor(primaryGame);
-          return (
-            <g
-              key={g.slug}
-              className="cursor-pointer"
-              onClick={() => router.push(`/guilds/${g.slug}/`)}
-            >
+  return (
+    <div className="space-y-3">
+      <div ref={containerRef} className="border border-ink/15 surface p-4 overflow-x-auto">
+        <svg width={width} height={svgHeight} role="img" aria-label="Timeline of OG era guilds">
+          {/* alternating row backgrounds for readability */}
+          {rows.map((g, i) => (
+            <rect
+              key={`bg-${g.slug}`}
+              x={margin.left}
+              y={margin.top + i * rowHeight}
+              width={innerWidth}
+              height={rowHeight}
+              fill={i % 2 === 0 ? 'rgb(var(--color-ink) / 0.025)' : 'transparent'}
+            />
+          ))}
+
+          {/* gridlines */}
+          {tickYears.map((y) => (
+            <g key={y}>
+              <line
+                x1={margin.left + yearScale(y)}
+                x2={margin.left + yearScale(y)}
+                y1={margin.top}
+                y2={margin.top + innerHeight}
+                style={{ stroke: 'rgb(var(--color-rule))', strokeOpacity: 0.18 }}
+              />
               <text
-                x={margin.left - 8}
-                y={y + rowHeight / 2}
-                fontSize="12"
-                fontFamily="Georgia, serif"
-                style={{ fill: 'rgb(var(--color-ink))' }}
-                textAnchor="end"
-                dominantBaseline="central"
+                x={margin.left + yearScale(y)}
+                y={svgHeight - 10}
+                fontSize="10"
+                fontFamily="JetBrains Mono, monospace"
+                style={{ fill: 'rgb(var(--color-muted))' }}
+                textAnchor="middle"
               >
-                {g.name}
+                {y}
               </text>
-              <rect
-                x={startX}
-                y={y}
-                width={w}
-                height={rowHeight - 8}
-                fill={fill}
-                opacity={0.85}
-              >
-                <title>{`${g.name} (${g.era_active.start}, ${g.era_active.end === 'active' ? 'active' : g.era_active.end}) / ${gameMap[primaryGame] || primaryGame}`}</title>
-              </rect>
-              {g.era_active.end === 'active' && (
-                <circle cx={endX} cy={y + (rowHeight - 8) / 2} r={4} fill={fill} />
-              )}
             </g>
-          );
-        })}
-      </svg>
+          ))}
+
+          {/* guild bars */}
+          {rows.map((g, i) => {
+            const rowTop = margin.top + i * rowHeight;
+            const barY = rowTop + (rowHeight - barHeight) / 2;
+            const startX = margin.left + yearScale(g.era_active.start);
+            const endY = g.era_active.end === 'active' ? new Date().getFullYear() : g.era_active.end;
+            const endX = margin.left + yearScale(endY);
+            const w = Math.max(endX - startX, 6);
+            const primaryGame = g.games?.[0]?.game_slug || 'default';
+            const fill = colorFor(primaryGame);
+            const isActive = g.era_active.end === 'active';
+            return (
+              <g
+                key={g.slug}
+                className="cursor-pointer"
+                onClick={() => router.push(`/guilds/${g.slug}/`)}
+              >
+                <text
+                  x={margin.left - 10}
+                  y={rowTop + rowHeight / 2}
+                  fontSize="11"
+                  fontFamily="Georgia, serif"
+                  style={{ fill: 'rgb(var(--color-ink))' }}
+                  textAnchor="end"
+                  dominantBaseline="central"
+                >
+                  {g.name}
+                </text>
+                <rect
+                  x={startX}
+                  y={barY}
+                  width={w}
+                  height={barHeight}
+                  fill={fill}
+                  rx={2}
+                  ry={2}
+                >
+                  <title>{`${g.name} (${g.era_active.start}, ${isActive ? 'active' : g.era_active.end}) / ${gameMap[primaryGame] || primaryGame}`}</title>
+                </rect>
+                {isActive && (
+                  <>
+                    <circle cx={endX} cy={barY + barHeight / 2} r={4} fill={fill} />
+                    <circle cx={endX} cy={barY + barHeight / 2} r={6} fill="none" stroke={fill} strokeOpacity={0.4} />
+                  </>
+                )}
+              </g>
+            );
+          })}
+        </svg>
+      </div>
+      {/* Color legend */}
+      <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-[10px] font-mono uppercase tracking-widest text-muted">
+        <span>Color by primary game</span>
+        {usedGames.map((slug) => (
+          <span key={slug} className="inline-flex items-center gap-1.5">
+            <span className="inline-block w-3 h-3 rounded-sm" style={{ backgroundColor: colorFor(slug) }} aria-hidden="true" />
+            {gameMap[slug] || slug}
+          </span>
+        ))}
+      </div>
     </div>
   );
 }
