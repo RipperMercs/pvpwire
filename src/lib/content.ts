@@ -12,6 +12,8 @@ import type {
   LegendFrontmatter,
   HeritageFrontmatter,
   ArchivedStoryFrontmatter,
+  TournamentFrontmatter,
+  EsportsOrgFrontmatter,
   ContentItem,
 } from './schemas';
 
@@ -99,6 +101,37 @@ export function getAllHeritage(): ContentItem<HeritageFrontmatter>[] {
 }
 export function getHeritageBySlug(_slug: string): ContentItem<HeritageFrontmatter> | undefined {
   return undefined;
+}
+
+// Esports organizations (v2 pivot Step 5).
+export function getAllEsportsOrgs(): ContentItem<EsportsOrgFrontmatter>[] {
+  return loadAll<EsportsOrgFrontmatter>('esports-orgs').sort((a, b) =>
+    a.frontmatter.name.localeCompare(b.frontmatter.name)
+  );
+}
+export function getEsportsOrgBySlug(slug: string): ContentItem<EsportsOrgFrontmatter> | undefined {
+  return bySlug(getAllEsportsOrgs(), slug);
+}
+
+// Tournaments (v2 pivot Step 5).
+export function getAllTournaments(): ContentItem<TournamentFrontmatter>[] {
+  return loadAll<TournamentFrontmatter>('tournaments').sort(
+    (a, b) => new Date(a.frontmatter.date_start).getTime() - new Date(b.frontmatter.date_start).getTime()
+  );
+}
+export function getTournamentBySlug(slug: string): ContentItem<TournamentFrontmatter> | undefined {
+  return bySlug(getAllTournaments(), slug);
+}
+export function getTournamentsForGame(gameSlug: string): ContentItem<TournamentFrontmatter>[] {
+  return getAllTournaments().filter(
+    (t) => t.frontmatter.game_slug === gameSlug || t.frontmatter.secondary_games?.includes(gameSlug)
+  );
+}
+export function getTournamentsForOrg(orgSlug: string): ContentItem<TournamentFrontmatter>[] {
+  return getAllTournaments().filter((t) =>
+    t.frontmatter.participants?.some((p) => p.org_slug === orgSlug) ||
+    t.frontmatter.results?.some((r) => r.org_slug === orgSlug)
+  );
 }
 
 // Cross-link helpers

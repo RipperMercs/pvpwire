@@ -184,6 +184,78 @@ export interface ArchivedStoryFrontmatter {
   series?: string;
 }
 
+// ----- Esports (v2 pivot Step 5) -----
+
+export type EsportsStatus = 'upcoming' | 'live' | 'completed' | 'cancelled';
+export type TournamentTier = 'major' | 'tier1' | 'tier2' | 'regional';
+export type EsportsFormat =
+  | 'single-elimination'
+  | 'double-elimination'
+  | 'round-robin'
+  | 'swiss'
+  | 'league'
+  | 'gauntlet'
+  | 'other';
+
+export type EsportsRegion = 'international' | 'na' | 'eu' | 'apac' | 'latam' | 'mena' | 'kr' | 'cn' | 'jp' | 'sea' | 'oce';
+
+export interface TournamentFrontmatter {
+  slug: string;
+  name: string;
+  aliases?: string[];
+  game_slug: string;                       // primary game; must match catalog slug
+  secondary_games?: string[];               // for cross-game events (EVO, EWC)
+  organizer: string;
+  tier: TournamentTier;
+  format?: EsportsFormat;
+  prize_pool_usd?: number;
+  date_start: string;                       // ISO
+  date_end: string;                         // ISO
+  region?: EsportsRegion | string;
+  location?: string;
+  venue?: string;
+  status: EsportsStatus;
+  participants?: { org_slug: string; seed?: number }[];
+  results?: { org_slug: string; placement: number; prize_usd?: number }[];
+  broadcast_links?: { name: string; url: string }[];
+  bracket_url?: string;
+  results_url?: string;
+  hero_image?: string;
+  external_links?: { name: string; url: string }[];
+  description_short: string;
+  description_long?: string;
+}
+
+export type EsportsOrgStatus = 'active' | 'inactive' | 'dissolved';
+
+export interface EsportsOrgFrontmatter {
+  slug: string;
+  name: string;
+  aliases?: string[];
+  founded: number;
+  country?: string;
+  hq_city?: string;
+  status: EsportsOrgStatus;
+  games: {
+    game_slug: string;                     // catalog slug
+    status: 'active' | 'inactive';
+    notable_titles?: string[];
+  }[];
+  notable_titles?: string[];                // org-level major wins
+  notable_moments?: {
+    date: string;
+    title: string;
+    description: string;
+    sources?: string[];
+  }[];
+  roster_highlights?: { handle: string; game_slug: string; role: string; notes?: string }[];
+  hero_image?: string;
+  logo?: string;
+  external_links?: { name: string; url: string }[];
+  description_short: string;
+  description_long?: string;
+}
+
 export interface ContentItem<T> {
   frontmatter: T;
   content: string;
