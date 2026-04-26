@@ -1,11 +1,11 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { FlipperGlyph } from '@/components/icons';
+import { RipperGlyph } from '@/components/icons';
 
 export const metadata: Metadata = {
   title: 'About',
   description:
-    'PVPWire is the hub for competitive PvP and esports. A Flipper project.',
+    'PVPWire is the hub for competitive PvP and esports. A Ripper project.',
 };
 
 export default function AboutPage() {
@@ -33,10 +33,10 @@ export default function AboutPage() {
         <h2 className="masthead-title text-3xl text-ink mb-8">The masthead</h2>
 
         <MastheadEntry
-          glyph={<FlipperGlyph size={36} />}
-          name="Flipper"
+          glyph={<RipperGlyph size={36} />}
+          name="Ripper"
           role="Founder"
-          bio="Flipper is the founder of PVPWire."
+          bio="Ripper is the founder of PVPWire. Founder notes and major announcements ship under this byline; everything else is PVPWire Editorial."
         />
       </section>
 
@@ -59,7 +59,7 @@ export default function AboutPage() {
           Tips, corrections, guild submissions: <Link href="/submit/">/submit</Link>.
         </p>
         <p>
-          PVPWire is an independent project by Flipper.
+          PVPWire is an independent project by Ripper.
         </p>
       </section>
     </article>

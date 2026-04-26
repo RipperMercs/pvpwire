@@ -50,8 +50,8 @@ export const metadata: Metadata = {
     'Marathon',
     'ARC Raiders',
   ],
-  authors: [{ name: 'Flipper' }],
-  creator: 'Flipper',
+  authors: [{ name: 'Ripper' }],
+  creator: 'Ripper',
   publisher: 'PVPWire',
   openGraph: {
     type: 'website',

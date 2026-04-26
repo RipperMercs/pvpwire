@@ -47,7 +47,14 @@ function readKind(kind: 'news' | 'legends' | 'heritage'): Item[] {
 }
 
 function authorName(a: string): string {
-  return a === 'flosium' ? 'Flosium' : a === 'og' ? 'Og' : 'Flipper';
+  switch (a) {
+    case 'editorial': return 'PVPWire Editorial';
+    case 'ripper': return 'Ripper';
+    case 'flosium': return 'Flosium';
+    case 'og': return 'Og';
+    case 'flipper': return 'Flipper';
+    default: return a;
+  }
 }
 
 function buildFeed(title: string, link: string, description: string, items: Item[]): string {
@@ -85,7 +92,7 @@ mkdirSync(join(PUB, 'rss'), { recursive: true });
 
 writeFileSync(
   join(PUB, 'rss.xml'),
-  buildFeed('PVPWire (full feed)', `${BASE}/rss.xml`, 'PVPWire original news, Legends, and Heritage. A Flipper project.', all)
+  buildFeed('PVPWire (full feed)', `${BASE}/rss.xml`, 'PVPWire news and analysis. A Ripper project.', all)
 );
 writeFileSync(
   join(PUB, 'rss/news.xml'),

@@ -3,11 +3,12 @@
 import { useState, useEffect, useMemo } from 'react';
 import Link from 'next/link';
 import { ExternalLinkIcon, ArrowRightIcon, RssIcon } from '@/components/icons';
+import { authorDisplay } from '@/lib/format';
 
 type Original = {
   slug: string;
   title: string;
-  author: 'flosium' | 'og' | 'flipper';
+  author: string;
   category: string;
   tags?: string[];
   hero_image?: string;
@@ -32,7 +33,7 @@ type FeedResponse = {
 };
 
 type Filter = 'all' | 'original' | 'aggregated';
-type AuthorFilter = 'all' | 'flosium' | 'og' | 'flipper';
+type AuthorFilter = 'all' | 'editorial' | 'ripper' | 'flosium' | 'og' | 'flipper';
 
 const NEWS_API = process.env.NEXT_PUBLIC_NEWS_API ?? 'https://pvpwire-api.workers.dev/api/news';
 
@@ -102,7 +103,7 @@ export function NewsBrowser({ originals }: { originals: Original[] }) {
               className={`group block ${i === 0 ? 'lg:col-span-2' : ''}`}
             >
               <div className="font-mono text-[11px] uppercase tracking-widest text-accent mb-3">
-                {a.author === 'flosium' ? 'Flosium' : a.author === 'og' ? 'Og' : 'Flipper'} / {new Date(a.published).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                {authorDisplay(a.author)} / {new Date(a.published).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
               </div>
               <h2 className={`masthead-title text-ink group-hover:text-accent transition ${i === 0 ? 'text-3xl sm:text-5xl' : 'text-2xl sm:text-3xl'}`}>
                 {a.title}
@@ -125,9 +126,11 @@ export function NewsBrowser({ originals }: { originals: Original[] }) {
           className="font-mono text-xs uppercase tracking-widest border border-ink/20 px-3 py-1.5 bg-paper"
         >
           <option value="all">All authors</option>
-          <option value="flosium">Flosium</option>
-          <option value="og">Og</option>
-          <option value="flipper">Flipper</option>
+          <option value="editorial">PVPWire Editorial</option>
+          <option value="ripper">Ripper</option>
+          <option value="flosium">Flosium (legacy)</option>
+          <option value="og">Og (legacy)</option>
+          <option value="flipper">Flipper (legacy)</option>
         </select>
         <select
           value={source}
@@ -198,7 +201,7 @@ function OriginalRow({ a }: { a: Original }) {
       <Link href={`/news/${a.slug}/`} className="group block hover:text-accent transition">
         <div className="flex flex-wrap items-baseline gap-3 mb-1">
           <span className="font-mono text-[11px] uppercase tracking-widest text-accent">
-            {a.author === 'flosium' ? 'Flosium' : a.author === 'og' ? 'Og' : 'Flipper'}
+            {authorDisplay(a.author)}
           </span>
           <span className="font-mono text-[10px] uppercase tracking-widest text-muted">
             Original / {a.category}

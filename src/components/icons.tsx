@@ -229,7 +229,7 @@ export const FilterIcon = (p: IconProps) => (
   </Icon>
 );
 
-export const FlipperGlyph = (p: IconProps) => (
+export const RipperGlyph = (p: IconProps) => (
   <Icon {...p}>
     <line x1="4" y1="12" x2="20" y2="12" />
     <polyline points="8 6 4 12 8 18" />

@@ -2,7 +2,7 @@
   "name": "pvpwire",
   "version": "1.0.0",
   "private": true,
-  "description": "Editorial hub and database for competitive gaming. A Flipper project.",
+  "description": "The hub for competitive PvP and esports. A Ripper project.",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

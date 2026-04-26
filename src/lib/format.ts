@@ -20,8 +20,24 @@ export function formatYearRange(range: { start: number; end: number | 'active' }
   return `${range.start} to ${range.end}`;
 }
 
-export function authorDisplay(author: 'flosium' | 'og' | 'flipper'): string {
-  return author === 'flosium' ? 'Flosium' : author === 'og' ? 'Og' : 'Flipper';
+// Display label for any byline value, including grandfathered persona names.
+// New content uses 'editorial' or 'ripper'; legacy values render the original
+// persona name for the archive surface and for any pre-pivot news article.
+export function authorDisplay(author: string): string {
+  switch (author) {
+    case 'editorial':
+      return 'PVPWire Editorial';
+    case 'ripper':
+      return 'Ripper';
+    case 'flosium':
+      return 'Flosium';
+    case 'og':
+      return 'Og';
+    case 'flipper':
+      return 'Flipper';
+    default:
+      return author;
+  }
 }
 
 // Map a guild status enum to its display label.

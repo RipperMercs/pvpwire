@@ -24,7 +24,7 @@ export function SiteFooter() {
         </div>
         <div className="rule-thin" />
         <div className="pt-6 flex flex-col md:flex-row justify-between gap-3 font-mono text-[11px] uppercase tracking-widest text-muted">
-          <div>A Flipper project</div>
+          <div>A Ripper project</div>
           <div>(c) {new Date().getFullYear()} PVPWire</div>
         </div>
       </div>

@@ -110,7 +110,11 @@ export interface GuildFrontmatter {
   verified_by?: string;
 }
 
-export type Author = 'flosium' | 'og' | 'flipper';
+// New content uses 'editorial' (default house byline) or 'ripper' (founder notes).
+// 'flosium', 'og', and 'flipper' remain valid for grandfathered legacy content
+// (the 12 archived stories, the existing news articles, and any Flosium vs the
+// World pieces) but are not used for new content per the v2 pivot.
+export type Author = 'editorial' | 'ripper' | LegacyAuthor;
 export type ArticleCategory = 'analysis' | 'feature' | 'news' | 'column' | 'review';
 
 export interface ArticleFrontmatter {
