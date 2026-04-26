@@ -66,11 +66,28 @@ const WIKIPEDIA_TITLES = {
   'gwent': 'Gwent: The Witcher Card Game',
 
   // FPS / shooter not on Steam (Epic etc.)
-  'fortnite': 'Fortnite',
+  'fortnite': 'Fortnite Battle Royale',
   'call-of-duty': 'Call of Duty: Modern Warfare III (2023 video game)',
   'diabotical-rogue': 'Diabotical',
   'unreal-tournament': 'Unreal Tournament (1999 video game)',
   'tribes-2': 'Tribes 2',
+  'escape-from-tarkov': 'Escape from Tarkov',
+  'marathon': 'Marathon (2026 video game)',
+  'deadlock': 'Deadlock (video game)',
+
+  // Re-target after Steam misses
+  'darkfall-online': 'Darkfall: Unholy Wars',
+  'runescape': 'Old School RuneScape',
+  'planetside': 'PlanetSide (video game)',
+  'teamfight-tactics': 'Teamfight Tactics',
+  'arc-raiders': 'ARC Raiders',
+  'arena-breakout-infinite': 'Arena Breakout Infinite',
+  'aion': 'Aion (video game)',
+  'age-of-conan': 'Age of Conan',
+  'dark-and-darker': 'Dark and Darker',
+  'final-fantasy-xi': 'Final Fantasy XI',
+  'smite-2': 'Smite 2',
+  'tibia': 'Tibia (video game)',
 
   // Mobile only
   'mobile-legends-bang-bang': 'Mobile Legends: Bang Bang',
