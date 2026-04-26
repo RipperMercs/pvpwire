@@ -1,7 +1,6 @@
 // PVPWire Worker entry.
 // Routes:
 //   GET  /api/news               aggregated RSS feed (KV-cached, 30 min cron-refreshed)
-//   POST /api/ask-flosium        Workers AI chat with locked Flosium system prompt
 //   POST /api/submit-guild       community guild submission queue
 //   GET  /api/admin/submissions  list pending submissions (admin token required)
 //   GET  /healthz                health check
@@ -11,7 +10,6 @@
 import type { Env, NewsCachePayload } from './types';
 import { SOURCES } from './sources';
 import { fetchSource, dedupeByTitle } from './rss';
-import { handleAskFlosium } from './ask-flosium';
 import { handleSubmission, listSubmissions } from './submissions';
 import { postScheduled } from './twitter';
 
@@ -88,10 +86,6 @@ export default {
       return handleNews(env);
     }
 
-    if (url.pathname === '/api/ask-flosium') {
-      return handleAskFlosium(req, env);
-    }
-
     if (url.pathname === '/api/submit-guild') {
       return handleSubmission(req, env);
     }
@@ -104,7 +98,7 @@ export default {
     return json({ error: 'not found', path: url.pathname }, 404, 0);
   },
 
-  async scheduled(_event: ScheduledEvent, env: Env, ctx: ExecutionContext): Promise<void> {
+  async scheduled(_event: ScheduledController, env: Env, ctx: ExecutionContext): Promise<void> {
     ctx.waitUntil(
       (async () => {
         try {

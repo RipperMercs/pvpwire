@@ -3,9 +3,7 @@ main = "src/index.ts"
 compatibility_date = "2024-09-23"
 compatibility_flags = ["nodejs_compat"]
 
-# AI binding for Ask Flosium (Workers AI free tier).
-[ai]
-binding = "AI"
+# Workers AI binding removed in v2 pivot Step 3 (Ask Flosium retired).
 
 # KV namespaces.
 # Run: wrangler kv:namespace create NEWS_CACHE  to populate the IDs below.
@@ -17,6 +15,8 @@ id = "REPLACE_WITH_NEWS_CACHE_ID"
 binding = "SUBMISSIONS"
 id = "REPLACE_WITH_SUBMISSIONS_ID"
 
+# RATE_LIMIT KV is shared with the X bot (worker/src/twitter.ts paces posts via this namespace).
+# Step 3 removed the Ask Flosium consumer of this namespace; the X bot consumer remains.
 [[kv_namespaces]]
 binding = "RATE_LIMIT"
 id = "REPLACE_WITH_RATE_LIMIT_ID"

@@ -1,9 +1,10 @@
 // Shared types for the PVPWire Worker.
 
 export interface Env {
-  AI: Ai;
+  // Workers AI binding removed in v2 pivot Step 3 (Ask Flosium retired).
   NEWS_CACHE: KVNamespace;
   SUBMISSIONS: KVNamespace;
+  // RATE_LIMIT KV remains in use by the X bot in worker/src/twitter.ts.
   RATE_LIMIT: KVNamespace;
   BOT_LOG: KVNamespace;
   SITE_URL: string;
