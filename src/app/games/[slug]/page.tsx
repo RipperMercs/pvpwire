@@ -79,6 +79,12 @@ export default function GamePage({ params }: { params: { slug: string } }) {
                 <CategoryGlyph category={game.category} size={28} className="text-accent" />
                 <span className="font-mono text-xs uppercase tracking-widest text-ink/70">{game.category}</span>
                 <span className={`badge badge-${game.status}`}>{game.status}</span>
+                {game.activity_tier && (
+                  <span className="badge badge-active">{game.activity_tier}</span>
+                )}
+                {game.scene_status === 'hot' && (
+                  <span className="badge badge-accent">scene: hot</span>
+                )}
                 {game.has_pro_scene && (
                   <span className="badge badge-active">Pro scene: {game.pro_scene_status}</span>
                 )}
@@ -88,6 +94,11 @@ export default function GamePage({ params }: { params: { slug: string } }) {
                 <div className="font-serif text-lg text-muted italic mt-2">
                   also known as {game.aliases.join(', ')}
                 </div>
+              )}
+              {game.current_meta_note && (
+                <p className="font-serif italic text-lg text-accent/95 mt-4 max-w-2xl leading-relaxed border-l-2 border-accent/40 pl-3">
+                  {game.current_meta_note}
+                </p>
               )}
               <p className="font-serif text-lg sm:text-xl text-ink/85 mt-6 max-w-2xl leading-relaxed">{game.description_short}</p>
               {/* Quick metadata row */}

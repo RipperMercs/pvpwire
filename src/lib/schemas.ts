@@ -36,6 +36,10 @@ export const GAME_CATEGORIES: GameCategory[] = [
 export type GameStatus = 'active' | 'sunset' | 'classic' | 'upcoming';
 export type ProSceneStatus = 'active' | 'dormant' | 'emerging' | 'none';
 
+// v2 pivot Step 6 additions.
+export type ActivityTier = 'live' | 'casual' | 'fading' | 'dormant' | 'upcoming';
+export type SceneStatus = 'hot' | 'steady' | 'declining' | 'dormant';
+
 export interface GameFrontmatter {
   slug: string;
   name: string;
@@ -69,6 +73,20 @@ export interface GameFrontmatter {
   related_legends?: string[];
   external_links?: { name: string; url: string }[];
   last_updated?: string;
+  // v2 pivot Step 6 fields. Used by the v2 catalog rework and home-page rails.
+  activity_tier?: ActivityTier;
+  scene_status?: SceneStatus;
+  scene_status_note?: string;
+  current_meta_note?: string;       // one-liner shown above the fold on game profile
+  player_count_signal?: string;     // free text, e.g. "150k+ daily" or "small but active"
+  trending?: boolean;               // surfaces on /games and home Trending Now rail
+  coming_soon?: boolean;            // surfaces on /games Coming Soon rail
+  priority?: number;                // ordering, lower is more prominent; default 100
+  last_major_patch?: string;        // ISO date
+  current_tournaments?: string[];   // tournament_slug array for cross-link to /esports
+  top_orgs?: string[];              // esports_org_slug array for cross-link to /esports/orgs
+  twitch_directory_slug?: string;   // for v2.1 Twitch live integration
+  steam_app_id?: number;            // for v2.1 Steam current-player integration
 }
 
 export type GuildEra = 'og' | 'classic' | 'modern' | 'active';

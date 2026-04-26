@@ -8,17 +8,46 @@ import { GAME_CATEGORIES } from '@/lib/schemas';
 import { FilterIcon, SearchIcon } from '@/components/icons';
 import { GameCover } from '@/components/GameCover';
 
-type SortKey = 'name' | 'release_year' | 'updated';
+type SortKey = 'v2' | 'name' | 'release_year' | 'updated';
+
+// v2 derived activity tier when the field is missing on a frontmatter.
+function deriveTier(g: GameFrontmatter): NonNullable<GameFrontmatter['activity_tier']> {
+  if (g.activity_tier) return g.activity_tier;
+  if (g.status === 'upcoming') return 'upcoming';
+  if (g.status === 'sunset') return 'dormant';
+  if (g.status === 'active') {
+    if (g.release_year >= 2022) return 'live';
+    if (g.release_year >= 2015) return 'casual';
+    return 'fading';
+  }
+  return 'fading';
+}
+
+const STATUS_ORDER: Record<string, number> = {
+  active: 0,
+  upcoming: 1,
+  classic: 2,
+  sunset: 3,
+};
+
+const TIER_ORDER: Record<string, number> = {
+  live: 0,
+  upcoming: 1,
+  casual: 2,
+  fading: 3,
+  dormant: 4,
+};
 
 export function GamesBrowser({ games }: { games: GameFrontmatter[] }) {
   const searchParams = useSearchParams();
   const initialCategory = searchParams?.get('category') || 'all';
 
   const [search, setSearch] = useState('');
-  const [category, setCategory] = useState<string>(initialCategory);
   const [status, setStatus] = useState<string>('all');
+  const [category, setCategory] = useState<string>(initialCategory);
+  const [tier, setTier] = useState<string>('all');
   const [proOnly, setProOnly] = useState(false);
-  const [sort, setSort] = useState<SortKey>('name');
+  const [sort, setSort] = useState<SortKey>('v2');
 
   useEffect(() => {
     const c = searchParams?.get('category');
@@ -28,8 +57,9 @@ export function GamesBrowser({ games }: { games: GameFrontmatter[] }) {
   const filtered = useMemo(() => {
     const q = search.trim().toLowerCase();
     let list = games.filter((g) => {
-      if (category !== 'all' && g.category !== category) return false;
       if (status !== 'all' && g.status !== status) return false;
+      if (category !== 'all' && g.category !== category) return false;
+      if (tier !== 'all' && deriveTier(g) !== tier) return false;
       if (proOnly && !g.has_pro_scene) return false;
       if (!q) return true;
       return (
@@ -41,6 +71,21 @@ export function GamesBrowser({ games }: { games: GameFrontmatter[] }) {
       );
     });
 
+    if (sort === 'v2') {
+      // status-first, tier-second, priority-third, alphabetical-tiebreaker
+      list = list.sort((a, b) => {
+        const sa = STATUS_ORDER[a.status] ?? 99;
+        const sb = STATUS_ORDER[b.status] ?? 99;
+        if (sa !== sb) return sa - sb;
+        const ta = TIER_ORDER[deriveTier(a)] ?? 99;
+        const tb = TIER_ORDER[deriveTier(b)] ?? 99;
+        if (ta !== tb) return ta - tb;
+        const pa = a.priority ?? 100;
+        const pb = b.priority ?? 100;
+        if (pa !== pb) return pa - pb;
+        return a.name.localeCompare(b.name);
+      });
+    }
     if (sort === 'name') list = list.sort((a, b) => a.name.localeCompare(b.name));
     if (sort === 'release_year') list = list.sort((a, b) => b.release_year - a.release_year);
     if (sort === 'updated')
@@ -48,7 +93,7 @@ export function GamesBrowser({ games }: { games: GameFrontmatter[] }) {
         (a, b) => new Date(b.last_updated || 0).getTime() - new Date(a.last_updated || 0).getTime()
       );
     return list;
-  }, [games, search, category, status, proOnly, sort]);
+  }, [games, search, status, category, tier, proOnly, sort]);
 
   return (
     <div className="grid lg:grid-cols-[260px,1fr] gap-8">
@@ -70,6 +115,19 @@ export function GamesBrowser({ games }: { games: GameFrontmatter[] }) {
         </div>
 
         <FilterGroup
+          label="Status"
+          value={status}
+          onChange={setStatus}
+          options={[
+            { value: 'all', label: 'Any status' },
+            { value: 'active', label: 'Active' },
+            { value: 'upcoming', label: 'Upcoming' },
+            { value: 'classic', label: 'Classic' },
+            { value: 'sunset', label: 'Sunset' },
+          ]}
+        />
+
+        <FilterGroup
           label="Category"
           value={category}
           onChange={setCategory}
@@ -77,15 +135,16 @@ export function GamesBrowser({ games }: { games: GameFrontmatter[] }) {
         />
 
         <FilterGroup
-          label="Status"
-          value={status}
-          onChange={setStatus}
+          label="Activity tier"
+          value={tier}
+          onChange={setTier}
           options={[
-            { value: 'all', label: 'Any status' },
-            { value: 'active', label: 'Active' },
-            { value: 'classic', label: 'Classic' },
-            { value: 'sunset', label: 'Sunset' },
+            { value: 'all', label: 'Any tier' },
+            { value: 'live', label: 'Live (2022+ active)' },
+            { value: 'casual', label: 'Casual (2015 to 2021 active)' },
+            { value: 'fading', label: 'Fading (older active)' },
             { value: 'upcoming', label: 'Upcoming' },
+            { value: 'dormant', label: 'Dormant / sunset' },
           ]}
         />
 
@@ -104,8 +163,9 @@ export function GamesBrowser({ games }: { games: GameFrontmatter[] }) {
           value={sort}
           onChange={(v) => setSort(v as SortKey)}
           options={[
+            { value: 'v2', label: 'Most contested first' },
             { value: 'name', label: 'Alphabetical' },
-            { value: 'release_year', label: 'Newest first' },
+            { value: 'release_year', label: 'Newest release' },
             { value: 'updated', label: 'Recently updated' },
           ]}
         />
@@ -163,22 +223,34 @@ function FilterGroup({
 }
 
 function GamePosterCard({ game }: { game: GameFrontmatter }) {
+  const tier = deriveTier(game);
   return (
     <Link
       href={`/games/${game.slug}/`}
       className="group block transition"
     >
-      <GameCover
-        game={game}
-        variant="poster"
-        className="border border-ink/15 group-hover:border-accent transition"
-      />
+      <div className="relative">
+        <GameCover
+          game={game}
+          variant="poster"
+          className="border border-ink/15 group-hover:border-accent transition"
+        />
+        {game.trending && (
+          <span className="absolute top-1.5 left-1.5 badge badge-accent text-[9px]">trending</span>
+        )}
+        {!game.trending && game.scene_status === 'hot' && (
+          <span className="absolute top-1.5 left-1.5 badge badge-active text-[9px]">hot</span>
+        )}
+      </div>
       <div className="mt-2">
         <div className="font-display text-sm font-bold text-ink group-hover:text-accent transition leading-tight line-clamp-2">
           {game.name}
         </div>
         <div className="font-mono text-[9px] uppercase tracking-widest text-muted mt-1 line-clamp-1">
           {game.category}
+        </div>
+        <div className="font-mono text-[9px] uppercase tracking-widest text-accent mt-0.5">
+          {tier}
         </div>
       </div>
     </Link>
