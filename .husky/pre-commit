@@ -1,0 +1,38 @@
+#!/bin/sh
+# Pizza Robot Studios pre-commit hook
+# 1. Block accidental API key commits.
+# 2. Block em dashes and double-hyphens in content.
+
+KEY_PATTERNS="sk-ant-[a-zA-Z0-9_-]{20,}|AIza[0-9A-Za-z_-]{35}|re_[a-zA-Z0-9_-]{20,}"
+
+if git diff --cached | grep -qE "$KEY_PATTERNS"; then
+  echo "COMMIT BLOCKED: Possible API key detected in staged changes."
+  echo "Remove the key, replace with process.env reference, then retry."
+  exit 1
+fi
+
+# Em dash and double-hyphen scan against staged content files only.
+# Excludes lockfiles, package.json, and binary files.
+STAGED_CONTENT=$(git diff --cached --name-only --diff-filter=ACM \
+  | grep -E '\.(md|mdx|ts|tsx|js|jsx|json|html|css|txt)$' \
+  | grep -vE '(package-lock\.json|package\.json|tsconfig.*\.json|\.gitignore)$' || true)
+
+if [ -n "$STAGED_CONTENT" ]; then
+  EM_DASH_HITS=""
+  for f in $STAGED_CONTENT; do
+    if [ -f "$f" ]; then
+      if grep -nP "[\x{2014}\x{2013}]" "$f" >/dev/null 2>&1; then
+        EM_DASH_HITS="$EM_DASH_HITS\n$(grep -nP "[\x{2014}\x{2013}]" "$f" | sed "s|^|$f:|")"
+      fi
+    fi
+  done
+
+  if [ -n "$EM_DASH_HITS" ]; then
+    echo "COMMIT BLOCKED: Em dash or en dash found in staged content."
+    echo "Pizza Robot Studios writing rule. Use commas, colons, semicolons, or periods."
+    printf "%b\n" "$EM_DASH_HITS"
+    exit 1
+  fi
+fi
+
+exit 0

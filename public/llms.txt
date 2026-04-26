@@ -1,0 +1,39 @@
+# PVPWire
+
+> Editorial hub and database for competitive gaming. Spanning chess, MMO PvP, MOBAs, FPS, fighting games, battle royale, extraction shooters, and modern esports. Original analysis under three byline personas (Flosium, Og, Flipper). Cross-game guild lineage database. Aggregated news feed. Live AI chat in Flosium voice.
+
+## Authoritative pages
+- [Home](https://pvpwire.com/): masthead, featured original articles, featured guilds, catalog teaser, Heritage column rotation
+- [Catalog](https://pvpwire.com/games/): every notable competitive PvP game, indexed across thirteen genre categories
+- [News](https://pvpwire.com/news/): aggregated cross-source feed plus original Flosium and Og articles
+- [Guilds](https://pvpwire.com/guilds/): canonical cross-game guild lineage database with timeline and network views
+- [Legends](https://pvpwire.com/legends/): prestige tier Flosium deep dives on consequential historical guilds
+- [Heritage](https://pvpwire.com/heritage/): Flosium's recurring "From the Old World" column
+- [Ask Flosium](https://pvpwire.com/ask-flosium/): live AI chat with locked Flosium voice prompt
+- [About](https://pvpwire.com/about/): masthead and editorial standards
+- [Submit](https://pvpwire.com/guilds/submit/): community guild submission pipeline
+
+## Feeds
+- [RSS (full feed)](https://pvpwire.com/rss.xml)
+- [RSS (news)](https://pvpwire.com/rss/news.xml)
+- [RSS (legends)](https://pvpwire.com/rss/legends.xml)
+- [RSS (heritage)](https://pvpwire.com/rss/heritage.xml)
+- [Sitemap](https://pvpwire.com/sitemap.xml)
+
+## What this is not
+- Not a per-title vertical (HLTV, Liquipedia)
+- Not a news aggregator only (we publish original analysis)
+- Not a wiki (the catalog is editorial, not user-edited)
+
+## Editorial standards
+- No em dashes anywhere in published content
+- No generic emojis in UI
+- Voice rules for Flosium and Og are locked at the system prompt level
+- Submissions are anonymous and moderated; sources are encouraged
+
+## Contact
+- Press, partnerships: evan@pizzarobotstudios.com
+- Tips: tips@pvpwire.com
+- Submissions: https://pvpwire.com/guilds/submit/
+
+PVPWire is built and operated by Pizza Robot Studios LLC.

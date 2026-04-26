@@ -1,0 +1,102 @@
+'use client';
+
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { useState } from 'react';
+import { MenuIcon, CloseIcon } from '@/components/icons';
+import { ThemeToggle } from '@/components/ThemeToggle';
+
+// Games and Guilds are the database. They lead.
+// News, Legends, Heritage are the editorial layer. Smaller weight.
+// Ask Flosium is in the footer.
+const NAV_LINKS = [
+  { href: '/games', label: 'Games' },
+  { href: '/guilds', label: 'Guilds' },
+  { href: '/news', label: 'News' },
+  { href: '/legends', label: 'Legends' },
+  { href: '/heritage', label: 'Heritage' },
+  { href: '/vs-the-world', label: 'vs the World' },
+];
+
+export function SiteHeader() {
+  const pathname = usePathname();
+  const [mobileOpen, setMobileOpen] = useState(false);
+
+  function isActive(href: string) {
+    return pathname === href || pathname.startsWith(href + '/');
+  }
+
+  return (
+    <header className="border-b border-ink/15 bg-paper sticky top-0 z-40 backdrop-blur supports-[backdrop-filter]:bg-paper/85">
+      <div className="mx-auto max-w-page px-4 sm:px-6">
+        <div className="flex items-center justify-between h-14 sm:h-16">
+          <Link href="/" className="flex items-center gap-2 group">
+            <span className="wordmark text-xl sm:text-2xl text-ink group-hover:text-accent transition">
+              PVPWire
+            </span>
+            <span className="hidden sm:inline-block font-mono text-[10px] uppercase tracking-widest text-signal border border-signal/40 px-1.5 py-0.5">
+              MMXXVI
+            </span>
+          </Link>
+
+          <nav className="hidden lg:flex items-center gap-7" aria-label="Primary">
+            {NAV_LINKS.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="nav-link"
+                aria-current={isActive(link.href) ? 'page' : undefined}
+              >
+                {link.label}
+              </Link>
+            ))}
+          </nav>
+
+          <div className="flex items-center gap-2">
+            <ThemeToggle />
+            <button
+              type="button"
+              onClick={() => setMobileOpen((v) => !v)}
+              className="lg:hidden p-2 -mr-2"
+              aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
+              aria-expanded={mobileOpen}
+            >
+              {mobileOpen ? <CloseIcon /> : <MenuIcon />}
+            </button>
+          </div>
+        </div>
+
+        {mobileOpen && (
+          <nav className="lg:hidden border-t border-ink/15 py-4 flex flex-col gap-3" aria-label="Primary mobile">
+            {NAV_LINKS.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="nav-link text-base py-1"
+                aria-current={isActive(link.href) ? 'page' : undefined}
+                onClick={() => setMobileOpen(false)}
+              >
+                {link.label}
+              </Link>
+            ))}
+            <Link
+              href="/ask-flosium"
+              className="nav-link text-base py-1"
+              onClick={() => setMobileOpen(false)}
+            >
+              Ask Flosium
+            </Link>
+            <Link
+              href="/about"
+              className="nav-link text-base py-1"
+              onClick={() => setMobileOpen(false)}
+            >
+              About
+            </Link>
+          </nav>
+        )}
+      </div>
+      <div className="rule-thin" />
+    </header>
+  );
+}

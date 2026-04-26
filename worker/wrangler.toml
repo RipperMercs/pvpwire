@@ -1,0 +1,35 @@
+name = "pvpwire-api"
+main = "src/index.ts"
+compatibility_date = "2024-09-23"
+compatibility_flags = ["nodejs_compat"]
+
+# AI binding for Ask Flosium (Workers AI free tier).
+[ai]
+binding = "AI"
+
+# KV namespaces.
+# Run: wrangler kv:namespace create NEWS_CACHE  to populate the IDs below.
+[[kv_namespaces]]
+binding = "NEWS_CACHE"
+id = "REPLACE_WITH_NEWS_CACHE_ID"
+
+[[kv_namespaces]]
+binding = "SUBMISSIONS"
+id = "REPLACE_WITH_SUBMISSIONS_ID"
+
+[[kv_namespaces]]
+binding = "RATE_LIMIT"
+id = "REPLACE_WITH_RATE_LIMIT_ID"
+
+[[kv_namespaces]]
+binding = "BOT_LOG"
+id = "REPLACE_WITH_BOT_LOG_ID"
+
+# Cron: poll RSS feeds every 30 minutes, post to X every 90 minutes.
+[triggers]
+crons = ["*/30 * * * *"]
+
+[vars]
+# Public-safe variables. Secrets go via `wrangler secret put`.
+SITE_URL = "https://pvpwire.com"
+USER_AGENT = "PVPWireBot/1.0 (+https://pvpwire.com)"
