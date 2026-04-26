@@ -32,8 +32,7 @@
 - Submissions are anonymous and moderated; sources are encouraged
 
 ## Contact
-- Press, partnerships: evan@pizzarobotstudios.com
 - Tips: tips@pvpwire.com
 - Submissions: https://pvpwire.com/guilds/submit/
 
-PVPWire is built and operated by Pizza Robot Studios LLC.
+PVPWire is an independent project by Flipper.

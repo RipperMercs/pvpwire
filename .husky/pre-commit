@@ -1,5 +1,5 @@
 #!/bin/sh
-# Pizza Robot Studios pre-commit hook
+# PVPWire pre-commit hook
 # 1. Block accidental API key commits.
 # 2. Block em dashes and double-hyphens in content.
 
@@ -29,7 +29,7 @@ if [ -n "$STAGED_CONTENT" ]; then
 
   if [ -n "$EM_DASH_HITS" ]; then
     echo "COMMIT BLOCKED: Em dash or en dash found in staged content."
-    echo "Pizza Robot Studios writing rule. Use commas, colons, semicolons, or periods."
+    echo "PVPWire writing rule. Use commas, colons, semicolons, or periods."
     printf "%b\n" "$EM_DASH_HITS"
     exit 1
   fi

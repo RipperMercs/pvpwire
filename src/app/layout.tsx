@@ -50,9 +50,9 @@ export const metadata: Metadata = {
     'Marathon',
     'ARC Raiders',
   ],
-  authors: [{ name: 'Pizza Robot Studios' }],
-  creator: 'Pizza Robot Studios',
-  publisher: 'Pizza Robot Studios',
+  authors: [{ name: 'Flipper' }],
+  creator: 'Flipper',
+  publisher: 'PVPWire',
   openGraph: {
     type: 'website',
     locale: 'en_US',

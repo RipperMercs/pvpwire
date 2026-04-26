@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // Scans content and source files for em dashes (U+2014) and en dashes (U+2013).
-// Pizza Robot Studios anti-AI-detection rule. Em dashes are forbidden across all surfaces.
+// PVPWire writing rule. Em dashes are forbidden across all surfaces.
 // Run before any deploy. Exits 1 if any hits found.
 
 import { readdirSync, readFileSync, statSync } from 'node:fs';

@@ -2,7 +2,7 @@
   "name": "pvpwire",
   "version": "1.0.0",
   "private": true,
-  "description": "Editorial hub and database for competitive gaming. Pizza Robot Studios.",
+  "description": "Editorial hub and database for competitive gaming. A Flipper project.",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

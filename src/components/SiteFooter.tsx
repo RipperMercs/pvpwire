@@ -23,10 +23,9 @@ export function SiteFooter() {
             { href: '/vs-the-world', label: 'vs the World' },
             { href: '/ask-flosium', label: 'Ask Flosium' },
           ]}/>
-          <FooterCol title="Studio" links={[
+          <FooterCol title="More" links={[
             { href: '/about', label: 'About' },
             { href: '/submit', label: 'Submit' },
-            { href: 'https://pizzarobotstudios.com', label: 'Pizza Robot Studios', external: true },
             { href: 'https://twitter.com/PVPWire', label: '@PVPWire', external: true },
             { href: '/rss.xml', label: 'RSS' },
             { href: '/llms.txt', label: 'llms.txt' },
@@ -34,8 +33,8 @@ export function SiteFooter() {
         </div>
         <div className="rule-thin" />
         <div className="pt-6 flex flex-col md:flex-row justify-between gap-3 font-mono text-[11px] uppercase tracking-widest text-muted">
-          <div>A Pizza Robot Studios Project</div>
-          <div>(c) {new Date().getFullYear()} Pizza Robot Studios LLC</div>
+          <div>A Flipper project</div>
+          <div>(c) {new Date().getFullYear()} PVPWire</div>
         </div>
       </div>
     </footer>

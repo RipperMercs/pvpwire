@@ -1,4 +1,4 @@
-// Custom SVG icons. Per Pizza Robot Studios spec: NO generic emojis in UI.
+// Custom SVG icons. Per the PVPWire spec: NO generic emojis in UI.
 // Every icon is a stroke-based SVG, monochrome by default, color via currentColor.
 
 import type { SVGProps } from 'react';

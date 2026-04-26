@@ -2,17 +2,17 @@
 
 **Domain:** pvpwire.com
 **Repo:** github.com/RipperMercs/pvpwire
-**Owner:** Pizza Robot Studios LLC
+**Owner:** Flipper (independent project)
 **Stack:** Next.js 14 (App Router) + Cloudflare Pages + Cloudflare Worker + KV
 **Status:** Build Now, v1 launch target.
 
 ---
 
-## 0. CRITICAL STUDIO RULES (READ FIRST)
+## 0. CRITICAL EDITORIAL RULES (READ FIRST)
 
 These rules apply to every line of content, every commit, every generated article, every persona prompt:
 
-1. **NO em dashes anywhere.** Not in articles, not in UI copy, not in metadata, not in AI-generated content, not in commit messages. Use commas, colons, semicolons, parentheses, or periods. This is an anti-AI-detection rule across all Pizza Robot Studios content.
+1. **NO em dashes anywhere.** Not in articles, not in UI copy, not in metadata, not in AI-generated content, not in commit messages. Use commas, colons, semicolons, parentheses, or periods. This is an anti-AI-detection rule across all PVPWire content.
 2. **NO generic emojis in UI.** No game controller, no swords, no trophies, no fire icons. Custom SVG icons or text labels only. Emoji is permitted in X/social posts only if intentional.
 3. **NO hardcoded API keys.** Pre-commit hooks (husky + grep) required before first push.
 4. **Verify repo visibility before assessing security severity.** Public repo = treat any leaked key as critical. Private = lower severity but still wrong.
@@ -664,4 +664,4 @@ The following are synthesized writing samples in Flosium's voice, covering the r
 
 This spec is the single source of truth for v1 of PVPWire. Any deviation should update this document, not freelance the change. The voice bibles in Section 3 are the most important asset; protect them.
 
-Built by Pizza Robot Studios. Quality over quantity, always.
+A Flipper project. Quality over quantity, always.

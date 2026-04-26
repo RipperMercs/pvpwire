@@ -85,7 +85,7 @@ mkdirSync(join(PUB, 'rss'), { recursive: true });
 
 writeFileSync(
   join(PUB, 'rss.xml'),
-  buildFeed('PVPWire (full feed)', `${BASE}/rss.xml`, 'PVPWire original news, Legends, and Heritage. Pizza Robot Studios.', all)
+  buildFeed('PVPWire (full feed)', `${BASE}/rss.xml`, 'PVPWire original news, Legends, and Heritage. A Flipper project.', all)
 );
 writeFileSync(
   join(PUB, 'rss/news.xml'),

@@ -5,7 +5,7 @@ import { FlosiumGlyph, OgGlyph, FlipperGlyph } from '@/components/icons';
 export const metadata: Metadata = {
   title: 'About',
   description:
-    'PVPWire is an editorial hub for competitive gaming. Built by Pizza Robot Studios. Masthead: Flosium, Og, Flipper.',
+    'PVPWire is an editorial hub for competitive gaming. A Flipper project. Masthead: Flosium, Og, Flipper.',
 };
 
 export default function AboutPage() {
@@ -71,10 +71,9 @@ export default function AboutPage() {
         <h2 className="masthead-title text-3xl text-ink">Contact</h2>
         <p>
           Tips, corrections, guild submissions: <Link href="/submit/">/submit</Link>.
-          Press, partnerships, advertising: evan@pizzarobotstudios.com.
         </p>
         <p>
-          PVPWire is built and operated by Pizza Robot Studios LLC, an indie game and app studio in Los Angeles.
+          PVPWire is an independent project by Flipper.
         </p>
       </section>
     </article>

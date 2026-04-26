@@ -4,7 +4,7 @@ This is the project context for Claude Code. The single source of truth for v1 s
 
 ## Project Overview
 
-PVPWire is an editorial hub and database for competitive gaming, spanning chess to MMO PvP to modern esports. Owned by Pizza Robot Studios LLC.
+PVPWire is an editorial hub and database for competitive gaming, spanning chess to MMO PvP to modern esports. A Flipper project, independent.
 
 - Domain: pvpwire.com
 - Stack: Next.js 14 (App Router) + Cloudflare Pages + Cloudflare Worker + KV
