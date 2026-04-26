@@ -34,6 +34,8 @@ export function GameCover({
   const src = variant === 'hero' ? game.hero_image || game.cover_image : game.cover_image || game.hero_image;
 
   if (src) {
+    const fit = game.cover_fit === 'contain' ? 'object-contain' : 'object-cover';
+    const position = game.cover_fit !== 'contain' && game.cover_position ? game.cover_position : undefined;
     return (
       <div className={`relative overflow-hidden surface ${aspect} ${className}`}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -41,7 +43,8 @@ export function GameCover({
           src={src}
           alt={`${game.name} cover art`}
           loading={priority ? 'eager' : 'lazy'}
-          className="absolute inset-0 w-full h-full object-cover"
+          className={`absolute inset-0 w-full h-full ${fit}`}
+          style={position ? { objectPosition: position } : undefined}
         />
       </div>
     );

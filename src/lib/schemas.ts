@@ -53,6 +53,12 @@ export interface GameFrontmatter {
   ranking_systems?: string[];
   // Vertical poster image (preferred 600x900 or 2:3). Used in card grids.
   cover_image?: string;
+  // Object-fit override for cover_image when its aspect does not match 2:3.
+  // Defaults to 'cover'. Use 'contain' for square or wide source art so the
+  // whole image stays visible (the surface background fills the letterbox).
+  cover_fit?: 'cover' | 'contain';
+  // Optional object-position override (e.g. 'center top'). Only used with 'cover'.
+  cover_position?: string;
   // Wide hero image (16:9). Used at the top of the game detail page.
   hero_image?: string;
   // Gameplay screenshots gallery. Strings are paths under /public/images/games/{slug}/.

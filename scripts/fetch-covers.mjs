@@ -127,7 +127,6 @@ const STEAM_APP_IDS = {
   // Hero Shooter
   'marvel-rivals': 2767030,
   'paladins': 444090,
-  'concord': 2287260,
   'deadlock': null, // closed beta
 
   // Movement Shooter
