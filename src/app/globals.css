@@ -128,16 +128,20 @@
     filter: sepia(0.5) saturate(0.9) brightness(1.1) contrast(0.95);
   }
 
-  /* Home page atmospheric background. Fixed full-viewport castle photo with a
-     heavy dark overlay so editorial copy still reads cleanly on top. */
+  /* Home page atmospheric background. v2.0 placeholder: abstract esports arena
+     SVG (stage lights, suggested big screens, crowd silhouettes). Heavy dark
+     overlay so editorial copy still reads cleanly on top. v2.1 will swap the
+     SVG for a commissioned hero asset.
+     The legacy castle photo (/images/pvpwire-bckgrnd.jpg) is preserved on
+     disk for potential reuse on /archive but is no longer referenced. */
   .home-bg {
     position: fixed;
     inset: 0;
     z-index: -1;
     pointer-events: none;
     background-image:
-      linear-gradient(180deg, rgba(8, 6, 10, 0.82) 0%, rgba(8, 6, 10, 0.9) 60%, rgba(8, 6, 10, 0.95) 100%),
-      url('/images/pvpwire-bckgrnd.jpg');
+      linear-gradient(180deg, rgba(8, 8, 14, 0.78) 0%, rgba(8, 8, 14, 0.88) 60%, rgba(8, 8, 14, 0.95) 100%),
+      url('/images/esports-arena-bg.svg');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -145,8 +149,8 @@
   }
   [data-theme='light'] .home-bg {
     background-image:
-      linear-gradient(180deg, rgba(250, 250, 248, 0.88) 0%, rgba(250, 250, 248, 0.94) 100%),
-      url('/images/pvpwire-bckgrnd.jpg');
+      linear-gradient(180deg, rgba(250, 250, 248, 0.9) 0%, rgba(250, 250, 248, 0.95) 100%),
+      url('/images/esports-arena-bg.svg');
   }
 
   .prose-editorial p { @apply font-serif text-lg leading-relaxed text-ink; }

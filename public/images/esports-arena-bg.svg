@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  PVPWire v2.0 placeholder home-page background.
+  Abstract esports arena: dark base, stage-light flares, suggested big-screen
+  rectangles, crowd silhouettes at the bottom edge. Dark color palette so the
+  .home-bg overlay (82 to 95 percent dark) reads cleanly on top.
+  v2.1 replaces with a commissioned hero asset.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Esports arena placeholder background">
+  <defs>
+    <radialGradient id="leftFlare" cx="20%" cy="15%" r="55%">
+      <stop offset="0%" stop-color="#3a4d8a" stop-opacity="0.55"/>
+      <stop offset="50%" stop-color="#1a1f3a" stop-opacity="0.25"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="centerFlare" cx="50%" cy="10%" r="45%">
+      <stop offset="0%" stop-color="#7a3858" stop-opacity="0.5"/>
+      <stop offset="55%" stop-color="#3a1a2a" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="rightFlare" cx="82%" cy="18%" r="55%">
+      <stop offset="0%" stop-color="#8a3a3a" stop-opacity="0.5"/>
+      <stop offset="50%" stop-color="#3a1818" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="screenGlow" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#5a78a8" stop-opacity="0.45"/>
+      <stop offset="100%" stop-color="#1a2238" stop-opacity="0.1"/>
+    </linearGradient>
+    <linearGradient id="floorWash" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#000000" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0.85"/>
+    </linearGradient>
+    <linearGradient id="lightBeam" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.18"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Base wash -->
+  <rect width="1920" height="1080" fill="#0a0a14"/>
+
+  <!-- Stage-light radial flares from the rig overhead -->
+  <rect width="1920" height="1080" fill="url(#leftFlare)"/>
+  <rect width="1920" height="1080" fill="url(#centerFlare)"/>
+  <rect width="1920" height="1080" fill="url(#rightFlare)"/>
+
+  <!-- Suggested stadium big-screens, three rectangles across the upper third -->
+  <g opacity="0.55">
+    <rect x="220" y="180" width="380" height="220" fill="url(#screenGlow)" rx="6"/>
+    <rect x="770" y="120" width="380" height="260" fill="url(#screenGlow)" rx="6"/>
+    <rect x="1320" y="180" width="380" height="220" fill="url(#screenGlow)" rx="6"/>
+  </g>
+
+  <!-- Light beams angling down from each rig point -->
+  <g opacity="0.5">
+    <polygon points="180,0 320,0 480,720 380,720" fill="url(#lightBeam)"/>
+    <polygon points="900,0 1020,0 1100,720 980,720" fill="url(#lightBeam)"/>
+    <polygon points="1620,0 1760,0 1620,720 1480,720" fill="url(#lightBeam)"/>
+  </g>
+
+  <!-- Crowd silhouette at the bottom: irregular ribbon of dark heads against the floor wash -->
+  <path
+    d="M0,1080 L0,920
+       Q40,905 70,915 Q100,902 130,912 Q170,898 200,910 Q240,895 270,908
+       Q310,892 340,905 Q380,890 410,905 Q450,888 480,902 Q520,886 550,900
+       Q590,884 620,898 Q660,882 690,896 Q730,880 760,894 Q800,878 830,892
+       Q870,876 900,890 Q940,874 970,888 Q1010,872 1040,886 Q1080,870 1110,884
+       Q1150,868 1180,882 Q1220,866 1250,880 Q1290,864 1320,878 Q1360,862 1390,876
+       Q1430,860 1460,874 Q1500,858 1530,872 Q1570,856 1600,870 Q1640,854 1670,868
+       Q1710,852 1740,866 Q1780,850 1810,864 Q1850,848 1880,862 Q1910,860 1920,860
+       L1920,1080 Z"
+    fill="#000000"
+    opacity="0.85"
+  />
+
+  <!-- Floor wash gradient for additional depth -->
+  <rect width="1920" height="1080" fill="url(#floorWash)"/>
+
+  <!-- Subtle vignette via four corner radial gradients combined into one rect -->
+  <rect width="1920" height="1080" fill="black" opacity="0.15"/>
+</svg>
