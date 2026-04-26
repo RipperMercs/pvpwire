@@ -11,6 +11,7 @@ import type {
   ArticleFrontmatter,
   LegendFrontmatter,
   HeritageFrontmatter,
+  ArchivedStoryFrontmatter,
   ContentItem,
 } from './schemas';
 
@@ -52,9 +53,10 @@ export function getGameBySlug(slug: string): ContentItem<GameFrontmatter> | unde
   return bySlug(getAllGames(), slug);
 }
 
-// Guilds
+// Guilds (now sourced from /content/archive/guilds/ per v2 pivot Step 2).
+// /guilds/[slug] route still resolves; only the on-disk location moved.
 export function getAllGuilds(): ContentItem<GuildFrontmatter>[] {
-  return loadAll<GuildFrontmatter>('guilds').sort((a, b) =>
+  return loadAll<GuildFrontmatter>('archive/guilds').sort((a, b) =>
     a.frontmatter.name.localeCompare(b.frontmatter.name)
   );
 }
@@ -72,24 +74,31 @@ export function getArticleBySlug(slug: string): ContentItem<ArticleFrontmatter> 
   return bySlug(getAllArticles(), slug);
 }
 
-// Legends
-export function getAllLegends(): ContentItem<LegendFrontmatter>[] {
-  return loadAll<LegendFrontmatter>('legends').sort(
+// Archived stories (formerly Legends and Heritage). Flattened into
+// /content/archive/{slug}.mdx in Step 2 with original_section provenance.
+export function getAllArchivedStories(): ContentItem<ArchivedStoryFrontmatter>[] {
+  return loadAll<ArchivedStoryFrontmatter>('archive').sort(
     (a, b) => new Date(b.frontmatter.published).getTime() - new Date(a.frontmatter.published).getTime()
   );
 }
-export function getLegendBySlug(slug: string): ContentItem<LegendFrontmatter> | undefined {
-  return bySlug(getAllLegends(), slug);
+export function getArchivedStoryBySlug(slug: string): ContentItem<ArchivedStoryFrontmatter> | undefined {
+  return bySlug(getAllArchivedStories(), slug);
 }
 
-// Heritage
-export function getAllHeritage(): ContentItem<HeritageFrontmatter>[] {
-  return loadAll<HeritageFrontmatter>('heritage').sort(
-    (a, b) => new Date(b.frontmatter.published).getTime() - new Date(a.frontmatter.published).getTime()
-  );
+// Legacy legend / heritage helpers, kept as no-ops so pre-Step-9 callers
+// (game/guild related-content sections, sitemap, RSS, search-index scripts)
+// continue to compile and render. Step 9 removes the call sites entirely.
+export function getAllLegends(): ContentItem<LegendFrontmatter>[] {
+  return [];
 }
-export function getHeritageBySlug(slug: string): ContentItem<HeritageFrontmatter> | undefined {
-  return bySlug(getAllHeritage(), slug);
+export function getLegendBySlug(_slug: string): ContentItem<LegendFrontmatter> | undefined {
+  return undefined;
+}
+export function getAllHeritage(): ContentItem<HeritageFrontmatter>[] {
+  return [];
+}
+export function getHeritageBySlug(_slug: string): ContentItem<HeritageFrontmatter> | undefined {
+  return undefined;
 }
 
 // Cross-link helpers

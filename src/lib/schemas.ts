@@ -156,6 +156,30 @@ export interface HeritageFrontmatter {
   series?: string;
 }
 
+// Replaces LegendFrontmatter and HeritageFrontmatter post-pivot. The 12 legacy
+// pieces were flattened into /content/archive/ in Step 2 with original_section
+// added to track provenance. New content does not use this schema; it exists
+// only to render the archived stories.
+export type ArchivedStoryOrigin = 'legends' | 'heritage';
+export type LegacyAuthor = 'flosium' | 'og' | 'flipper';
+
+export interface ArchivedStoryFrontmatter {
+  slug: string;
+  title: string;
+  original_section: ArchivedStoryOrigin;
+  guild_slug?: string;
+  era?: GuildEra;
+  era_active?: { start: number; end: number | 'active' };
+  author: LegacyAuthor;
+  related_games?: string[];
+  related_guilds?: string[];
+  hero_image?: string;
+  published: string;
+  updated?: string;
+  description: string;
+  series?: string;
+}
+
 export interface ContentItem<T> {
   frontmatter: T;
   content: string;
