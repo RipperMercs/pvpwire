@@ -127,14 +127,14 @@ function TimelineView({
               x2={margin.left + yearScale(y)}
               y1={margin.top}
               y2={margin.top + innerHeight}
-              stroke="rgb(30 30 32 / 0.08)"
+              style={{ stroke: 'rgb(var(--color-rule))', strokeOpacity: 0.12 }}
             />
             <text
               x={margin.left + yearScale(y)}
               y={svgHeight - 8}
               fontSize="10"
               fontFamily="JetBrains Mono, monospace"
-              fill="rgb(112 110 105)"
+              style={{ fill: 'rgb(var(--color-muted))' }}
               textAnchor="middle"
             >
               {y}
@@ -162,7 +162,7 @@ function TimelineView({
                 y={y + rowHeight / 2}
                 fontSize="12"
                 fontFamily="Georgia, serif"
-                fill="rgb(18 18 20)"
+                style={{ fill: 'rgb(var(--color-ink))' }}
                 textAnchor="end"
                 dominantBaseline="central"
               >
@@ -256,7 +256,7 @@ function NetworkView({
 
     const linkSel = svg
       .append('g')
-      .attr('stroke', 'rgb(30 30 32)')
+      .style('stroke', 'rgb(var(--color-rule))')
       .attr('stroke-opacity', 0.35)
       .selectAll('line')
       .data(links)
@@ -275,7 +275,7 @@ function NetworkView({
       .append('circle')
       .attr('r', 14)
       .attr('fill', (d) => colorFor(d.game))
-      .attr('stroke', 'rgb(18 18 20)')
+      .style('stroke', 'rgb(var(--color-ink))')
       .attr('stroke-width', 1.5);
 
     nodeSel
@@ -284,7 +284,7 @@ function NetworkView({
       .attr('text-anchor', 'middle')
       .attr('font-family', 'Georgia, serif')
       .attr('font-size', '11')
-      .attr('fill', 'rgb(18 18 20)')
+      .style('fill', 'rgb(var(--color-ink))')
       .text((d) => d.name);
 
     nodeSel.append('title').text((d) => `${d.name} / ${gameMap[d.game] || d.game}`);

@@ -97,7 +97,7 @@ export function LineageTree({
 
     const linkSel = svg
       .append('g')
-      .attr('stroke', 'rgb(30 30 32)')
+      .style('stroke', 'rgb(var(--color-rule))')
       .attr('stroke-opacity', 0.4)
       .selectAll('line')
       .data(links)
@@ -118,7 +118,7 @@ export function LineageTree({
       .append('circle')
       .attr('r', (d) => (d.isFocal ? 18 : 12))
       .attr('fill', (d) => ERA_COLORS[d.era] || 'rgb(112 110 105)')
-      .attr('stroke', (d) => (d.isFocal ? 'rgb(168 30 36)' : 'rgb(18 18 20)'))
+      .style('stroke', (d) => (d.isFocal ? 'rgb(var(--color-accent))' : 'rgb(var(--color-ink))'))
       .attr('stroke-width', (d) => (d.isFocal ? 3 : 1.5));
 
     nodeSel
@@ -127,7 +127,7 @@ export function LineageTree({
       .attr('text-anchor', 'middle')
       .attr('font-family', 'Georgia, serif')
       .attr('font-size', (d) => (d.isFocal ? '13' : '11'))
-      .attr('fill', 'rgb(18 18 20)')
+      .style('fill', 'rgb(var(--color-ink))')
       .text((d) => d.name);
 
     sim.on('tick', () => {
