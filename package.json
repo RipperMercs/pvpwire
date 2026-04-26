@@ -18,6 +18,7 @@
     "build-search-index": "tsx scripts/build-search-index.ts",
     "build-rss": "tsx scripts/build-rss.ts",
     "build-tournaments-json": "tsx scripts/build-tournaments-json.ts",
+    "fetch-org-logos": "node scripts/fetch-org-logos.mjs",
     "prebuild": "tsx scripts/build-search-index.ts && tsx scripts/build-rss.ts && tsx scripts/build-tournaments-json.ts"
   },
   "dependencies": {

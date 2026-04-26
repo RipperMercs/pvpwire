@@ -9,6 +9,7 @@ import {
 import { formatDate, authorDisplay } from '@/lib/format';
 import { ArrowRightIcon } from '@/components/icons';
 import { GameCover } from '@/components/GameCover';
+import { LogoImg } from '@/components/LogoImg';
 
 export const dynamic = 'force-static';
 
@@ -293,8 +294,9 @@ export default function HomePage() {
                 <li key={o.slug}>
                   <Link
                     href={`/esports/orgs/${o.slug}/`}
-                    className="group surface border border-ink/15 hover:border-accent p-3 flex flex-col items-center gap-1 transition h-full text-center"
+                    className="group surface border border-ink/15 hover:border-accent p-3 flex flex-col items-center gap-2 transition h-full text-center"
                   >
+                    <LogoImg src={o.logo} name={o.name} size="md" className="bg-paper-elev" />
                     <div className="font-display text-sm font-bold text-ink group-hover:text-accent transition leading-tight">
                       {o.name}
                     </div>

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { getAllEsportsOrgs } from '@/lib/content';
+import { LogoImg } from '@/components/LogoImg';
 
 export const metadata: Metadata = {
   title: 'Esports orgs',
@@ -78,8 +79,11 @@ function OrgCard({ o }: { o: ReturnType<typeof getAllEsportsOrgs>[number] }) {
             {fm.country ?? 'Intl'} / {fm.founded}
           </span>
         </div>
-        <div className="font-display text-lg font-bold text-ink group-hover:text-accent transition leading-tight">
-          {fm.name}
+        <div className="flex items-center gap-3 mt-1">
+          <LogoImg src={fm.logo} name={fm.name} size="sm" />
+          <div className="font-display text-lg font-bold text-ink group-hover:text-accent transition leading-tight min-w-0">
+            {fm.name}
+          </div>
         </div>
         <p className="font-serif text-sm text-ink/75 leading-snug line-clamp-3">
           {fm.description_short}

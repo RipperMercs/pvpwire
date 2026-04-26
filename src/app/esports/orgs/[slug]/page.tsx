@@ -8,6 +8,7 @@ import {
   getTournamentsForOrg,
 } from '@/lib/content';
 import { ExternalLinkIcon } from '@/components/icons';
+import { LogoImg } from '@/components/LogoImg';
 
 export async function generateStaticParams() {
   return getAllEsportsOrgs().map((o) => ({ slug: o.frontmatter.slug }));
@@ -48,26 +49,31 @@ export default function EsportsOrgPage({ params }: { params: { slug: string } })
           <Link href="/esports/orgs/" className="font-mono text-[11px] uppercase tracking-widest text-accent hover:text-ink transition">
             &larr; Back to orgs
           </Link>
-          <div className="flex items-center gap-3 mt-6 mb-3">
-            <span className={`badge badge-${org.status === 'active' ? 'active' : 'dissolved'}`}>
-              {org.status}
-            </span>
-            <span className="font-mono text-[11px] uppercase tracking-widest text-muted">
-              Founded {org.founded}
-            </span>
-            {org.country && (
-              <span className="font-mono text-[11px] uppercase tracking-widest text-muted">
-                {org.country}{org.hq_city ? ` / ${org.hq_city}` : ''}
-              </span>
-            )}
-          </div>
-          <h1 className="masthead-title text-5xl sm:text-7xl text-ink">{org.name}</h1>
-          {org.aliases && org.aliases.length > 0 && (
-            <div className="font-serif text-lg text-muted italic mt-2">
-              also: {org.aliases.join(', ')}
+          <div className="flex items-start gap-6 mt-6">
+            <LogoImg src={org.logo} name={org.name} size="lg" />
+            <div className="flex-1 min-w-0">
+              <div className="flex flex-wrap items-center gap-3 mb-3">
+                <span className={`badge badge-${org.status === 'active' ? 'active' : 'dissolved'}`}>
+                  {org.status}
+                </span>
+                <span className="font-mono text-[11px] uppercase tracking-widest text-muted">
+                  Founded {org.founded}
+                </span>
+                {org.country && (
+                  <span className="font-mono text-[11px] uppercase tracking-widest text-muted">
+                    {org.country}{org.hq_city ? ` / ${org.hq_city}` : ''}
+                  </span>
+                )}
+              </div>
+              <h1 className="masthead-title text-5xl sm:text-7xl text-ink">{org.name}</h1>
+              {org.aliases && org.aliases.length > 0 && (
+                <div className="font-serif text-lg text-muted italic mt-2">
+                  also: {org.aliases.join(', ')}
+                </div>
+              )}
+              <p className="font-serif text-xl text-ink/85 mt-6 max-w-3xl leading-relaxed">{org.description_short}</p>
             </div>
-          )}
-          <p className="font-serif text-xl text-ink/85 mt-6 max-w-3xl leading-relaxed">{org.description_short}</p>
+          </div>
         </div>
       </header>
 

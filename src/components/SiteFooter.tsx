@@ -26,6 +26,9 @@ export function SiteFooter() {
           <div>A Ripper project</div>
           <div>(c) {new Date().getFullYear()} PVPWire</div>
         </div>
+        <p className="pt-4 font-serif text-[11px] text-muted/80 leading-relaxed max-w-3xl">
+          Game titles, esports organization names, team logos, and tournament marks are trademarks and properties of their respective owners. Used here for editorial identification.
+        </p>
       </div>
     </footer>
   );
