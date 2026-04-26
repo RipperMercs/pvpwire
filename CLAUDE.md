@@ -1,6 +1,9 @@
 # PVPWire CLAUDE.md
 
-This is the project context for Claude Code. The single source of truth for v1 specifications is `SPEC.md` at the repo root. Read that first for any non-trivial work.
+> **Active spec: `PIVOT.md` (v2.0 hard pivot, 2026-04-26).**
+> PIVOT.md at the repo root supersedes SPEC.md until Step 10 of the migration rolls it forward into a new SPEC.md. Read PIVOT.md before SPEC.md for any non-trivial work. SPEC.md still holds true for v1 history; anything it says about Heritage, Legends, Ask Flosium, the Flosium / Og / Flipper personas, or the home page composition is overridden by PIVOT.md.
+
+This is the project context for Claude Code. The single source of truth for v1 specifications is `SPEC.md` at the repo root. PIVOT.md at the repo root holds the v2 hard-pivot direction and overrides SPEC.md where they conflict. Read PIVOT.md first, then SPEC.md, for any non-trivial work.
 
 ## Project Overview
 
