@@ -1,8 +1,13 @@
-// Build-time RSS feed generators.
-// Outputs: public/rss.xml, public/rss/news.xml, public/rss/legends.xml, public/rss/heritage.xml.
-// Includes original news, legends, and heritage content. Aggregated news is served separately via the Worker.
+// Build-time RSS feed generators (v2 pivot, post Step 9).
+// Outputs:
+//   public/rss.xml          full feed: news + tournaments
+//   public/rss/news.xml     original PVPWire news only
+//   public/rss/esports.xml  tournament calendar entries
+//
+// The legacy /rss/legends.xml and /rss/heritage.xml feeds are retired in v2.
+// If old files exist on disk from previous builds, this script removes them.
 
-import { readdirSync, readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs';
+import { readdirSync, readFileSync, writeFileSync, mkdirSync, existsSync, unlinkSync } from 'node:fs';
 import { join } from 'node:path';
 import matter from 'gray-matter';
 
@@ -17,7 +22,7 @@ interface Item {
   description: string;
   author: string;
   publishedAt: string;
-  kind: 'news' | 'legends' | 'heritage';
+  kind: 'news' | 'esports';
 }
 
 function escapeXml(s: string): string {
@@ -29,8 +34,8 @@ function escapeXml(s: string): string {
     .replace(/'/g, '&apos;');
 }
 
-function readKind(kind: 'news' | 'legends' | 'heritage'): Item[] {
-  const dir = join(CONTENT, kind);
+function readNews(): Item[] {
+  const dir = join(CONTENT, 'news');
   if (!existsSync(dir)) return [];
   return readdirSync(dir)
     .filter((f) => f.endsWith('.mdx') || f.endsWith('.md'))
@@ -38,11 +43,28 @@ function readKind(kind: 'news' | 'legends' | 'heritage'): Item[] {
     .filter((fm) => fm.slug && fm.title)
     .map((fm) => ({
       title: fm.title,
-      url: `${BASE}/${kind}/${fm.slug}/`,
+      url: `${BASE}/news/${fm.slug}/`,
       description: fm.description || '',
-      author: fm.author || 'flosium',
+      author: fm.author || 'editorial',
       publishedAt: fm.published || new Date().toISOString(),
-      kind,
+      kind: 'news' as const,
+    }));
+}
+
+function readTournaments(): Item[] {
+  const dir = join(CONTENT, 'tournaments');
+  if (!existsSync(dir)) return [];
+  return readdirSync(dir)
+    .filter((f) => f.endsWith('.mdx') || f.endsWith('.md'))
+    .map((f) => matter(readFileSync(join(dir, f), 'utf8')).data as any)
+    .filter((fm) => fm.slug && fm.name)
+    .map((fm) => ({
+      title: fm.name,
+      url: `${BASE}/esports/${fm.slug}/`,
+      description: fm.description_short || '',
+      author: 'editorial',
+      publishedAt: fm.date_start || new Date().toISOString(),
+      kind: 'esports' as const,
     }));
 }
 
@@ -83,28 +105,32 @@ ${itemsXml}
 </rss>`;
 }
 
-const news = readKind('news');
-const legends = readKind('legends');
-const heritage = readKind('heritage');
-const all = [...news, ...legends, ...heritage];
+const news = readNews();
+const tournaments = readTournaments();
+const all = [...news, ...tournaments];
 
 mkdirSync(join(PUB, 'rss'), { recursive: true });
 
 writeFileSync(
   join(PUB, 'rss.xml'),
-  buildFeed('PVPWire (full feed)', `${BASE}/rss.xml`, 'PVPWire news and analysis. A Ripper project.', all)
+  buildFeed('PVPWire (full feed)', `${BASE}/rss.xml`, 'PVPWire news and esports tournament calendar. A Ripper project.', all)
 );
 writeFileSync(
   join(PUB, 'rss/news.xml'),
   buildFeed('PVPWire News', `${BASE}/rss/news.xml`, 'Original PVPWire news and analysis.', news)
 );
 writeFileSync(
-  join(PUB, 'rss/legends.xml'),
-  buildFeed('PVPWire Legends', `${BASE}/rss/legends.xml`, 'PVPWire Legends, the prestige editorial tier.', legends)
-);
-writeFileSync(
-  join(PUB, 'rss/heritage.xml'),
-  buildFeed('PVPWire Heritage', `${BASE}/rss/heritage.xml`, 'PVPWire Heritage, From the Old World.', heritage)
+  join(PUB, 'rss/esports.xml'),
+  buildFeed('PVPWire Esports', `${BASE}/rss/esports.xml`, 'PVPWire esports calendar: tournaments by date.', tournaments)
 );
 
-console.log(`RSS feeds built: ${all.length} total items (${news.length} news, ${legends.length} legends, ${heritage.length} heritage)`);
+// Clean up retired feeds if present.
+for (const legacy of ['rss/legends.xml', 'rss/heritage.xml']) {
+  const path = join(PUB, legacy);
+  if (existsSync(path)) {
+    unlinkSync(path);
+    console.log(`Removed retired feed: public/${legacy}`);
+  }
+}
+
+console.log(`RSS feeds built: ${all.length} total items (${news.length} news, ${tournaments.length} tournaments).`);

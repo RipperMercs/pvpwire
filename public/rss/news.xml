@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>PVPWire News</title>
+    <link>https://pvpwire.com/rss/news.xml</link>
+    <description>Original PVPWire news and analysis.</description>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 26 Apr 2026 23:10:24 GMT</lastBuildDate>
+    <atom:link href="https://pvpwire.com/rss/news.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Field notes: the lonely shifts</title>
+      <link>https://pvpwire.com/news/og-server-stories-3am/</link>
+      <description>Some servers had a tempo that only made sense at three in the morning. There were rooms in those games that nobody was supposed to find, and a few of us did anyway.</description>
+      <author>Og</author>
+      <pubDate>Wed, 15 Apr 2026 00:00:00 GMT</pubDate>
+      <guid isPermaLink="true">https://pvpwire.com/news/og-server-stories-3am/</guid>
+      <category>news</category>
+    </item>
+    <item>
+      <title>Throne and Liberty has the bones. The publisher does not.</title>
+      <link>https://pvpwire.com/news/throne-and-liberty-meta-honest/</link>
+      <description>The siege loop is the best a Korean MMO has shipped in a decade. The monetization layer is what will kill it. Two facts that the audience keeps trying to soften into one.</description>
+      <author>Flosium</author>
+      <pubDate>Sun, 12 Apr 2026 00:00:00 GMT</pubDate>
+      <guid isPermaLink="true">https://pvpwire.com/news/throne-and-liberty-meta-honest/</guid>
+      <category>news</category>
+    </item>
+    <item>
+      <title>Reward asymmetry has to favor the loser, or the population bleeds</title>
+      <link>https://pvpwire.com/news/extraction-shooter-asymmetry/</link>
+      <description>Every full-loot system that survived the late nineties learned this. The current extraction shooter wave is repeating mistakes the older genre already paid for, and most of the surviving examples already wrote down the answer.</description>
+      <author>Flosium</author>
+      <pubDate>Wed, 08 Apr 2026 00:00:00 GMT</pubDate>
+      <guid isPermaLink="true">https://pvpwire.com/news/extraction-shooter-asymmetry/</guid>
+      <category>news</category>
+    </item>
+  </channel>
+</rss>

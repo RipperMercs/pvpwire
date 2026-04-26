@@ -86,8 +86,7 @@ export const metadata: Metadata = {
       'application/rss+xml': [
         { url: '/rss.xml', title: 'PVPWire (full feed)' },
         { url: '/rss/news.xml', title: 'PVPWire News' },
-        { url: '/rss/legends.xml', title: 'PVPWire Legends' },
-        { url: '/rss/heritage.xml', title: 'PVPWire Heritage' },
+        { url: '/rss/esports.xml', title: 'PVPWire Esports' },
       ],
     },
   },
