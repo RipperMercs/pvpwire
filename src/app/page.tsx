@@ -1,8 +1,6 @@
 import Link from 'next/link';
 import {
   getAllArticles,
-  getAllLegends,
-  getAllHeritage,
   getAllGuilds,
   getAllGames,
 } from '@/lib/content';
@@ -17,19 +15,14 @@ export default function HomePage() {
   const games = getAllGames();
   const guilds = getAllGuilds();
   const articles = getAllArticles();
-  const legends = getAllLegends();
-  const heritage = getAllHeritage();
 
   const totalGames = games.length;
   const totalGuilds = guilds.length;
   const ogGuilds = guilds.filter((g) => g.frontmatter.era === 'og').length;
 
-  // Latest editorial mixed feed.
-  const editorialMix = [
-    ...articles.map((a) => ({ kind: 'news' as const, fm: a.frontmatter })),
-    ...legends.map((l) => ({ kind: 'legends' as const, fm: l.frontmatter })),
-    ...heritage.map((h) => ({ kind: 'heritage' as const, fm: h.frontmatter })),
-  ]
+  // Latest editorial feed (news only; legends and heritage retired in v2 pivot).
+  const editorialMix = articles
+    .map((a) => ({ kind: 'news' as const, fm: a.frontmatter }))
     .sort((a, b) => new Date(b.fm.published).getTime() - new Date(a.fm.published).getTime());
 
   const leadStory = editorialMix[0];
@@ -55,6 +48,7 @@ export default function HomePage() {
 
   return (
     <>
+      <div className="home-bg" aria-hidden />
       {/* Compact masthead intro */}
       <section className="border-b border-ink/15">
         <div className="mx-auto max-w-page px-4 sm:px-6 py-10 sm:py-14">
@@ -75,7 +69,7 @@ export default function HomePage() {
               <span className="text-ink font-semibold">{totalGuilds}</span> guilds <span className="text-accent ml-1">{ogGuilds} OG</span>
             </Link>
             <span><span className="text-ink font-semibold">{GAME_CATEGORIES.length}</span> categories</span>
-            <span><span className="text-ink font-semibold">{articles.length + legends.length + heritage.length}</span> editorial pieces</span>
+            <span><span className="text-ink font-semibold">{articles.length}</span> editorial pieces</span>
           </div>
         </div>
       </section>
@@ -227,24 +221,12 @@ export default function HomePage() {
 
       {/* Tertiary CTAs */}
       <section>
-        <div className="mx-auto max-w-page px-4 sm:px-6 py-10 grid sm:grid-cols-3 gap-3">
-          <SmallCta
-            href="/vs-the-world/"
-            eyebrow="Column"
-            title="Flosium vs the World"
-            body="Recurring rant on the state of competitive gaming."
-          />
+        <div className="mx-auto max-w-page px-4 sm:px-6 py-10 grid sm:grid-cols-1 max-w-md gap-3">
           <SmallCta
             href="/guilds/submit/"
             eyebrow="Community"
             title="Submit a guild"
             body="Anonymous, moderated. Add a profile or correction."
-          />
-          <SmallCta
-            href="/ask-flosium/"
-            eyebrow="Tool"
-            title="Ask Flosium"
-            body="Live AI in voice. Brief, opinionated, rate limited."
           />
         </div>
       </section>

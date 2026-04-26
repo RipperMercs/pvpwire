@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 import { getAllGuilds, getAllGames } from '@/lib/content';
 import { GuildsBrowser } from '@/components/GuildsBrowser';
 import { OgGuildsInfograph } from '@/components/OgGuildsInfograph';
-import { OgGlyph } from '@/components/icons';
 
 export const metadata: Metadata = {
   title: 'Guilds',
@@ -37,8 +36,7 @@ export default function GuildsPage() {
       <section className="border-b border-ink/15">
         <div className="mx-auto max-w-page px-4 sm:px-6 py-10">
           <div className="flex items-center gap-3 mb-2">
-            <OgGlyph size={24} className="text-accent" />
-            <span className="font-mono text-[11px] uppercase tracking-widest text-accent">Og / The OG era</span>
+            <span className="font-mono text-[11px] uppercase tracking-widest text-accent">The OG era</span>
           </div>
           <h2 className="masthead-title text-3xl sm:text-4xl text-ink">When this all started.</h2>
           <p className="font-serif text-lg text-ink/80 max-w-3xl mt-4">

@@ -6,16 +6,12 @@ import { useState } from 'react';
 import { MenuIcon, CloseIcon } from '@/components/icons';
 import { ThemeToggle } from '@/components/ThemeToggle';
 
-// Games and Guilds are the database. They lead.
-// News, Legends, Heritage are the editorial layer. Smaller weight.
-// Ask Flosium is in the footer.
+// v2 pivot: four-tab primary nav. Archive, About, Submit live in the footer.
 const NAV_LINKS = [
+  { href: '/', label: 'Home' },
   { href: '/games', label: 'Games' },
-  { href: '/guilds', label: 'Guilds' },
+  { href: '/esports', label: 'Esports' },
   { href: '/news', label: 'News' },
-  { href: '/legends', label: 'Legends' },
-  { href: '/heritage', label: 'Heritage' },
-  { href: '/vs-the-world', label: 'vs the World' },
 ];
 
 export function SiteHeader() {
@@ -23,6 +19,7 @@ export function SiteHeader() {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   function isActive(href: string) {
+    if (href === '/') return pathname === '/';
     return pathname === href || pathname.startsWith(href + '/');
   }
 
@@ -79,20 +76,6 @@ export function SiteHeader() {
                 {link.label}
               </Link>
             ))}
-            <Link
-              href="/ask-flosium"
-              className="nav-link text-base py-1"
-              onClick={() => setMobileOpen(false)}
-            >
-              Ask Flosium
-            </Link>
-            <Link
-              href="/about"
-              className="nav-link text-base py-1"
-              onClick={() => setMobileOpen(false)}
-            >
-              About
-            </Link>
           </nav>
         )}
       </div>

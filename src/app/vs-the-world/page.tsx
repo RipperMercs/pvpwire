@@ -4,7 +4,6 @@ import { readdirSync, readFileSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
 import matter from 'gray-matter';
 import { authorDisplay, formatDate, readingTime } from '@/lib/format';
-import { FlosiumGlyph } from '@/components/icons';
 
 export const metadata: Metadata = {
   title: 'Flosium vs the World',
@@ -41,9 +40,8 @@ export default function VsTheWorldPage() {
     <article>
       <header className="border-b border-ink/15">
         <div className="mx-auto max-w-page px-4 sm:px-6 py-12 sm:py-20">
-          <div className="font-mono text-[11px] uppercase tracking-widest text-accent mb-4 flex items-center gap-2">
-            <FlosiumGlyph size={20} className="text-accent" />
-            Flosium / Recurring rant column
+          <div className="font-mono text-[11px] uppercase tracking-widest text-accent mb-4">
+            Recurring rant column
           </div>
           <h1 className="masthead-title text-5xl sm:text-7xl text-ink">Flosium vs the World.</h1>
           <p className="font-serif text-xl sm:text-2xl text-ink/80 max-w-3xl mt-6 leading-relaxed">

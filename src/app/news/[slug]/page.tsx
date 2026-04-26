@@ -8,7 +8,6 @@ import {
   getGuildBySlug,
 } from '@/lib/content';
 import { authorDisplay, formatDate, readingTime } from '@/lib/format';
-import { FlosiumGlyph, OgGlyph, FlipperGlyph } from '@/components/icons';
 import { ArticleBody } from '@/components/ArticleBody';
 
 export async function generateStaticParams() {
@@ -55,7 +54,6 @@ export default function ArticlePage({ params }: { params: { slug: string } }) {
     mainEntityOfPage: `https://pvpwire.com/news/${fm.slug}/`,
   };
 
-  const Glyph = fm.author === 'flosium' ? FlosiumGlyph : fm.author === 'og' ? OgGlyph : FlipperGlyph;
   const relatedGames = (fm.related_games || []).map((s) => getGameBySlug(s)).filter(Boolean);
   const relatedGuilds = (fm.related_guilds || []).map((s) => getGuildBySlug(s)).filter(Boolean);
 
@@ -67,8 +65,7 @@ export default function ArticlePage({ params }: { params: { slug: string } }) {
           <Link href="/news/" className="font-mono text-[11px] uppercase tracking-widest text-accent hover:text-ink transition">
             &larr; Back to news
           </Link>
-          <div className="font-mono text-[11px] uppercase tracking-widest text-accent mt-6 mb-3 flex items-center gap-3">
-            <Glyph size={20} className="text-accent" />
+          <div className="font-mono text-[11px] uppercase tracking-widest text-accent mt-6 mb-3">
             {authorDisplay(fm.author)} / {fm.category}
           </div>
           <h1 className="masthead-title text-4xl sm:text-6xl text-ink text-balance">{fm.title}</h1>

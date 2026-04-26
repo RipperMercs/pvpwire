@@ -106,7 +106,7 @@ export default function GuildPage({ params }: { params: { slug: string } }) {
                 {guild.notable_moments.map((m, i) => (
                   <li key={i} className="ml-6 pb-6">
                     <span className="absolute -left-[7px] w-3 h-3 bg-accent rounded-full mt-2" aria-hidden="true" />
-                    <div className="font-mono text-[11px] uppercase tracking-widest text-accent">{m.date}</div>
+                    <div className="font-mono text-[11px] uppercase tracking-widest text-accent">{(m.date as unknown) instanceof Date ? (m.date as unknown as Date).toISOString().slice(0, 10) : m.date}</div>
                     <h3 className="font-serif text-xl text-ink mt-1">{m.title}</h3>
                     <p className="font-serif text-base text-ink/80 mt-1">{m.description}</p>
                     {m.sources && m.sources.length > 0 && (

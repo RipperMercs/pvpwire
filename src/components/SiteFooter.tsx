@@ -4,31 +4,22 @@ export function SiteFooter() {
   return (
     <footer className="mt-24 border-t border-ink/15 surface text-ink">
       <div className="mx-auto max-w-page px-4 sm:px-6 py-12">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-10">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-8 mb-10">
           <div className="col-span-2 md:col-span-1">
             <div className="masthead-title text-3xl text-ink mb-2">PVPWire</div>
             <p className="font-serif text-sm text-ink/70 leading-relaxed">
-              The competitive gaming database. Games, guilds, and editorial.
+              The hub for competitive PvP and esports. Current games, current scenes.
             </p>
           </div>
-          <FooterCol title="Database" links={[
-            { href: '/games', label: 'Games' },
-            { href: '/guilds', label: 'Guilds' },
-            { href: '/guilds/submit', label: 'Submit a guild' },
-          ]}/>
-          <FooterCol title="Editorial" links={[
-            { href: '/news', label: 'News' },
-            { href: '/legends', label: 'Legends' },
-            { href: '/heritage', label: 'Heritage' },
-            { href: '/vs-the-world', label: 'vs the World' },
-            { href: '/ask-flosium', label: 'Ask Flosium' },
-          ]}/>
-          <FooterCol title="More" links={[
+          <FooterCol title="Site" links={[
+            { href: '/archive', label: 'Archive' },
             { href: '/about', label: 'About' },
             { href: '/submit', label: 'Submit' },
-            { href: 'https://twitter.com/PVPWire', label: '@PVPWire', external: true },
+          ]}/>
+          <FooterCol title="Feeds" links={[
             { href: '/rss.xml', label: 'RSS' },
             { href: '/llms.txt', label: 'llms.txt' },
+            { href: 'https://twitter.com/PVPWire', label: 'Contact', external: true },
           ]}/>
         </div>
         <div className="rule-thin" />

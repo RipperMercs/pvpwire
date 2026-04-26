@@ -229,23 +229,6 @@ export const FilterIcon = (p: IconProps) => (
   </Icon>
 );
 
-export const FlosiumGlyph = (p: IconProps) => (
-  <Icon {...p}>
-    <polygon points="12 3 21 8 21 16 12 21 3 16 3 8" />
-    <polyline points="12 3 12 12 21 8" />
-    <line x1="12" y1="12" x2="3" y2="8" />
-    <line x1="12" y1="12" x2="12" y2="21" />
-  </Icon>
-);
-
-export const OgGlyph = (p: IconProps) => (
-  <Icon {...p}>
-    <circle cx="12" cy="12" r="9" />
-    <circle cx="12" cy="12" r="3" />
-    <circle cx="12" cy="12" r="0.5" fill="currentColor" />
-  </Icon>
-);
-
 export const FlipperGlyph = (p: IconProps) => (
   <Icon {...p}>
     <line x1="4" y1="12" x2="20" y2="12" />

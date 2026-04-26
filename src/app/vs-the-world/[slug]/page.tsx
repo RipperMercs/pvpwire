@@ -6,7 +6,6 @@ import { join } from 'node:path';
 import matter from 'gray-matter';
 import { authorDisplay, formatDate, readingTime } from '@/lib/format';
 import { ArticleBody } from '@/components/ArticleBody';
-import { FlosiumGlyph } from '@/components/icons';
 
 interface VsItem {
   slug: string;
@@ -70,9 +69,8 @@ export default function VsTheWorldEntry({ params }: { params: { slug: string } }
           <Link href="/vs-the-world/" className="font-mono text-[11px] uppercase tracking-widest text-accent hover:text-ink transition">
             &larr; Back to vs the World
           </Link>
-          <div className="font-mono text-[11px] uppercase tracking-widest text-accent mt-6 mb-3 flex items-center gap-2">
-            <FlosiumGlyph size={18} className="text-accent" />
-            Flosium vs the World / {authorDisplay(item.author)}
+          <div className="font-mono text-[11px] uppercase tracking-widest text-accent mt-6 mb-3">
+            vs the World / {authorDisplay(item.author)}
           </div>
           <h1 className="masthead-title text-4xl sm:text-6xl text-ink text-balance">{item.title}</h1>
           <p className="font-serif text-xl text-ink/80 mt-4 leading-relaxed">{item.description}</p>
