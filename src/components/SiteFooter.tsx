@@ -12,7 +12,6 @@ export function SiteFooter() {
             </p>
           </div>
           <FooterCol title="Site" links={[
-            { href: '/archive', label: 'Archive' },
             { href: '/about', label: 'About' },
             { href: '/submit', label: 'Submit' },
           ]}/>

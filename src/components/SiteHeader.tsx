@@ -6,12 +6,15 @@ import { useState } from 'react';
 import { MenuIcon, CloseIcon } from '@/components/icons';
 import { ThemeToggle } from '@/components/ThemeToggle';
 
-// v2 pivot: four-tab primary nav. Archive, About, Submit live in the footer.
+// v2 pivot: primary nav. Archive promoted from footer to top nav per founder
+// direction 2026-04-26 since it is a real product surface (guild database,
+// legacy stories, and v2.1+ highlights vault), not just historical overflow.
 const NAV_LINKS = [
   { href: '/', label: 'Home' },
   { href: '/games', label: 'Games' },
   { href: '/esports', label: 'Esports' },
   { href: '/news', label: 'News' },
+  { href: '/archive', label: 'Archive' },
 ];
 
 export function SiteHeader() {
