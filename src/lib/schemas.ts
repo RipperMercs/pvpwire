@@ -182,7 +182,7 @@ export interface HeritageFrontmatter {
 // pieces were flattened into /content/archive/ in Step 2 with original_section
 // added to track provenance. New content does not use this schema; it exists
 // only to render the archived stories.
-export type ArchivedStoryOrigin = 'legends' | 'heritage';
+export type ArchivedStoryOrigin = 'legends' | 'heritage' | 'vs-the-world';
 export type LegacyAuthor = 'flosium' | 'og' | 'flipper';
 
 export interface ArchivedStoryFrontmatter {

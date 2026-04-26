@@ -36,7 +36,7 @@ PVPWire is the hub for competitive PvP and esports. Catalog of every notable PvP
 ### Frontend
 - Next.js 14 App Router, static export to Cloudflare Pages.
 - Tailwind CSS only (no styled-components, no CSS modules).
-- Content authored as MDX in `/content/{catalog,esports-orgs,tournaments,news,archive,vs-the-world}/`. The `/content/archive/` tree contains both flat archived stories and a `/content/archive/guilds/` subdirectory with the 38 guild profiles.
+- Content authored as MDX in `/content/{catalog,esports-orgs,tournaments,news,archive}/`. The `/content/archive/` tree contains both flat archived stories (with `original_section` provenance: legends, heritage, or vs-the-world) and a `/content/archive/guilds/` subdirectory with the 38 guild profiles.
 - `gray-matter` parses frontmatter at build time. `next-mdx-remote` renders body content.
 
 ### Primary nav (5 tabs)
@@ -73,9 +73,8 @@ Cloudflare KV. Namespaces:
   /esports-orgs/{slug}.mdx         esports organization profiles
   /tournaments/{slug}.mdx          tournament profiles for the calendar
   /news/{slug}.mdx                 original PVPWire articles
-  /archive/{slug}.mdx              legacy editorial stories (12 grandfathered)
+  /archive/{slug}.mdx              legacy editorial stories (14 grandfathered: 8 legends, 4 heritage, 2 vs-the-world)
   /archive/guilds/{slug}.mdx       guild profiles (38)
-  /vs-the-world/{slug}.mdx         legacy Flosium column (2 grandfathered, route preserved)
 ```
 
 Frontmatter schemas live in `src/lib/schemas.ts`. Validate at build time.
