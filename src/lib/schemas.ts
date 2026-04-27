@@ -81,6 +81,7 @@ export interface GameFrontmatter {
   player_count_signal?: string;     // free text, e.g. "150k+ daily" or "small but active"
   trending?: boolean;               // surfaces on /games and home Trending Now rail
   coming_soon?: boolean;            // surfaces on /games Coming Soon rail
+  featured?: boolean;               // pins to the home-page Featured Game showcase (top of /)
   priority?: number;                // ordering, lower is more prominent; default 100
   last_major_patch?: string;        // ISO date
   current_tournaments?: string[];   // tournament_slug array for cross-link to /esports

@@ -13,6 +13,7 @@ import type { Env, NewsCachePayload, AggregatedArticle } from './types';
 import { SOURCES } from './sources';
 import { fetchSource, dedupeByTitle } from './rss';
 import { handleSubmission, listSubmissions } from './submissions';
+import { handleGameSubmission } from './submissions-game';
 import { postScheduled } from './twitter';
 
 const NEWS_CACHE_KEY = 'news:latest';
@@ -158,6 +159,10 @@ export default {
 
     if (url.pathname === '/api/submit-guild') {
       return handleSubmission(req, env);
+    }
+
+    if (url.pathname === '/api/submit-game') {
+      return handleGameSubmission(req, env);
     }
 
     if (url.pathname === '/api/admin/submissions') {

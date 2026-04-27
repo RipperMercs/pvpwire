@@ -21,9 +21,20 @@ export default function HomePage() {
 
   const now = new Date();
 
-  // Section 2: Live and Hot rail. Trending-flagged games, ordered by priority.
+  // Featured game: pinned via the `featured` frontmatter flag, with a fallback
+  // to the most recently updated trending game so the slot never sits empty.
+  const featured = (() => {
+    const explicit = games.find((g) => g.featured);
+    if (explicit) return explicit;
+    return [...games]
+      .filter((g) => g.trending)
+      .sort((a, b) => new Date(b.last_updated || 0).getTime() - new Date(a.last_updated || 0).getTime())[0];
+  })();
+
+  // Section: Live and Hot rail. Trending-flagged games, ordered by priority.
+  // Excludes the featured game so it does not appear twice on the home page.
   const liveAndHot = games
-    .filter((g) => g.trending)
+    .filter((g) => g.trending && g.slug !== featured?.slug)
     .sort((a, b) => (a.priority ?? 100) - (b.priority ?? 100))
     .slice(0, 8);
 
@@ -86,19 +97,72 @@ export default function HomePage() {
     <>
       <div className="home-bg" aria-hidden />
 
-      {/* Section 1: Lede band */}
+      {/* Section 1: Featured game showcase. Pinned via the `featured` flag on
+          GameFrontmatter; rotates as the founder pins different titles. */}
+      {featured && (
+        <section className="border-b border-ink/15">
+          <div className="mx-auto max-w-page px-4 sm:px-6 py-12 sm:py-16">
+            <div className="font-mono text-[11px] uppercase tracking-[0.2em] text-accent mb-4">
+              Featured game
+            </div>
+            <Link href={`/games/${featured.slug}/`} className="group block">
+              <div className="grid lg:grid-cols-[1fr,360px] gap-8 lg:gap-12 items-center">
+                <div className="order-2 lg:order-1">
+                  <div className="flex flex-wrap items-center gap-2 mb-3">
+                    <span className={`badge badge-${featured.status}`}>{featured.status}</span>
+                    {featured.activity_tier && (
+                      <span className="badge badge-active">{featured.activity_tier}</span>
+                    )}
+                    {featured.scene_status === 'hot' && (
+                      <span className="badge badge-accent">scene: hot</span>
+                    )}
+                    <span className="font-mono text-[11px] uppercase tracking-widest text-muted">
+                      {featured.category}
+                    </span>
+                  </div>
+                  <h1 className="masthead-title text-5xl sm:text-6xl lg:text-7xl text-ink group-hover:text-accent transition text-balance">
+                    {featured.name}
+                  </h1>
+                  {featured.current_meta_note && (
+                    <p className="font-serif italic text-lg sm:text-xl text-accent/95 mt-5 leading-relaxed border-l-2 border-accent/40 pl-4">
+                      {featured.current_meta_note}
+                    </p>
+                  )}
+                  <p className="font-serif text-lg text-ink/85 mt-5 leading-relaxed max-w-2xl">
+                    {featured.description_short}
+                  </p>
+                  <div className="mt-6 inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-widest text-ink group-hover:text-accent transition">
+                    Open profile <ArrowRightIcon size={12} />
+                  </div>
+                </div>
+                <div className="order-1 lg:order-2">
+                  <GameCover
+                    game={featured}
+                    variant="poster"
+                    priority
+                    className="border border-ink/15 group-hover:border-accent transition shadow-2xl"
+                  />
+                </div>
+              </div>
+            </Link>
+          </div>
+        </section>
+      )}
+
+      {/* Section 2: Lede band, demoted from top per founder direction. The
+          framing copy and stats ribbon now sit under the featured game. */}
       <section className="border-b border-ink/15">
-        <div className="mx-auto max-w-page px-4 sm:px-6 py-16 sm:py-24">
-          <div className="font-mono text-[11px] uppercase tracking-[0.2em] text-accent mb-4">
+        <div className="mx-auto max-w-page px-4 sm:px-6 py-10 sm:py-12">
+          <div className="font-mono text-[11px] uppercase tracking-[0.2em] text-accent mb-3">
             The hub for competitive PvP and esports
           </div>
-          <h1 className="masthead-title text-5xl sm:text-7xl lg:text-8xl text-ink text-balance max-w-4xl">
-            Competitive PvP, current and indexed.
-          </h1>
-          <p className="font-serif text-xl sm:text-2xl text-ink/85 max-w-3xl mt-6 leading-relaxed">
-            Every notable PvP game tracked, the professional esports calendar in one place, and a depth archive that goes back to the late 1990s when this all started.
+          <h2 className="masthead-title text-3xl sm:text-4xl text-ink text-balance max-w-3xl">
+            Live competitive PvP. The professional scene across CS2, Valorant, LoL, Dota 2, fighting games, Rainbow Six, Apex, Rocket League, and chess.
+          </h2>
+          <p className="font-serif text-lg text-ink/80 max-w-3xl mt-4 leading-relaxed">
+            Every notable PvP game tracked, the tournament calendar in one place, and a depth archive going back to the late 1990s.
           </p>
-          <div className="mt-8 flex flex-wrap gap-3">
+          <div className="mt-6 flex flex-wrap gap-3">
             <Link
               href="/games/"
               className="inline-flex items-center gap-2 bg-ink text-paper px-5 py-3 font-mono text-[11px] uppercase tracking-widest hover:bg-accent hover:text-paper transition"
@@ -112,7 +176,7 @@ export default function HomePage() {
               See what is running this week <ArrowRightIcon size={12} />
             </Link>
           </div>
-          <div className="mt-10 flex flex-wrap gap-x-6 gap-y-2 font-mono text-[11px] uppercase tracking-widest text-muted">
+          <div className="mt-8 flex flex-wrap gap-x-6 gap-y-2 font-mono text-[11px] uppercase tracking-widest text-muted">
             <Link href="/games/" className="hover:text-accent transition">
               <span className="text-ink font-semibold">{games.length}</span> games
             </Link>

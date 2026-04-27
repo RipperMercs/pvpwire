@@ -28,8 +28,11 @@ export default function GamesPage() {
           <p className="font-serif text-xl text-ink/80 max-w-3xl mt-4 leading-relaxed">
             Every notable PvP game, ordered by what is currently most contested. Filter by status, category, or activity tier.
           </p>
-          <div className="font-mono text-xs uppercase tracking-widest text-muted mt-6">
-            {games.length} games / {GAME_CATEGORIES.length} categories
+          <div className="font-mono text-xs uppercase tracking-widest text-muted mt-6 flex flex-wrap gap-x-6 gap-y-2 items-center">
+            <span>{games.length} games / {GAME_CATEGORIES.length} categories</span>
+            <Link href="/games/submit/" className="text-accent hover:text-ink transition">
+              Submit a game
+            </Link>
           </div>
         </div>
       </header>
