@@ -11,7 +11,7 @@
 <meta property="og:url" content="https://pvpwire.com/wifi/">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Source+Serif+4:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -24,15 +24,26 @@
 </script>
 <style>
   :root {
-    --bg: #080808;
-    --bg-panel: #0D0D0F;
-    --bg-card: #111114;
-    --bg-inset: #0A0A0C;
-    --border: #1A1A22;
-    --border-active: #2A2A3A;
-    --text: #C8C8C0;
-    --text-mid: #7A7A72;
-    --text-dim: #3E3E3A;
+    /* PVPWire palette: warm off-white ink on paper-dark, cardinal red accent.
+       Mirrors src/app/globals.css default (dark) theme. */
+    --bg: #0c0c0e;            /* paper */
+    --bg-panel: #16161a;      /* paper-elev */
+    --bg-card: #16161a;
+    --bg-inset: #18181c;      /* wash */
+    --border: rgba(232, 228, 220, 0.15);
+    --border-active: rgba(220, 84, 84, 0.5);
+    --text: #e8e4dc;          /* ink */
+    --text-mid: #84827c;      /* muted */
+    --text-dim: rgba(132, 130, 124, 0.5);
+
+    /* PVPWire brand */
+    --accent: #dc5454;        /* cardinal red */
+    --accent-dim: rgba(220, 84, 84, 0.12);
+    --accent-glow: rgba(220, 84, 84, 0.3);
+    --signal: #c49e54;        /* warm gold for editorial good */
+
+    /* Diagnostic colors are semantic, not aesthetic. Keep universal
+       green/amber/red so users instantly read network health. */
     --green: #4ADE80;
     --green-dim: rgba(74, 222, 128, 0.12);
     --green-glow: rgba(74, 222, 128, 0.25);
@@ -45,6 +56,11 @@
     --cyan: #4FD1C5;
     --cyan-dim: rgba(79, 209, 197, 0.12);
     --purple: #A78BFA;
+
+    /* PVPWire font system: Inter for display headings, Source Serif 4 for
+       body copy, JetBrains Mono for labels and numeric data. */
+    --display: 'Inter', system-ui, -apple-system, sans-serif;
+    --serif: 'Source Serif 4', Georgia, serif;
     --mono: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
   }
 
@@ -53,21 +69,11 @@
   body {
     background: var(--bg);
     color: var(--text);
-    font-family: var(--mono);
+    font-family: var(--serif);
     min-height: 100vh;
     line-height: 1.5;
-  }
-
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image:
-      linear-gradient(rgba(26, 26, 34, 0.12) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(26, 26, 34, 0.12) 1px, transparent 1px);
-    background-size: 40px 40px;
-    pointer-events: none;
-    z-index: 0;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
   }
 
   .top-bar {
@@ -77,59 +83,66 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 10px 20px;
+    padding: 14px 24px;
     border-bottom: 1px solid var(--border);
-    background: rgba(8, 8, 8, 0.92);
+    background: rgba(12, 12, 14, 0.92);
     backdrop-filter: blur(12px);
   }
 
-  .top-bar-left { display: flex; align-items: center; gap: 10px; }
+  .top-bar-left { display: flex; align-items: baseline; gap: 10px; }
 
-  .logo-icon {
-    width: 26px; height: 26px;
-    background: var(--green-dim);
-    border: 1px solid rgba(74, 222, 128, 0.25);
-    border-radius: 5px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 12px;
-    color: var(--green);
-  }
+  /* PVPWire wordmark style. The terminal "logo-icon" square is dropped in
+     favor of pure typography matching the main site header. */
+  .logo-icon { display: none; }
 
   .logo-text {
-    font-size: 12px;
-    font-weight: 600;
+    font-family: var(--display);
+    font-size: 18px;
+    font-weight: 900;
+    letter-spacing: -0.02em;
     color: var(--text);
   }
 
-  .logo-text span { color: var(--text-dim); font-weight: 400; }
-
-  .top-bar-right { display: flex; align-items: center; gap: 12px; }
-
-  .back-link {
+  .logo-text span {
+    font-family: var(--mono);
     font-size: 11px;
-    color: var(--text-dim);
-    text-decoration: none;
+    font-weight: 400;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-mid);
   }
-  .back-link:hover { color: var(--green); }
-  .breadcrumbs { font-size: 11px; color: #4E4D49; margin-bottom: 16px; }
-  .breadcrumbs a { color: #4E4D49; text-decoration: none; }
-  .breadcrumbs a:hover { color: #5DCAA5; }
-  .breadcrumbs .bc-sep { margin: 0 6px; color: #2A2A30; }
+
+  .top-bar-right { display: flex; align-items: center; gap: 14px; }
+
+  .back-link { font-size: 11px; color: var(--text-dim); text-decoration: none; }
+  .back-link:hover { color: var(--accent); }
+
+  .breadcrumbs {
+    font-family: var(--mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-mid);
+  }
+  .breadcrumbs a { color: var(--text-mid); text-decoration: none; }
+  .breadcrumbs a:hover { color: var(--accent); }
+  .breadcrumbs .bc-sep { margin: 0 6px; color: var(--text-dim); }
 
   .status-pill {
-    display: flex; align-items: center; gap: 5px;
-    padding: 3px 10px;
-    border-radius: 12px;
+    display: flex; align-items: center; gap: 6px;
+    padding: 4px 10px;
+    border-radius: 0;
+    font-family: var(--mono);
     font-size: 9px;
-    font-weight: 600;
-    letter-spacing: 0.06em;
+    font-weight: 500;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
   }
 
   .status-pill.online {
-    background: var(--green-dim);
-    color: var(--green);
-    border: 1px solid rgba(74, 222, 128, 0.2);
+    background: rgba(196, 158, 84, 0.12);
+    color: var(--signal);
+    border: 1px solid rgba(196, 158, 84, 0.4);
   }
 
   .status-dot {
@@ -149,20 +162,32 @@
     padding: 20px;
   }
 
-  .hero { text-align: center; padding: 28px 0 20px; }
+  .hero { text-align: center; padding: 48px 0 28px; }
 
   .hero h1 {
-    font-size: 20px;
-    font-weight: 700;
-    color: var(--green);
-    letter-spacing: -0.02em;
+    font-family: var(--display);
+    font-size: 44px;
+    font-weight: 800;
+    letter-spacing: -0.035em;
+    line-height: 0.98;
+    color: var(--text);
   }
 
   .hero p {
+    font-family: var(--serif);
     color: var(--text-mid);
-    font-size: 11px;
-    margin-top: 4px;
-    font-weight: 300;
+    font-size: 16px;
+    margin-top: 12px;
+    font-weight: 400;
+    line-height: 1.5;
+    max-width: 540px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  @media (max-width: 600px) {
+    .hero h1 { font-size: 32px; }
+    .hero p { font-size: 14px; }
   }
 
   .score-wrap { display: flex; justify-content: center; margin: 20px 0; }
@@ -201,24 +226,29 @@
   }
 
   .score-num {
-    font-size: 44px;
-    font-weight: 700;
+    font-family: var(--display);
+    font-size: 56px;
+    font-weight: 800;
     line-height: 1;
-    letter-spacing: -0.04em;
+    letter-spacing: -0.05em;
   }
 
   .score-lbl {
-    font-size: 9px;
+    font-family: var(--mono);
+    font-size: 10px;
     text-transform: uppercase;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.15em;
     color: var(--text-mid);
-    margin-top: 2px;
+    margin-top: 6px;
   }
 
   .score-grade {
-    font-size: 12px;
+    font-family: var(--mono);
+    font-size: 11px;
     font-weight: 600;
-    margin-top: 1px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-top: 4px;
   }
 
   .actions { display: flex; justify-content: center; gap: 8px; margin-bottom: 20px; }
@@ -227,8 +257,10 @@
     font-family: var(--mono);
     font-size: 11px;
     font-weight: 500;
-    padding: 8px 20px;
-    border-radius: 5px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: 12px 22px;
+    border-radius: 0;
     border: 1px solid var(--border);
     cursor: pointer;
     transition: all 0.2s;
@@ -237,13 +269,13 @@
   }
 
   .btn-primary {
-    background: var(--green);
-    color: var(--bg);
-    border-color: var(--green);
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
     font-weight: 600;
   }
 
-  .btn-primary:hover { box-shadow: 0 0 20px var(--green-glow); }
+  .btn-primary:hover { box-shadow: 0 0 24px var(--accent-glow); }
   .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
 
   .btn-ghost {
@@ -263,29 +295,34 @@
   .net-item {
     background: var(--bg-card);
     border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 12px 14px;
+    border-radius: 0;
+    padding: 14px 16px;
   }
 
   .net-item-lbl {
-    font-size: 9px;
+    font-family: var(--mono);
+    font-size: 10px;
     text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--text-dim);
-    margin-bottom: 3px;
+    letter-spacing: 0.1em;
+    color: var(--text-mid);
+    margin-bottom: 6px;
     font-weight: 500;
   }
 
   .net-item-val {
-    font-size: 13px;
-    font-weight: 600;
+    font-family: var(--display);
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text);
     word-break: break-all;
+    letter-spacing: -0.01em;
   }
 
   .net-item-sub {
-    font-size: 9px;
+    font-family: var(--mono);
+    font-size: 10px;
     color: var(--text-dim);
-    margin-top: 2px;
+    margin-top: 4px;
   }
 
   .metrics {
@@ -300,44 +337,50 @@
   .m-card {
     background: var(--bg-card);
     border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 14px;
+    border-radius: 0;
+    padding: 16px;
     transition: border-color 0.3s;
   }
 
   .m-card:hover { border-color: var(--border-active); }
 
-  .m-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+  .m-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
 
   .m-title {
-    font-size: 9px;
+    font-family: var(--mono);
+    font-size: 10px;
     text-transform: uppercase;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.1em;
     color: var(--text-mid);
     font-weight: 500;
   }
 
   .m-icon {
     width: 24px; height: 24px;
-    border-radius: 4px;
+    border-radius: 0;
     display: flex; align-items: center; justify-content: center;
     font-size: 12px;
   }
 
   .m-val {
-    font-size: 24px;
-    font-weight: 700;
-    letter-spacing: -0.03em;
+    font-family: var(--display);
+    font-size: 30px;
+    font-weight: 800;
+    letter-spacing: -0.04em;
     line-height: 1;
+    color: var(--text);
   }
 
-  .m-unit { font-size: 12px; font-weight: 400; color: var(--text-mid); }
+  .m-unit { font-family: var(--mono); font-size: 12px; font-weight: 400; color: var(--text-mid); }
 
   .m-status {
-    font-size: 9px;
-    margin-top: 5px;
+    font-family: var(--mono);
+    font-size: 10px;
+    margin-top: 8px;
     font-weight: 500;
     display: flex; align-items: center; gap: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
   }
 
   .chart-row {
@@ -352,21 +395,32 @@
   .card {
     background: var(--bg-card);
     border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 14px;
+    border-radius: 0;
+    padding: 16px 18px;
   }
 
   .card-head {
-    display: flex; justify-content: space-between; align-items: center;
-    margin-bottom: 12px;
+    display: flex; justify-content: space-between; align-items: baseline;
+    margin-bottom: 14px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 10px;
   }
 
   .card-title {
-    font-size: 12px;
-    font-weight: 600;
+    font-family: var(--display);
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    color: var(--text);
   }
 
-  .card-meta { font-size: 9px; color: var(--text-dim); }
+  .card-meta {
+    font-family: var(--mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-mid);
+  }
 
   .lat-bars {
     display: flex;
@@ -383,12 +437,12 @@
     transition: height 0.3s ease;
   }
 
-  .stab-row { margin-bottom: 12px; }
+  .stab-row { margin-bottom: 14px; }
   .stab-row-head {
-    display: flex; justify-content: space-between; margin-bottom: 4px;
+    display: flex; justify-content: space-between; margin-bottom: 6px;
   }
-  .stab-lbl { font-size: 10px; color: var(--text-mid); }
-  .stab-val { font-size: 10px; font-weight: 600; }
+  .stab-lbl { font-family: var(--mono); font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-mid); }
+  .stab-val { font-family: var(--mono); font-size: 11px; font-weight: 600; color: var(--text); }
   .stab-track {
     height: 4px;
     background: var(--bg-inset);
@@ -411,35 +465,64 @@
   .dns-card {
     background: var(--bg-card);
     border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 12px 14px;
+    border-radius: 0;
+    padding: 14px 16px;
   }
 
   .dns-card-head {
     display: flex; justify-content: space-between; align-items: center;
-    margin-bottom: 6px;
+    margin-bottom: 8px;
   }
 
-  .dns-provider { font-size: 12px; font-weight: 600; }
-  .dns-ip { font-size: 9px; color: var(--text-dim); }
-  .dns-time {
-    font-size: 20px;
+  .dns-provider {
+    font-family: var(--display);
+    font-size: 13px;
     font-weight: 700;
+    color: var(--text);
+    letter-spacing: -0.01em;
   }
-  .dns-time-unit { font-size: 10px; color: var(--text-mid); font-weight: 400; }
-  .dns-status { font-size: 9px; margin-top: 3px; font-weight: 500; }
+  .dns-ip {
+    font-family: var(--mono);
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-dim);
+  }
+  .dns-time {
+    font-family: var(--display);
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    color: var(--text);
+  }
+  .dns-time-unit {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--text-mid);
+    font-weight: 400;
+  }
+  .dns-status {
+    font-family: var(--mono);
+    font-size: 9px;
+    margin-top: 4px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
 
   .diag-section { margin-bottom: 16px; }
 
   .diag-list { display: flex; flex-direction: column; gap: 5px; }
 
   .diag-item {
-    display: flex; align-items: flex-start; gap: 10px;
-    padding: 10px 12px;
+    display: flex; align-items: flex-start; gap: 12px;
+    padding: 12px 14px;
     background: var(--bg-inset);
-    border-radius: 4px;
-    font-size: 11px;
-    line-height: 1.5;
+    border-radius: 0;
+    border-left: 2px solid transparent;
+    font-family: var(--serif);
+    font-size: 14px;
+    line-height: 1.55;
   }
 
   .diag-dot {
@@ -459,28 +542,32 @@
   .disclaimer {
     background: var(--bg-inset);
     border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 12px 14px;
+    border-radius: 0;
+    padding: 14px 16px;
     margin-bottom: 16px;
-    font-size: 10px;
-    color: var(--text-dim);
-    line-height: 1.6;
+    font-family: var(--serif);
+    font-size: 12px;
+    color: var(--text-mid);
+    line-height: 1.65;
   }
 
-  .disclaimer strong { color: var(--text-mid); }
-  .disclaimer a { color: var(--green); text-decoration: none; }
-  .disclaimer a:hover { text-decoration: underline; }
+  .disclaimer strong { color: var(--text); font-weight: 600; }
+  .disclaimer a { color: var(--accent); text-decoration: none; }
+  .disclaimer a:hover { text-decoration: underline; text-underline-offset: 2px; }
 
   .page-footer {
     text-align: center;
-    padding: 20px 0;
-    font-size: 9px;
-    color: var(--text-dim);
+    padding: 24px 0;
+    font-family: var(--mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-mid);
     border-top: 1px solid var(--border);
   }
 
   .page-footer a { color: var(--text-mid); text-decoration: none; }
-  .page-footer a:hover { color: var(--green); }
+  .page-footer a:hover { color: var(--accent); }
 
   .spinner {
     display: inline-block;
@@ -527,9 +614,9 @@
     overflow: hidden;
   }
 
-  .progress-step.done { background: var(--green); }
+  .progress-step.done { background: var(--accent); }
   .progress-step.active {
-    background: linear-gradient(90deg, var(--green), var(--border));
+    background: linear-gradient(90deg, var(--accent), var(--border));
     animation: shimmer 1s ease infinite;
   }
 
@@ -539,7 +626,10 @@
   }
 
   .progress-label {
+    font-family: var(--mono);
     font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
     color: var(--text-mid);
     text-align: center;
   }
@@ -548,22 +638,23 @@
   .history-table {
     width: 100%;
     border-collapse: collapse;
-    font-size: 10px;
+    font-family: var(--mono);
+    font-size: 11px;
   }
   .history-table th {
     text-align: left;
-    font-size: 9px;
+    font-size: 10px;
     text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: var(--text-dim);
-    padding: 6px 8px;
+    letter-spacing: 0.1em;
+    color: var(--text-mid);
+    padding: 8px 10px;
     border-bottom: 1px solid var(--border);
     font-weight: 500;
   }
   .history-table td {
-    padding: 6px 8px;
-    border-bottom: 1px solid rgba(26, 26, 34, 0.4);
-    color: var(--text-mid);
+    padding: 8px 10px;
+    border-bottom: 1px solid rgba(232, 228, 220, 0.06);
+    color: var(--text);
   }
 </style>
 </head>
@@ -571,7 +662,6 @@
 
 <div class="top-bar">
   <a href="/" class="top-bar-left" style="text-decoration:none;color:inherit;">
-    <div class="logo-icon">>_</div>
     <div class="logo-text">PVPWire <span>/ wifi</span></div>
   </a>
   <div class="top-bar-right">
@@ -587,8 +677,8 @@
 
 <div class="container">
   <div class="hero fin">
-    <h1>>_ Gaming Network Test</h1>
-    <p>Ping, jitter, packet loss &middot; Speed analysis &middot; DNS performance &middot; Built for competitive gamers</p>
+    <h1>Gaming Network Test</h1>
+    <p>Ping, jitter, packet loss, speed analysis, and DNS performance. Built for competitive gamers.</p>
   </div>
 
   <div class="score-wrap fin">
