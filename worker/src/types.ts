@@ -17,6 +17,11 @@ export interface Env {
   X_ACCESS_SECRET?: string;
   X_BEARER?: string;
   ADMIN_TOKEN?: string;
+  // Section 22.4 Integration B: IGDB enrichment via Twitch developer creds.
+  IGDB_CLIENT_ID?: string;
+  IGDB_CLIENT_SECRET?: string;
+  // Section 22.4 Integration C: PandaScore esports data.
+  PANDASCORE_API_KEY?: string;
 }
 
 export interface AggregatedArticle {

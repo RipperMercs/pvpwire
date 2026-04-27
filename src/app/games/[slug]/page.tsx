@@ -13,6 +13,8 @@ import { authorDisplay, formatDate } from '@/lib/format';
 import { CategoryGlyph, ExternalLinkIcon, ArrowRightIcon } from '@/components/icons';
 import { GameCover } from '@/components/GameCover';
 import { LogoImg } from '@/components/LogoImg';
+import { LivePlayerCount } from '@/components/LivePlayerCount';
+import { DataAttribution } from '@/components/DataAttribution';
 import { buildMetadata, ogImagePath, truncate, SITE_URL } from '@/lib/seo';
 import { videoGameSchema, breadcrumbSchema, jsonLdScript } from '@/lib/jsonld';
 
@@ -299,13 +301,23 @@ export default function GamePage({ params }: { params: { slug: string } }) {
 
         <aside className="border-t lg:border-t-0 lg:border-l border-ink/15 pt-8 lg:pt-0 lg:pl-8">
           {/* Quick scene snapshot */}
-          {(game.activity_tier || game.scene_status || game.player_count_signal) && (
+          {(game.activity_tier || game.scene_status || game.player_count_signal || game.steam_app_id) && (
             <div className="mb-6 border border-ink/15 surface p-3">
               <div className="font-mono text-[10px] uppercase tracking-widest text-accent mb-2">Scene snapshot</div>
               {game.activity_tier && <SnapRow label="Activity" value={game.activity_tier} />}
               {game.scene_status && <SnapRow label="Scene" value={game.scene_status} />}
               {game.player_count_signal && <SnapRow label="Players" value={game.player_count_signal} />}
               {game.last_major_patch && <SnapRow label="Last patch" value={formatDate(game.last_major_patch)} />}
+              {game.steam_app_id && <LivePlayerCount gameSlug={game.slug} />}
+              {(game.steam_app_id || game.igdb_id) && (
+                <DataAttribution
+                  sources={[
+                    ...(game.steam_app_id ? (['steam'] as const) : []),
+                    ...(game.igdb_id ? (['igdb'] as const) : []),
+                  ]}
+                  className="mt-3 pt-2 border-t border-ink/10"
+                />
+              )}
             </div>
           )}
 

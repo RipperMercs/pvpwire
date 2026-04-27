@@ -30,16 +30,18 @@ Old guild content, old editorial, and any historical material remain reachable i
 
 ## 3. Final navigation
 
-Top nav, four tabs:
+Top nav, five tabs:
 
-`Home | Games | Esports | News`
+`Home | Games | Esports | News | Archive`
+
+Update 2026-04-26 (post-ship): Archive was promoted from footer to top nav per founder direction late in the pivot. The reasoning is that Archive is a real product surface (guild database, OG Guilds Infograph, legacy stories, and the v2.1+ highlights vault per Section 22.2), not historical overflow. The earlier draft of this section specified four tabs with Archive in the footer; that direction was superseded.
 
 Footer:
 
-Column A: Archive, About, Submit
+Column A: About, Submit
 Column B: RSS, llms.txt, Contact
 
-Removed from top nav permanently: Heritage, Legends, Ask Flosium, Guilds. The first three are deleted (Section 4). Guilds becomes a sub-surface of Archive (Section 6 and Section 15).
+Removed from top nav permanently: Heritage, Legends, Ask Flosium. All three are deleted (Section 4). Guilds is reachable through `/guilds/[slug]` for SEO continuity and via the Archive top-nav surface for discovery.
 
 ## 4. What gets removed (hard removal)
 
@@ -628,6 +630,8 @@ To be explicit, none of the following is lost:
 
 ## 22. v2.1 roadmap (post-pivot)
 
+### 22.1 Infrastructure and integration
+
 These items defer to the next milestone after the pivot ships:
 
 - Tournament results live updates from API source (Liquipedia, PandaScore, or Abios) where licensable
@@ -638,6 +642,351 @@ These items defer to the next milestone after the pivot ships:
 - Patch tracker with RSS ingest per game
 - Custom commissioned hero asset for the home page background
 - Optional return of original article writing under the new byline policy
+
+### 22.2 Archive content roadmap
+
+In v2.0, `/archive` is intentionally low-frequency. The 38 guild profiles, the OG Guilds Infograph, and the 12 legacy editorial pieces are the launch contents. No new material is actively produced for Archive in v2.0.
+
+In v2.1+, Archive grows as a curated highlights vault. The category houses legendary moments in competitive gaming history that are not current news, not game catalog entries, and not tied to a single guild. Representative examples:
+
+- Leeroy Jenkins (WoW, 2005, viral raid call, defining gaming meme)
+- The Mercs vs Death Alliance (Darkfall, video with approximately 1M views)
+- The Funeral Raid (WoW, 2006)
+- Bloodbath of B-R5RB (EVE, 2014, largest fleet engagement in MMO history)
+- Goonswarm propaganda war and the BoB defection (EVE, 2009)
+- Faker's Zed plays in 2013 LCK
+- OG vs PSG.LGD Game 5 at TI8
+
+The category sits alongside Guilds and Stories on the `/archive` hub. It is curated, not aggregated. Bylines are `editorial` or `ripper`, never personas. Cadence is whatever editorial bandwidth supports, intentionally slow.
+
+Proposed schema direction for v2.1:
+
+```ts
+export type HighlightCategory =
+  | 'viral-moment'        // Leeroy Jenkins, OMG Roflcopter
+  | 'legendary-battle'    // Mercs vs Death, Bloodbath of B-R5RB
+  | 'iconic-play'         // Faker Zed, OG G5
+  | 'scandal'             // BoB defection, match-fixing events
+  | 'patch-impact'        // Single patches that broke or made a server
+  | 'cultural';           // The Funeral Raid, server-defining drama
+
+export interface HighlightFrontmatter {
+  slug: string;
+  title: string;
+  category: HighlightCategory;
+  game_slug?: string;
+  related_guilds?: string[];
+  date_occurred: string;       // ISO; when the moment happened
+  date_published: string;      // ISO; when PVPWire published the piece
+  hero_image?: string;
+  video_embed?: string;        // YouTube or Twitch URL
+  view_count_signal?: string;  // free text, e.g. "approx 1M views"
+  description: string;
+  sources?: string[];
+  author: 'editorial' | 'ripper';
+}
+```
+
+Routes for v2.1 (decide at v2.1 kickoff): either nested at `/archive/highlights/` and `/archive/highlights/[slug]`, or surfaced through the existing `/archive/[slug]` shape with a category discriminator on the frontmatter.
+
+This direction is captured here so v2.0 schema work does not paint v2.1 into a corner. Specifically: when CC defines `ArchivedStoryFrontmatter` in Step 2 of the migration, the route handler at `/archive/[slug]` should be flexible enough that a future `HighlightFrontmatter` can either extend `ArchivedStoryFrontmatter` cleanly or coexist alongside it without route refactors. Guidance for CC: prefer a shared abstract `ArchiveItem` interface that both `ArchivedStoryFrontmatter` and a future `HighlightFrontmatter` can implement, rather than a single concrete schema that has to grow optional fields over time.
+
+### 22.3 Real-time source expansion (News aggregator additions)
+
+**Goal.** Thicken the existing `/news` aggregator with real-time signals from Reddit and Steam without splitting into a separate feed tab. Editorial RSS articles continue rendering as before. New source types render alongside, tagged with distinct source badges so the reader can see at a glance what they are looking at. No new top-nav tab. The `/news` surface absorbs the new sources.
+
+This avoids pre-empting a tab split that may not be needed. If after launch the mixed feed reads as noise or one source category drowns out another, the split into `/news` (editorial) and `/pulse` (real-time) becomes a v2.2 consideration. Until then, the existing surface scales.
+
+**Sources to add at v2.1.**
+
+1. **Reddit subreddit RSS.** Reddit subreddit feeds are available at `https://www.reddit.com/r/{subreddit}/.rss`. No API key. No OAuth. No rate-limit headache at the volumes we need. Each feed returns recent posts with title, permalink, author, score, posted date, and flair. The Worker fetches these in the same 30-minute cron that already pulls editorial RSS, just with more entries in the source list.
+
+2. **Steam News API.** Endpoint: `https://api.steampowered.com/ISteamNews/GetNewsForApp/v0002/?appid={steam_app_id}&count=10&format=json`. No key required. Returns developer announcements and patch notes for the given Steam app. Driven by the `steam_app_id` field already specified on `GameFrontmatter` (PIVOT.md Section 9, currently mostly unpopulated). Backfill the top 30 active catalog entries with Steam app IDs as a one-time editorial pass.
+
+Twitter, Discord, YouTube, and Twitch live status are explicitly out of scope at v2.1. Twitter is cost-prohibitive post-2023. Discord requires per-server admin grants. YouTube quota costs add up. Twitch is fine technically but is a different signal shape (live status, not posts) and belongs in a v2.2 surface.
+
+**Subreddit seed list.** Approximately 25 subs spanning the PvP genre. Founder is welcome to add or veto. Default seed:
+
+General PvP and competitive: `MMORPG`, `Games`, `pcgaming`, `esports`, `competitive`
+MMO PvP: `AsheronsCall`, `DarkAgeofCamelot`, `DarkfallOnline`, `EveOnline`, `Albion_Online`, `MortalOnline2`, `wow_pvp`, `classicwow`
+Tactical and FPS: `GlobalOffensive`, `VALORANT`, `Rainbow6`, `apexlegends`, `CompetitiveOverwatch`
+Battle royale: `FortNiteBR`, `PUBATTLEGROUNDS`
+Extraction shooter: `EscapefromTarkov`, `HuntShowdown`, `MarathonTheGame`, `DarkAndDarker`
+MOBA: `leagueoflegends`, `DotA2`
+Fighting: `Fighters`, `StreetFighter`, `Tekken`
+Movement and arena: `QuakeChampions`
+
+The subreddit list lives in a config file in the Worker, not hardcoded in the aggregator function. Editorial can edit the list without redeploying TS code. Recommended path: `/worker/sources/reddit.json`.
+
+**Schema additions.** The aggregator response shape extends to discriminate source families:
+
+```ts
+type AggregatedItemSource = 'editorial' | 'reddit' | 'steam';
+
+interface BaseAggregatedItem {
+  source_type: AggregatedItemSource;
+  title: string;
+  url: string;            // permalink
+  description?: string;   // for editorial; first paragraph or RSS summary
+  posted_at: string;      // ISO
+  hash: string;           // dedup key
+}
+
+interface EditorialAggregatedItem extends BaseAggregatedItem {
+  source_type: 'editorial';
+  source_name: string;     // 'Dexerto', 'HLTV', etc.
+  source_domain: string;
+}
+
+interface RedditAggregatedItem extends BaseAggregatedItem {
+  source_type: 'reddit';
+  subreddit: string;       // 'MMORPG' (no leading r/)
+  author: string;
+  score: number;           // upvotes minus downvotes
+  flair?: string;
+  is_nsfw: boolean;
+}
+
+interface SteamAggregatedItem extends BaseAggregatedItem {
+  source_type: 'steam';
+  game_slug: string;       // links into /catalog/[slug]
+  game_name: string;
+  steam_app_id: number;
+  feed_label: string;      // typically 'Community Announcements' or 'Patch Notes'
+}
+```
+
+**Worker changes.**
+
+- New aggregator function `fetchRedditSources()` that reads the subreddit config and pulls each subreddit RSS in parallel. Same XML parsing pattern as the editorial RSS aggregator. Filters out items where the post is marked NSFW.
+- New aggregator function `fetchSteamSources()` that iterates the catalog for entries with `steam_app_id` set and pulls the Steam News API for each. Limits to the most recent 5 items per game per fetch to avoid backfill spam on first run.
+- Both functions feed into the existing `NEWS_CACHE` KV namespace under separate key prefixes: `news:editorial:`, `news:reddit:`, `news:steam:`. Dedup is per source family, not cross-family.
+- The merged `/api/news` response combines all three families, sorted by `posted_at` desc by default. A new `?source=reddit|steam|editorial|all` query parameter lets the front end filter.
+
+**UI changes.**
+
+- News feed cards get a source badge. Editorial: source domain (existing pattern). Reddit: "Reddit · r/MMORPG · 2h ago". Steam: "Steam · Marathon · 4h ago", with the game name linking to `/catalog/[slug]`.
+- Filter chips on `/news` get expanded. Existing chips: All, Original, Aggregated, by Author, by Source. New: source-family multi-select (Editorial, Reddit, Steam), defaulting to all on.
+- A "compact" rendering option for Reddit items so a feed full of Reddit links does not visually dominate longer editorial cards. Reddit cards: smaller, single-line title, score and subreddit visible, no description block. Editorial and Steam cards stay full-width.
+
+**Volume estimate.**
+
+- 25 subreddits at roughly 10 posts per day each: ~250 Reddit items per day
+- 30 cataloged games with Steam app IDs at roughly 1 to 2 announcements per day: ~30 to 60 Steam items per day
+- Existing editorial RSS: ~50 to 100 items per day
+- Total: ~350 to 400 items per day in the merged feed
+
+This is enough that ranking matters. v2.1 default: chronological. v2.2 evaluation: add a score-weighted boost so high-score Reddit items surface higher than low-engagement ones, and pin Steam announcements for any game in the user's recently-viewed history.
+
+**NSFW and quality filtering.**
+
+- Reddit RSS items include an `over_18` flag. Filter those out at ingest.
+- Optional: filter out items with score below a threshold (e.g., score < 10) to reduce low-signal noise. Editorial call.
+- No filter on Steam (developer announcements are by definition on-topic).
+- No filter on editorial RSS (already curated source list).
+
+**Migration order for CC.**
+
+Step 1: Add `AggregatedItemSource` discriminator and the three item interfaces to `src/lib/schemas.ts` or a new `src/lib/aggregated-items.ts`.
+
+Step 2: Create `/worker/sources/reddit.json` with the subreddit seed list above.
+
+Step 3: Implement `fetchRedditSources()` in the Worker. Parallel fetches, XML parse, NSFW filter, dedup hash on permalink, write to `NEWS_CACHE` under `news:reddit:` prefix.
+
+Step 4: Implement `fetchSteamSources()` in the Worker. Iterate catalog entries with `steam_app_id`, call Steam News API per game, parse JSON, dedup hash on Steam GID, write to `NEWS_CACHE` under `news:steam:` prefix.
+
+Step 5: Update `/api/news` Worker handler to merge all three source families and accept the `?source=` filter parameter.
+
+Step 6: Founder editorial pass: populate `steam_app_id` on the top 30 active catalog entries. Source: steamdb.info or each game's Steam store URL.
+
+Step 7: Update `NewsBrowser.tsx` to render the new source badges, expand filter chips, add the compact Reddit card variant.
+
+Step 8: Verification. `npm run typecheck` clean. Visual smoke test on `/news` with all three source families flowing in. Check NSFW filter on a known-NSFW Reddit example.
+
+**Defer to v2.2+.**
+
+- Score-weighted ranking
+- Twitch live status integration
+- YouTube uploads from key creators
+- A dedicated `/pulse` tab if the mixed feed becomes unmanageable
+
+This should ship as a single coherent v2.1 milestone alongside the other v2.1 work in Section 22.1.
+
+### 22.4 External data source integration
+
+**Goal.** Enrich PVPWire's catalog, esports orgs, and tournament profiles with current data from clean free or freely-tiered APIs, without taking on legal complexity from share-alike licensed sources. Keep PVPWire's editorial layer as the differentiator; use external APIs for the factual base (release dates, player counts, tournament schedules, current rosters) where building manually does not scale.
+
+This section deliberately skips Liquipedia as a runtime data source. Liquipedia is excellent and the data is rich, but the content licensing is CC BY-SA with share-alike contagion that creates downstream license obligations on a commercial publisher, plus aggressive API rate limits that make integration awkward. Liquipedia remains useful as an editorial research tool (looking things up while writing) but not as a runtime data feed. If at any future point Liquipedia introduces a commercial data product or licensing tier that resolves the share-alike concern, revisit. Until then, use PandaScore for esports data and IGDB for game catalog data.
+
+**Source survey: clean and recommended.**
+
+1. **IGDB API (Internet Game Database).** Free for commercial use, requires Twitch developer credentials (free to obtain), rate limit 4 requests per second. Comprehensive game database: titles, genres, release dates, platforms, covers, summaries, screenshots. Best fit for catalog enrichment, upcoming releases discovery, hero image sourcing. Attribution required (small footer credit). Endpoint: `https://api.igdb.com/v4/`.
+
+2. **Steam Web API.** Free, no key required for the endpoints we need. Best fits for PVPWire:
+   - `ISteamNews/GetNewsForApp`: dev announcements per game, already specced in Section 22.3.
+   - `ISteamUserStats/GetNumberOfCurrentPlayers`: live player count signal per game. This is the highest-value Steam endpoint we are not yet using. Driven by `steam_app_id` on `GameFrontmatter`, returns current concurrent player count.
+   - `ISteamApps/GetAppList`: full Steam catalog if we ever want to discover new PvP games via tag filtering.
+   - Rate limit: ~100k requests per day.
+   - Attribution: standard Steam Web API terms.
+
+3. **PandaScore API.** Esports-focused: tournaments, matches, teams, players, leagues, standings. Free tier exists for testing (limited request budget per day, suitable for development), production tiers from approximately $50 per month. Covers most major esports including CS, Valorant, LoL, Dota, Rainbow Six, Overwatch, Rocket League, Apex. Cleaner commercial terms than Liquipedia and a real SLA. Best fit as the runtime data source for `/esports/[slug]` tournament profiles and `/esports/orgs/[slug]` roster updates.
+
+4. **Twitch API.** Free with developer credentials. Live stream status per game directory (the "is the scene live right now" signal). Stream metadata, viewer counts, top-streamed games. Already deferred to v2.2 in Section 22.3 but worth pulling forward to v2.1 if PandaScore integration moves quickly.
+
+5. **Reddit subreddit RSS.** Already covered in Section 22.3. Free, no auth, no rate limit headache. Listed here for completeness as part of the external-source picture.
+
+**Source survey: deprioritized for now.**
+
+- **Liquipedia.** CC BY-SA license complications and rate limits, as above. Use as editorial research only.
+- **YouTube Data API.** Free tier exists (10k units/day quota) but quota burns fast on video metadata queries. Useful for tracking creator uploads but not a v2.1 priority. Defer to v2.2.
+- **Riot Games API.** Free per-game keys for LoL and Valorant, but coverage is single-game and tournament data is limited compared to PandaScore. Skip unless we add deep per-game scene pages later.
+- **HLTV.** No official public API. Unofficial scrapers exist but using them is fragile and a terms-of-service risk. PandaScore covers CS instead.
+- **GameSpot, Giant Bomb, MobyGames.** Game metadata APIs but IGDB has broader and more current coverage. Skip.
+
+**Recommended integrations for v2.1.**
+
+Three integrations, in priority order:
+
+**Integration A: Steam current-players signal (highest value, lowest effort).**
+
+- New scheduled Worker job: every 6 hours, iterate catalog entries with `steam_app_id` populated, call `ISteamUserStats/GetNumberOfCurrentPlayers` for each, write to `NEWS_CACHE` KV under `steam:players:{slug}`.
+- Add `current_player_count` and `player_count_fetched_at` fields to a new `GameRuntimeData` interface stored in KV (not in MDX frontmatter, since it changes too often).
+- Game profile page reads from KV at render time and surfaces "Current players: 145,239" or similar on the live games. Falls back gracefully if the data is stale or missing.
+- Pre-launch backfill: populate `steam_app_id` on the top 50 active catalog entries (overlaps with Section 22.3 backfill task; same editorial pass).
+- Effort: 1 day for the Worker addition, plus the backfill pass.
+
+**Integration B: IGDB for catalog enrichment and upcoming-games discovery (medium effort, high value for the Coming Soon rail).**
+
+- New Worker route: `GET /api/igdb/upcoming` that fetches IGDB for games tagged Multiplayer with future release dates and PvP-relevant genres.
+- Output piped into a queue that the founder reviews via the existing `/api/submit-game` endpoint shipped earlier. Auto-discovery, manual editorial gate.
+- Optional: enrich existing catalog entries with IGDB `cover` (high-res), `summary`, `release_dates`, `genres` where MDX frontmatter is sparse. Editorial review per entry before merge.
+- Effort: 2 days for the Worker integration plus the editorial review process design.
+
+**Integration C: PandaScore for esports data (highest scope, highest value at scale).**
+
+- Free tier first for development. Establish the integration pattern, evaluate data quality on PVPWire's specific games, then upgrade to paid tier if the data is good and the volume justifies it.
+- New Worker routes:
+  - `GET /api/esports/tournaments?game={slug}`: PandaScore tournaments for the given game, KV-cached.
+  - `GET /api/esports/matches/upcoming?game={slug}`: upcoming matches per game.
+  - `GET /api/esports/orgs/{org-slug}/roster`: current roster for an org.
+- Tournament profile pages at `/esports/[slug]` get PandaScore-enriched bracket and participant data when available.
+- Org profile pages at `/esports/orgs/[slug]` get PandaScore current roster overlaid on top of our editorial roster.
+- Caching strategy: 6-hour KV TTL for tournament/match data, 24-hour TTL for rosters. Respects rate limits and keeps PandaScore costs predictable.
+- Attribution: small "Esports data via PandaScore" footer credit on pages that display PandaScore data.
+- Effort: 4 to 6 days for the full integration. Free tier proof-of-concept first; paid upgrade decision after.
+
+**Schema additions.**
+
+```ts
+// Runtime data, KV-backed, not in MDX frontmatter
+export interface GameRuntimeData {
+  game_slug: string;
+  current_player_count?: number;        // Steam
+  player_count_fetched_at?: string;     // ISO
+  is_live_on_twitch?: boolean;          // Twitch (v2.2)
+  twitch_viewer_count?: number;         // Twitch (v2.2)
+}
+
+export interface ExternalDataSource {
+  source: 'steam' | 'igdb' | 'pandascore' | 'twitch';
+  fetched_at: string;
+  attribution_required: boolean;
+}
+```
+
+Schema additions to `GameFrontmatter` to enable integrations:
+
+```ts
+igdb_id?: number;          // IGDB game ID for enrichment lookups
+pandascore_id?: number;    // PandaScore videogame ID for esports queries
+twitch_directory_slug?: string;  // already specced in Section 9
+steam_app_id?: number;           // already specced in Section 9
+```
+
+Schema additions to `EsportsOrgFrontmatter`:
+
+```ts
+pandascore_team_id?: number;
+liquipedia_page_slug?: string;   // optional editorial-only reference, not for runtime fetch
+```
+
+Schema additions to `TournamentFrontmatter`:
+
+```ts
+pandascore_tournament_id?: number;
+liquipedia_page_slug?: string;   // optional editorial-only reference
+```
+
+The `liquipedia_page_slug` fields are present so editorial can link out to Liquipedia from a tournament or org page (linking is always allowed under their license) without doing any data fetch.
+
+**Caching strategy.**
+
+All external API calls go through the Worker, never client-side. Reasons: API key protection, rate limit management, response shaping, attribution stamping.
+
+- Steam current-players: 6-hour KV TTL.
+- IGDB enrichment data: 7-day KV TTL (catalog metadata changes slowly).
+- PandaScore tournament/match data: 6-hour KV TTL.
+- PandaScore roster data: 24-hour KV TTL.
+- Twitch live status: 5-minute KV TTL (when implemented).
+
+Stale-while-revalidate pattern: serve cached data immediately even past TTL, refresh in background. This prevents external API outages from breaking PVPWire pages.
+
+**Attribution requirements.**
+
+A new `<DataAttribution>` component renders the required credits on any page that surfaces external API data:
+
+- Steam: "Player counts via Steam"
+- IGDB: "Game data via IGDB"
+- PandaScore: "Esports data via PandaScore"
+- Twitch (v2.2): "Live status via Twitch"
+
+The component renders as a small footer line on pages that consume the data. Site-level footer also gets a single line: "External data sources: Steam, IGDB, PandaScore. PVPWire is independent and editorial."
+
+**Rate limit management.**
+
+Each source has different limits. Worker enforces:
+
+- Steam: 100k/day cap, no per-request limit. Easily within budget for our catalog size.
+- IGDB: 4 requests/second. Worker queues IGDB calls with a 250ms debounce.
+- PandaScore: free tier ~1000/day, paid tiers higher. Worker tracks request budget in KV, stops calling when daily budget exceeded, falls back to cached data.
+- Twitch: 30 requests/minute on standard developer key. Easily within budget for our use.
+
+**Migration order for CC.**
+
+Step 1: Schema additions to `GameFrontmatter`, `EsportsOrgFrontmatter`, `TournamentFrontmatter` per "Schema additions" above. Add `GameRuntimeData` interface in `src/lib/runtime-data.ts`.
+
+Step 2: Founder editorial pass. Backfill `steam_app_id` on top 50 active games (overlaps with Section 22.3 task). Backfill `igdb_id` on the same 50 games as a second pass (lookup via IGDB website search or a one-time script).
+
+Step 3: Steam current-players Worker job (Integration A). Cron, KV cache, render integration on game profile pages.
+
+Step 4: IGDB Worker integration (Integration B). API authentication setup (Twitch developer credentials), `/api/igdb/upcoming` route, queue submission to existing `/api/submit-game` for editorial review.
+
+Step 5: PandaScore free-tier integration (Integration C, phase 1). Sign up for free tier API key, store as Cloudflare Worker secret, implement the three Worker routes against free tier rate limits, validate data quality on 3 to 5 representative tournaments and orgs.
+
+Step 6: PandaScore decision. If free-tier validation looks good, upgrade to paid tier and roll out to all `/esports/[slug]` and `/esports/orgs/[slug]` pages. If not, document the gaps and reconsider sources.
+
+Step 7: `<DataAttribution>` component, rendered conditionally per page based on which sources contributed.
+
+Step 8: Verification. Each external integration must gracefully fall back to MDX-frontmatter-only rendering when the API is down or rate-limited. Pages must never 500 because of an external dependency.
+
+**Defer to v2.2+.**
+
+- Twitch live status (already specced as deferred in Section 22.3, can pull forward if PandaScore moves fast)
+- YouTube Data API for creator content tracking
+- Riot Games API for deep LoL/Valorant pages
+- Liquipedia integration (revisit only if their licensing situation changes)
+
+**Cost outlook.**
+
+- Steam: free.
+- IGDB: free.
+- PandaScore free tier: free during development.
+- PandaScore paid tier (if upgraded): approximately $50 to $200 per month depending on volume and feature set.
+- Twitch: free.
+
+If PandaScore paid tier is justified by the data quality and user signal post-launch, total external data source costs run $50 to $200/month. If we hold at PandaScore free tier or skip PandaScore entirely (using only Steam plus IGDB), costs are $0.
+
+This entire integration is incremental. Steam alone (Integration A) is one day of work and adds a high-value live-data signal to game profile pages. Everything else is optional and can be sequenced as bandwidth allows.
 
 ## 23. Carried-over decisions
 

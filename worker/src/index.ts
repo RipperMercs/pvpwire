@@ -1,14 +1,19 @@
 // PVPWire Worker entry.
 // Routes:
-//   GET  /api/news               aggregated feed: editorial RSS + Reddit + Steam (KV-cached, 30 min cron-refreshed). Optional ?source=editorial|reddit|steam|all.
-//   GET  /api/tournaments        curated tournament calendar (proxy of public/tournaments.json with KV cache)
-//   GET  /api/esports-news       keyword-filtered subset of editorial articles tagged as esports-relevant
-//   POST /api/submit-guild       community guild submission queue
-//   POST /api/submit-game        community game submission queue
-//   GET  /api/admin/submissions  list pending submissions (admin token required)
-//   GET  /healthz                health check
+//   GET  /api/news                    aggregated feed: editorial RSS + Reddit + Steam (KV-cached, 30 min cron-refreshed). Optional ?source=editorial|reddit|steam|all.
+//   GET  /api/tournaments             curated tournament calendar (proxy of public/tournaments.json with KV cache)
+//   GET  /api/esports-news            keyword-filtered subset of editorial articles tagged as esports-relevant
+//   GET  /api/game-runtime/{slug}     Section 22.4: live runtime data for a game (Steam current players + IGDB enrichment)
+//   GET  /api/org-runtime/{slug}      Section 22.4 Integration C: PandaScore team data (roster, recent + upcoming matches)
+//   GET  /api/tournament-runtime/{slug}  Section 22.4 Integration C: PandaScore tournament data (bracket, matches)
+//   POST /api/submit-guild            community guild submission queue
+//   POST /api/submit-game             community game submission queue
+//   GET  /api/admin/submissions       list pending submissions (admin token required)
+//   GET  /healthz                     health check
 //
-// Cron: every 30 minutes refresh news cache (all three families), then attempt a paced X post.
+// Cron schedule:
+//   "*/30 * * * *"  every 30 min: refresh news cache (editorial/Reddit/Steam) + paced X post
+//   "0 */6 * * *"   every 6 h:    refresh Steam current-player counts (Section 22.4 Integration A)
 
 import type { Env, NewsCachePayload, AggregatedArticle } from './types';
 import { SOURCES } from './sources';
@@ -18,6 +23,9 @@ import { fetchSteamSources, type SteamItemPayload } from './aggregator-steam';
 import { handleSubmission, listSubmissions } from './submissions';
 import { handleGameSubmission } from './submissions-game';
 import { postScheduled } from './twitter';
+import { refreshSteamPlayerCounts, getSteamPlayerCount } from './steam-players';
+import { refreshIgdbCatalog, getIgdbRecord } from './igdb';
+import { refreshPandascore, getOrgRuntime, getTournamentRuntime } from './pandascore';
 
 const NEWS_CACHE_KEY = 'news:editorial:latest';
 const REDDIT_CACHE_KEY = 'news:reddit:latest';
@@ -263,6 +271,41 @@ export default {
       return handleTournaments(env);
     }
 
+    if (url.pathname.startsWith('/api/game-runtime/') && req.method === 'GET') {
+      const slug = url.pathname.slice('/api/game-runtime/'.length).replace(/\/$/, '');
+      if (!slug || !/^[a-z0-9-]+$/.test(slug)) {
+        return json({ error: 'invalid_slug' }, 400, 0);
+      }
+      const [data, igdb] = await Promise.all([
+        getSteamPlayerCount(env, slug),
+        getIgdbRecord(env, slug),
+      ]);
+      return json({
+        game_slug: slug,
+        data,
+        igdb,
+        fetched_at: data?.player_count_fetched_at ?? null,
+      }, 200, 300);
+    }
+
+    if (url.pathname.startsWith('/api/org-runtime/') && req.method === 'GET') {
+      const slug = url.pathname.slice('/api/org-runtime/'.length).replace(/\/$/, '');
+      if (!slug || !/^[a-z0-9-]+$/.test(slug)) {
+        return json({ error: 'invalid_slug' }, 400, 0);
+      }
+      const data = await getOrgRuntime(env, slug);
+      return json({ org_slug: slug, data, fetched_at: data?.fetched_at ?? null }, 200, 300);
+    }
+
+    if (url.pathname.startsWith('/api/tournament-runtime/') && req.method === 'GET') {
+      const slug = url.pathname.slice('/api/tournament-runtime/'.length).replace(/\/$/, '');
+      if (!slug || !/^[a-z0-9-]+$/.test(slug)) {
+        return json({ error: 'invalid_slug' }, 400, 0);
+      }
+      const data = await getTournamentRuntime(env, slug);
+      return json({ tournament_slug: slug, data, fetched_at: data?.fetched_at ?? null }, 200, 300);
+    }
+
     if (url.pathname === '/api/submit-guild') {
       return handleSubmission(req, env);
     }
@@ -279,9 +322,44 @@ export default {
     return json({ error: 'not found', path: url.pathname }, 404, 0);
   },
 
-  async scheduled(_event: ScheduledController, env: Env, ctx: ExecutionContext): Promise<void> {
+  async scheduled(event: ScheduledController, env: Env, ctx: ExecutionContext): Promise<void> {
+    const cron = event.cron;
     ctx.waitUntil(
       (async () => {
+        // 6-hour job: refresh Steam current-player counts.
+        if (cron === '0 */6 * * *') {
+          try {
+            const result = await refreshSteamPlayerCounts(env);
+            console.log('steam players refresh', JSON.stringify(result));
+          } catch (e) {
+            console.error('steam players refresh failed', e);
+          }
+          return;
+        }
+
+        // Weekly Mon 4am: refresh IGDB enrichment.
+        if (cron === '0 4 * * 1') {
+          try {
+            const result = await refreshIgdbCatalog(env);
+            console.log('igdb refresh', JSON.stringify(result));
+          } catch (e) {
+            console.error('igdb refresh failed', e);
+          }
+          return;
+        }
+
+        // Daily 5am: refresh PandaScore tournaments + teams.
+        if (cron === '0 5 * * *') {
+          try {
+            const result = await refreshPandascore(env);
+            console.log('pandascore refresh', JSON.stringify(result));
+          } catch (e) {
+            console.error('pandascore refresh failed', e);
+          }
+          return;
+        }
+
+        // Default 30-minute job: news caches + paced X post.
         try {
           await refreshEditorialCache(env);
         } catch (e) {

@@ -88,6 +88,8 @@ export interface GameFrontmatter {
   top_orgs?: string[];              // esports_org_slug array for cross-link to /esports/orgs
   twitch_directory_slug?: string;   // for v2.1 Twitch live integration
   steam_app_id?: number;            // for v2.1 Steam current-player integration
+  igdb_id?: number;                 // for v2.1 IGDB enrichment (Section 22.4 Integration B)
+  pandascore_id?: number;           // for v2.1 PandaScore tournament/match data (Integration C)
 }
 
 export type GuildEra = 'og' | 'classic' | 'modern' | 'active';
@@ -243,6 +245,8 @@ export interface TournamentFrontmatter {
   external_links?: { name: string; url: string }[];
   description_short: string;
   description_long?: string;
+  pandascore_tournament_id?: number;       // Integration C: tournament metadata mirror
+  liquipedia_page_slug?: string;           // for cross-link to Liquipedia (CC-BY-SA)
 }
 
 export type EsportsOrgStatus = 'active' | 'inactive' | 'dissolved';
@@ -273,6 +277,8 @@ export interface EsportsOrgFrontmatter {
   external_links?: { name: string; url: string }[];
   description_short: string;
   description_long?: string;
+  pandascore_team_id?: number;             // Integration C: roster + match history
+  liquipedia_page_slug?: string;           // for cross-link to Liquipedia (CC-BY-SA)
 }
 
 export interface ContentItem<T> {

@@ -29,6 +29,12 @@ export function SiteFooter() {
         <p className="pt-4 font-serif text-[11px] text-muted/80 leading-relaxed max-w-3xl">
           Game titles, esports organization names, team logos, and tournament marks are trademarks and properties of their respective owners. Used here for editorial identification.
         </p>
+        <p className="pt-2 font-serif text-[11px] text-muted/80 leading-relaxed max-w-3xl">
+          Live data via <a href="https://store.steampowered.com/" target="_blank" rel="noopener noreferrer" className="hover:text-accent underline underline-offset-2">Steam</a>,{' '}
+          <a href="https://www.igdb.com/" target="_blank" rel="noopener noreferrer" className="hover:text-accent underline underline-offset-2">IGDB</a>,{' '}
+          <a href="https://pandascore.co/" target="_blank" rel="noopener noreferrer" className="hover:text-accent underline underline-offset-2">PandaScore</a>, and{' '}
+          <a href="https://liquipedia.net/" target="_blank" rel="noopener noreferrer" className="hover:text-accent underline underline-offset-2">Liquipedia</a> (CC-BY-SA).
+        </p>
       </div>
     </footer>
   );
