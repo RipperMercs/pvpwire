@@ -134,6 +134,16 @@ export function getTournamentsForOrg(orgSlug: string): ContentItem<TournamentFro
   );
 }
 
+// Active esports orgs that field a roster in the given game. Used on game
+// detail pages to replace the v1 "Guilds in this game" section with the v2
+// "Orgs in this game" surface per founder direction 2026-04-26.
+export function getEsportsOrgsForGame(gameSlug: string): ContentItem<EsportsOrgFrontmatter>[] {
+  return getAllEsportsOrgs().filter((o) =>
+    o.frontmatter.status === 'active' &&
+    o.frontmatter.games?.some((g) => g.game_slug === gameSlug && g.status === 'active')
+  );
+}
+
 // Cross-link helpers
 export function getRelatedGuildsForGame(gameSlug: string): ContentItem<GuildFrontmatter>[] {
   return getAllGuilds().filter((g) =>

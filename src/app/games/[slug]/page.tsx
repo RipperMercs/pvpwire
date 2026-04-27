@@ -6,11 +6,13 @@ import {
   getGameBySlug,
   getRelatedGuildsForGame,
   getRelatedArticlesForGame,
-  getRelatedLegendsForGame,
+  getEsportsOrgsForGame,
+  getTournamentsForGame,
 } from '@/lib/content';
 import { authorDisplay, formatDate } from '@/lib/format';
 import { CategoryGlyph, ExternalLinkIcon, ArrowRightIcon } from '@/components/icons';
 import { GameCover } from '@/components/GameCover';
+import { LogoImg } from '@/components/LogoImg';
 
 export async function generateStaticParams() {
   return getAllGames().map((g) => ({ slug: g.frontmatter.slug }));
@@ -35,9 +37,17 @@ export default function GamePage({ params }: { params: { slug: string } }) {
   if (!item) notFound();
 
   const game = item.frontmatter;
-  const guilds = getRelatedGuildsForGame(game.slug);
+  const orgs = getEsportsOrgsForGame(game.slug);
+  const tournaments = getTournamentsForGame(game.slug);
+  const upcomingTournaments = tournaments.filter((t) => t.frontmatter.status !== 'completed' && t.frontmatter.status !== 'cancelled');
   const articles = getRelatedArticlesForGame(game.slug);
-  const legends = getRelatedLegendsForGame(game.slug);
+  const allGames = getAllGames().map((g) => g.frontmatter);
+  const archivedGuilds = getRelatedGuildsForGame(game.slug);
+  const similarGames = allGames
+    .filter((g) => g.slug !== game.slug && g.category === game.category)
+    .filter((g) => g.status === 'active' || g.status === 'upcoming')
+    .sort((a, b) => (a.priority ?? 100) - (b.priority ?? 100))
+    .slice(0, 6);
 
   const breadcrumb = {
     '@context': 'https://schema.org',
@@ -155,24 +165,73 @@ export default function GamePage({ params }: { params: { slug: string } }) {
             </p>
           )}
 
-          <Section title="Guilds in this game" empty="No guild profiles yet. Submit one." href="/guilds/submit/">
-            {guilds.length > 0 && (
-              <ul className="divide-y divide-ink/10 border-t border-b border-ink/15 mt-4">
-                {guilds.map((g) => (
-                  <li key={g.frontmatter.slug} className="py-4">
+          {/* Orgs in this game (replaces v1 "Guilds in this game" per founder
+              direction 2026-04-26). Active esports orgs that field a roster
+              in this title, with logos. */}
+          <Section
+            title="Orgs in this game"
+            empty={
+              archivedGuilds.length > 0
+                ? 'No esports orgs field a roster here in 2026. Historical guild profiles for this title live in /archive/guilds/.'
+                : 'No esports orgs field a roster here yet.'
+            }
+          >
+            {orgs.length > 0 && (
+              <ul className="grid sm:grid-cols-2 gap-3 mt-4">
+                {orgs.map((o) => (
+                  <li key={o.frontmatter.slug}>
                     <Link
-                      href={`/guilds/${g.frontmatter.slug}/`}
-                      className="flex justify-between items-baseline gap-4 hover:text-accent transition"
+                      href={`/esports/orgs/${o.frontmatter.slug}/`}
+                      className="group surface border border-ink/15 hover:border-accent p-3 flex items-center gap-3 transition h-full"
                     >
-                      <div>
-                        <span className="font-serif text-xl">{g.frontmatter.name}</span>
-                        {g.frontmatter.aliases && g.frontmatter.aliases[0] && (
-                          <span className="font-serif text-base text-muted ml-2">({g.frontmatter.aliases[0]})</span>
-                        )}
+                      <LogoImg src={o.frontmatter.logo} name={o.frontmatter.name} size="sm" />
+                      <div className="min-w-0">
+                        <div className="font-display text-base font-bold text-ink group-hover:text-accent transition leading-tight truncate">
+                          {o.frontmatter.name}
+                        </div>
+                        <div className="font-mono text-[10px] uppercase tracking-widest text-muted mt-0.5">
+                          {o.frontmatter.country ?? 'International'} / {o.frontmatter.founded}
+                        </div>
                       </div>
-                      <span className="font-mono text-[11px] uppercase tracking-widest text-muted">
-                        {g.frontmatter.era}
-                      </span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </Section>
+
+          {/* Upcoming tournaments for this game, drawn from /content/tournaments/. */}
+          <Section
+            title="Tournaments"
+            empty={tournaments.length > 0 ? 'No upcoming events. Past results below.' : 'No tournaments scheduled.'}
+          >
+            {upcomingTournaments.length > 0 && (
+              <ul className="grid sm:grid-cols-2 gap-3 mt-4">
+                {upcomingTournaments.map((t) => (
+                  <li key={t.frontmatter.slug}>
+                    <Link
+                      href={`/esports/${t.frontmatter.slug}/`}
+                      className="group surface border border-ink/15 hover:border-accent p-3 flex flex-col gap-1 transition h-full"
+                    >
+                      <div className="flex items-center justify-between gap-2">
+                        <span className={`badge badge-${t.frontmatter.status === 'live' ? 'active' : 'upcoming'}`}>
+                          {t.frontmatter.status}
+                        </span>
+                        <span className="font-mono text-[10px] uppercase tracking-widest text-muted">
+                          {t.frontmatter.tier}
+                        </span>
+                      </div>
+                      <div className="font-display text-base font-bold text-ink group-hover:text-accent transition leading-tight">
+                        {t.frontmatter.name}
+                      </div>
+                      <div className="font-mono text-[10px] uppercase tracking-widest text-muted">
+                        {formatDate(t.frontmatter.date_start)} to {formatDate(t.frontmatter.date_end)}
+                      </div>
+                      {t.frontmatter.prize_pool_usd ? (
+                        <div className="font-mono text-[10px] uppercase tracking-widest text-signal">
+                          ${(t.frontmatter.prize_pool_usd / 1000).toLocaleString()}K prize pool
+                        </div>
+                      ) : null}
                     </Link>
                   </li>
                 ))}
@@ -197,22 +256,66 @@ export default function GamePage({ params }: { params: { slug: string } }) {
             )}
           </Section>
 
-          <Section title="Legends" empty="No Legends profiles tagged yet.">
-            {legends.length > 0 && (
-              <ul className="divide-y divide-ink/10 border-t border-b border-ink/15 mt-4">
-                {legends.map((l) => (
-                  <li key={l.frontmatter.slug} className="py-4">
-                    <Link href={`/legends/${l.frontmatter.slug}/`} className="block hover:text-accent transition">
-                      <div className="font-serif text-xl">{l.frontmatter.title}</div>
+          {similarGames.length > 0 && (
+            <Section title={`More ${game.category}`}>
+              <ul className="mt-4 grid grid-cols-2 sm:grid-cols-3 gap-3">
+                {similarGames.map((g) => (
+                  <li key={g.slug}>
+                    <Link href={`/games/${g.slug}/`} className="group block">
+                      <GameCover
+                        game={g}
+                        variant="poster"
+                        className="border border-ink/15 group-hover:border-accent transition"
+                      />
+                      <div className="mt-2">
+                        <div className="font-display text-sm font-semibold text-ink group-hover:text-accent transition leading-tight line-clamp-2">
+                          {g.name}
+                        </div>
+                        {g.activity_tier && (
+                          <div className="font-mono text-[9px] uppercase tracking-widest text-muted mt-0.5">
+                            {g.activity_tier}
+                          </div>
+                        )}
+                      </div>
                     </Link>
                   </li>
                 ))}
               </ul>
-            )}
-          </Section>
+            </Section>
+          )}
+
+          {archivedGuilds.length > 0 && (
+            <div className="mt-12 border-t border-ink/15 pt-6">
+              <div className="font-mono text-[10px] uppercase tracking-widest text-muted mb-2">From the archive</div>
+              <p className="font-serif text-base text-ink/75 leading-relaxed">
+                {archivedGuilds.length} historical {archivedGuilds.length === 1 ? 'guild' : 'guilds'} associated with this game.{' '}
+                <Link href="/archive/" className="text-accent hover:text-ink underline underline-offset-2">
+                  Browse the guild archive
+                </Link>
+                .
+              </p>
+            </div>
+          )}
         </div>
 
         <aside className="border-t lg:border-t-0 lg:border-l border-ink/15 pt-8 lg:pt-0 lg:pl-8">
+          {/* Quick scene snapshot */}
+          {(game.activity_tier || game.scene_status || game.player_count_signal) && (
+            <div className="mb-6 border border-ink/15 surface p-3">
+              <div className="font-mono text-[10px] uppercase tracking-widest text-accent mb-2">Scene snapshot</div>
+              {game.activity_tier && <SnapRow label="Activity" value={game.activity_tier} />}
+              {game.scene_status && <SnapRow label="Scene" value={game.scene_status} />}
+              {game.player_count_signal && <SnapRow label="Players" value={game.player_count_signal} />}
+              {game.last_major_patch && <SnapRow label="Last patch" value={formatDate(game.last_major_patch)} />}
+            </div>
+          )}
+
+          {game.scene_status_note && (
+            <p className="font-serif italic text-sm text-ink/80 mb-6 leading-relaxed">
+              {game.scene_status_note}
+            </p>
+          )}
+
           <Meta label="Developer" value={game.developer} />
           <Meta label="Publisher" value={game.publisher} />
           <Meta label="Released" value={String(game.release_year)} />
@@ -223,6 +326,9 @@ export default function GamePage({ params }: { params: { slug: string } }) {
           )}
           {game.sub_categories && game.sub_categories.length > 0 && (
             <Meta label="Tags" value={game.sub_categories.join(', ')} />
+          )}
+          {game.has_pro_scene && (
+            <Meta label="Pro scene" value={game.pro_scene_status} />
           )}
           {game.last_updated && <Meta label="Last updated" value={formatDate(game.last_updated)} />}
 
@@ -309,6 +415,15 @@ function QuickMeta({ label, value }: { label: string; value: string }) {
     <div>
       <div className="font-mono text-[10px] uppercase tracking-widest text-muted">{label}</div>
       <div className="font-serif text-base text-ink mt-0.5">{value}</div>
+    </div>
+  );
+}
+
+function SnapRow({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="flex justify-between items-baseline gap-2 py-1 border-b border-ink/10 last:border-0">
+      <span className="font-mono text-[10px] uppercase tracking-widest text-muted">{label}</span>
+      <span className="font-mono text-[11px] uppercase tracking-widest text-ink/85">{value}</span>
     </div>
   );
 }
