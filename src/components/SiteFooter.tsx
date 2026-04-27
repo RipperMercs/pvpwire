@@ -1,5 +1,13 @@
 import Link from 'next/link';
 
+// Sister sites strip. Cross-links to the small constellation PVPWire ships
+// alongside. Keep the list short and on-theme; PhreakFM is intentionally
+// excluded until it is more finished.
+const SISTER_SITES = [
+  { href: 'https://terminalfeed.io', label: 'Terminalfeed.io', tagline: 'Real-time data dashboard' },
+  { href: 'https://tensorfeed.ai', label: 'Tensorfeed.ai', tagline: 'AI news aggregator' },
+];
+
 export function SiteFooter() {
   return (
     <footer className="mt-24 border-t border-ink/15 surface text-ink">
@@ -14,6 +22,7 @@ export function SiteFooter() {
           <FooterCol title="Site" links={[
             { href: '/about', label: 'About' },
             { href: '/submit', label: 'Submit' },
+            { href: '/wifi/', label: 'Network test', external: true },
           ]}/>
           <FooterCol title="Feeds" links={[
             { href: '/rss.xml', label: 'RSS' },
@@ -21,7 +30,31 @@ export function SiteFooter() {
             { href: 'https://twitter.com/PVPWire', label: 'Contact', external: true },
           ]}/>
         </div>
+
         <div className="rule-thin" />
+
+        {/* Sister sites strip */}
+        <div className="pt-6 pb-6">
+          <div className="font-mono text-[10px] uppercase tracking-widest text-muted mb-3">Sister sites</div>
+          <ul className="flex flex-wrap gap-x-6 gap-y-2">
+            {SISTER_SITES.map((s) => (
+              <li key={s.href}>
+                <a
+                  href={s.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-display text-sm font-semibold text-ink hover:text-accent transition"
+                >
+                  {s.label}
+                  <span className="ml-2 font-serif font-normal text-xs text-muted">{s.tagline}</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div className="rule-thin" />
+
         <div className="pt-6 flex flex-col md:flex-row justify-between gap-3 font-mono text-[11px] uppercase tracking-widest text-muted">
           <div>A Ripper project</div>
           <div>(c) {new Date().getFullYear()} PVPWire</div>

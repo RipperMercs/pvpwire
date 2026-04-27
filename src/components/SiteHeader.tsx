@@ -11,6 +11,7 @@ import { ThemeToggle } from '@/components/ThemeToggle';
 // legacy stories, and v2.1+ highlights vault), not just historical overflow.
 const NAV_LINKS = [
   { href: '/', label: 'Home' },
+  { href: '/live', label: 'Live' },
   { href: '/games', label: 'Games' },
   { href: '/esports', label: 'Esports' },
   { href: '/news', label: 'News' },

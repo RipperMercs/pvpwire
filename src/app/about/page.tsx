@@ -1,11 +1,10 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { RipperGlyph } from '@/components/icons';
 import { buildMetadata } from '@/lib/seo';
 
 export const metadata: Metadata = buildMetadata({
   title: 'About PVPWire',
-  description: 'PVPWire is the hub for competitive PvP and esports. A Ripper project. Editorial standards, masthead, and how to contribute.',
+  description: 'PVPWire is the independent hub for competitive PvP and esports. Editorial standards, mission, and how to contribute.',
   path: '/about/',
 });
 
@@ -30,17 +29,6 @@ export default function AboutPage() {
         </p>
       </section>
 
-      <section className="border-t border-ink/15 pt-10 mb-12">
-        <h2 className="masthead-title text-3xl text-ink mb-8">The masthead</h2>
-
-        <MastheadEntry
-          glyph={<RipperGlyph size={36} />}
-          name="Ripper"
-          role="Founder"
-          bio="Ripper is the founder of PVPWire. Founder notes and major announcements ship under this byline; everything else is PVPWire Editorial."
-        />
-      </section>
-
       <section className="border-t border-ink/15 pt-10 mb-12 prose-editorial">
         <h2 className="masthead-title text-3xl text-ink">Editorial standards</h2>
         <p>
@@ -48,6 +36,9 @@ export default function AboutPage() {
         </p>
         <p>
           We do not attack people. We attack decisions, designs, patches, and bad takes. We name names when crediting. We do not name names when criticizing. The line is sharp.
+        </p>
+        <p>
+          New reporting publishes under PVPWire Editorial. Archive editorial preserves its original bylines (Flosium, Og, Flipper) for historical accuracy.
         </p>
         <p>
           The guild and esports databases are community-fed. Submissions go through editorial review before publication. We cite sources and timestamp everything we verify. If we get something wrong, we correct it visibly, with a note and a date.
@@ -60,32 +51,9 @@ export default function AboutPage() {
           Tips, corrections, guild submissions: <Link href="/submit/">/submit</Link>.
         </p>
         <p>
-          PVPWire is an independent project by Ripper.
+          PVPWire is an independent publication.
         </p>
       </section>
     </article>
-  );
-}
-
-function MastheadEntry({
-  glyph,
-  name,
-  role,
-  bio,
-}: {
-  glyph: React.ReactNode;
-  name: string;
-  role: string;
-  bio: string;
-}) {
-  return (
-    <div className="flex gap-6 mb-10 pb-10 border-b border-ink/10 last:border-0 last:pb-0">
-      <div className="text-accent shrink-0 mt-1">{glyph}</div>
-      <div>
-        <div className="font-mono text-[11px] uppercase tracking-widest text-accent">{role}</div>
-        <h3 className="masthead-title text-3xl text-ink mt-1 mb-3">{name}</h3>
-        <p className="font-serif text-lg text-ink/85 leading-relaxed">{bio}</p>
-      </div>
-    </div>
   );
 }

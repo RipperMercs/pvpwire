@@ -6,6 +6,9 @@
 //   GET  /api/game-runtime/{slug}     Section 22.4: live runtime data for a game (Steam current players + IGDB enrichment)
 //   GET  /api/org-runtime/{slug}      Section 22.4 Integration C: PandaScore team data (roster, recent + upcoming matches)
 //   GET  /api/tournament-runtime/{slug}  Section 22.4 Integration C: PandaScore tournament data (bracket, matches)
+//   GET  /api/trending-now               Section 22.5: live ranked list of "what is being played" (Twitch viewers + Steam players, refreshed every 30 min)
+//   GET  /api/live-now                   /live page snapshot: every catalog game with concurrent player counts (refreshed every 5 min)
+//   GET  /api/live-health                /live page freshness/health record
 //   POST /api/submit-guild            community guild submission queue
 //   POST /api/submit-game             community game submission queue
 //   GET  /api/admin/submissions       list pending submissions (admin token required)
@@ -23,9 +26,11 @@ import { fetchSteamSources, type SteamItemPayload } from './aggregator-steam';
 import { handleSubmission, listSubmissions } from './submissions';
 import { handleGameSubmission } from './submissions-game';
 import { postScheduled } from './twitter';
-import { refreshSteamPlayerCounts, getSteamPlayerCount } from './steam-players';
+import { getSteamPlayerCount } from './steam-players';
 import { refreshIgdbCatalog, getIgdbRecord } from './igdb';
 import { refreshPandascore, getOrgRuntime, getTournamentRuntime } from './pandascore';
+import { refreshTrending, getTrending } from './trending';
+import { refreshLiveSnapshot, getLiveSnapshot, getLiveHealth } from './live-snapshot';
 
 const NEWS_CACHE_KEY = 'news:editorial:latest';
 const REDDIT_CACHE_KEY = 'news:reddit:latest';
@@ -306,6 +311,22 @@ export default {
       return json({ tournament_slug: slug, data, fetched_at: data?.fetched_at ?? null }, 200, 300);
     }
 
+    if (url.pathname === '/api/trending-now' && req.method === 'GET') {
+      const data = await getTrending(env);
+      return json({ data, fetched_at: data?.fetched_at ?? null }, 200, 60);
+    }
+
+    if (url.pathname === '/api/live-now' && req.method === 'GET') {
+      const data = await getLiveSnapshot(env);
+      // Cache 30s at the edge: client polls every 60s anyway.
+      return json({ data, fetched_at: data?.fetched_at ?? null }, 200, 30);
+    }
+
+    if (url.pathname === '/api/live-health' && req.method === 'GET') {
+      const data = await getLiveHealth(env);
+      return json({ data }, 200, 30);
+    }
+
     if (url.pathname === '/api/submit-guild') {
       return handleSubmission(req, env);
     }
@@ -326,13 +347,15 @@ export default {
     const cron = event.cron;
     ctx.waitUntil(
       (async () => {
-        // 6-hour job: refresh Steam current-player counts.
-        if (cron === '0 */6 * * *') {
+        // 5-minute job: refresh /live snapshot. Also refreshes per-game
+        // Steam player KV records as a side effect, so the 6h cron that used
+        // to do that is retired.
+        if (cron === '*/5 * * * *') {
           try {
-            const result = await refreshSteamPlayerCounts(env);
-            console.log('steam players refresh', JSON.stringify(result));
+            const result = await refreshLiveSnapshot(env);
+            console.log('live snapshot refresh', JSON.stringify(result));
           } catch (e) {
-            console.error('steam players refresh failed', e);
+            console.error('live snapshot refresh failed', e);
           }
           return;
         }
@@ -359,7 +382,7 @@ export default {
           return;
         }
 
-        // Default 30-minute job: news caches + paced X post.
+        // Default 30-minute job: news caches + trending refresh + paced X post.
         try {
           await refreshEditorialCache(env);
         } catch (e) {
@@ -374,6 +397,12 @@ export default {
           await refreshSteamCache(env);
         } catch (e) {
           console.error('steam refresh failed', e);
+        }
+        try {
+          const result = await refreshTrending(env);
+          console.log('trending refresh', JSON.stringify(result));
+        } catch (e) {
+          console.error('trending refresh failed', e);
         }
         try {
           await postScheduled(env);

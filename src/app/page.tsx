@@ -10,6 +10,7 @@ import { formatDate, authorDisplay } from '@/lib/format';
 import { ArrowRightIcon } from '@/components/icons';
 import { GameCover } from '@/components/GameCover';
 import { LogoImg } from '@/components/LogoImg';
+import { LiveAndHotRail } from '@/components/LiveAndHotRail';
 
 export const dynamic = 'force-static';
 
@@ -97,8 +98,51 @@ export default function HomePage() {
     <>
       <div className="home-bg" aria-hidden />
 
-      {/* Section 1: Featured game showcase. Pinned via the `featured` flag on
-          GameFrontmatter; rotates as the founder pins different titles. */}
+      {/* Section 1: Lede band. The framing copy and stats ribbon, restored
+          to the top so the page leads with the brand statement. */}
+      <section className="border-b border-ink/15">
+        <div className="mx-auto max-w-page px-4 sm:px-6 py-10 sm:py-12">
+          <div className="font-mono text-[11px] uppercase tracking-[0.2em] text-accent mb-3">
+            The hub for competitive PvP and esports
+          </div>
+          <h2 className="masthead-title text-3xl sm:text-4xl text-ink text-balance max-w-3xl">
+            Live competitive PvP. The professional scene, current and indexed.
+          </h2>
+          <p className="font-serif text-lg text-ink/80 max-w-3xl mt-4 leading-relaxed">
+            Every notable PvP game tracked, the tournament calendar in one place, and a depth archive going back to the late 1990s.
+          </p>
+          <div className="mt-6 flex flex-wrap gap-3">
+            <Link
+              href="/games/"
+              className="inline-flex items-center gap-2 bg-ink text-paper px-5 py-3 font-mono text-[11px] uppercase tracking-widest hover:bg-accent hover:text-paper transition"
+            >
+              Browse the games <ArrowRightIcon size={12} />
+            </Link>
+            <Link
+              href="/esports/"
+              className="inline-flex items-center gap-2 border border-ink/30 hover:border-accent text-ink hover:text-accent px-5 py-3 font-mono text-[11px] uppercase tracking-widest transition"
+            >
+              See what is running this week <ArrowRightIcon size={12} />
+            </Link>
+          </div>
+          <div className="mt-8 flex flex-wrap gap-x-6 gap-y-2 font-mono text-[11px] uppercase tracking-widest text-muted">
+            <Link href="/games/" className="hover:text-accent transition">
+              <span className="text-ink font-semibold">{games.length}</span> games
+            </Link>
+            <Link href="/esports/" className="hover:text-accent transition">
+              <span className="text-ink font-semibold">{tournaments.length}</span> tournaments
+            </Link>
+            <Link href="/esports/orgs/" className="hover:text-accent transition">
+              <span className="text-ink font-semibold">{orgs.length}</span> orgs
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Section 2: Featured game showcase. Pinned via the `featured` flag on
+          GameFrontmatter; rotates as the founder pins different titles. Sits
+          above Live-and-Hot because the whole point of Featured is to push
+          one specific title to the top. */}
       {featured && (
         <section className="border-b border-ink/15">
           <div className="mx-auto max-w-page px-4 sm:px-6 py-12 sm:py-16">
@@ -149,48 +193,10 @@ export default function HomePage() {
         </section>
       )}
 
-      {/* Section 2: Lede band, demoted from top per founder direction. The
-          framing copy and stats ribbon now sit under the featured game. */}
-      <section className="border-b border-ink/15">
-        <div className="mx-auto max-w-page px-4 sm:px-6 py-10 sm:py-12">
-          <div className="font-mono text-[11px] uppercase tracking-[0.2em] text-accent mb-3">
-            The hub for competitive PvP and esports
-          </div>
-          <h2 className="masthead-title text-3xl sm:text-4xl text-ink text-balance max-w-3xl">
-            Live competitive PvP. The professional scene across CS2, Valorant, LoL, Dota 2, fighting games, Rainbow Six, Apex, Rocket League, and chess.
-          </h2>
-          <p className="font-serif text-lg text-ink/80 max-w-3xl mt-4 leading-relaxed">
-            Every notable PvP game tracked, the tournament calendar in one place, and a depth archive going back to the late 1990s.
-          </p>
-          <div className="mt-6 flex flex-wrap gap-3">
-            <Link
-              href="/games/"
-              className="inline-flex items-center gap-2 bg-ink text-paper px-5 py-3 font-mono text-[11px] uppercase tracking-widest hover:bg-accent hover:text-paper transition"
-            >
-              Browse the games <ArrowRightIcon size={12} />
-            </Link>
-            <Link
-              href="/esports/"
-              className="inline-flex items-center gap-2 border border-ink/30 hover:border-accent text-ink hover:text-accent px-5 py-3 font-mono text-[11px] uppercase tracking-widest transition"
-            >
-              See what is running this week <ArrowRightIcon size={12} />
-            </Link>
-          </div>
-          <div className="mt-8 flex flex-wrap gap-x-6 gap-y-2 font-mono text-[11px] uppercase tracking-widest text-muted">
-            <Link href="/games/" className="hover:text-accent transition">
-              <span className="text-ink font-semibold">{games.length}</span> games
-            </Link>
-            <Link href="/esports/" className="hover:text-accent transition">
-              <span className="text-ink font-semibold">{tournaments.length}</span> tournaments
-            </Link>
-            <Link href="/esports/orgs/" className="hover:text-accent transition">
-              <span className="text-ink font-semibold">{orgs.length}</span> orgs
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* Section 2: Live and Hot rail */}
+      {/* Section 3: Live and Hot rail. Hydrates client-side from the Worker
+          /api/trending-now endpoint (Twitch viewers + Steam concurrent
+          players, refreshed every 30 minutes). The manual `trending`-flagged
+          list is the SSR fallback for first paint and no-JS users. */}
       {liveAndHot.length > 0 && (
         <section className="border-b border-ink/15">
           <div className="mx-auto max-w-page px-4 sm:px-6 py-12">
@@ -200,39 +206,7 @@ export default function HomePage() {
               href="/games/"
               cta="All games"
             />
-            <div className="mt-6 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-              {liveAndHot.map((g) => (
-                <Link key={g.slug} href={`/games/${g.slug}/`} className="group block">
-                  <div className="relative">
-                    <GameCover
-                      game={g}
-                      variant="poster"
-                      className="border border-ink/15 group-hover:border-accent transition"
-                    />
-                    {g.scene_status && (
-                      <span className={`absolute top-1.5 left-1.5 badge badge-${g.scene_status === 'hot' ? 'accent' : 'active'} text-[9px]`}>
-                        {g.scene_status}
-                      </span>
-                    )}
-                  </div>
-                  <div className="mt-2">
-                    <div className="font-display text-base font-bold text-ink group-hover:text-accent transition leading-tight line-clamp-2">
-                      {g.name}
-                    </div>
-                    {g.activity_tier && (
-                      <div className="font-mono text-[9px] uppercase tracking-widest text-accent mt-1">
-                        {g.activity_tier}
-                      </div>
-                    )}
-                    {g.current_meta_note && (
-                      <p className="font-serif text-sm text-ink/75 mt-2 leading-snug line-clamp-3">
-                        {g.current_meta_note}
-                      </p>
-                    )}
-                  </div>
-                </Link>
-              ))}
-            </div>
+            <LiveAndHotRail fallback={liveAndHot} catalog={games} />
           </div>
         </section>
       )}

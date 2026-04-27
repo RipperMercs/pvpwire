@@ -1,0 +1,831 @@
+{
+  "games": [
+    {
+      "slug": "age-of-conan",
+      "name": "Age of Conan",
+      "category": "MMO PvP",
+      "activity_tier": "fading",
+      "steam_app_id": 440880
+    },
+    {
+      "slug": "age-of-empires-iv",
+      "name": "Age of Empires IV",
+      "category": "Strategy / Chess / Card",
+      "activity_tier": "casual",
+      "steam_app_id": 1466860
+    },
+    {
+      "slug": "aion",
+      "name": "Aion",
+      "category": "MMO PvP",
+      "activity_tier": "fading",
+      "steam_app_id": 1471980
+    },
+    {
+      "slug": "albion-online",
+      "name": "Albion Online",
+      "category": "MMO PvP",
+      "scene_status": "steady",
+      "activity_tier": "casual",
+      "steam_app_id": 761890
+    },
+    {
+      "slug": "anarchy-online",
+      "name": "Anarchy Online",
+      "category": "MMO PvP",
+      "activity_tier": "fading",
+      "steam_app_id": 233280
+    },
+    {
+      "slug": "apex-legends",
+      "name": "Apex Legends",
+      "category": "Battle Royale",
+      "scene_status": "steady",
+      "activity_tier": "casual",
+      "steam_app_id": 1172470
+    },
+    {
+      "slug": "arc-raiders",
+      "name": "ARC Raiders",
+      "category": "Extraction Shooter",
+      "scene_status": "hot",
+      "activity_tier": "live",
+      "steam_app_id": 2200520
+    },
+    {
+      "slug": "archeage",
+      "name": "ArcheAge",
+      "category": "MMO PvP",
+      "activity_tier": "fading",
+      "steam_app_id": 304030
+    },
+    {
+      "slug": "arena-breakout-infinite",
+      "name": "Arena Breakout: Infinite",
+      "category": "Extraction Shooter",
+      "activity_tier": "live",
+      "steam_app_id": 2966400
+    },
+    {
+      "slug": "asherons-call",
+      "name": "Asheron's Call",
+      "category": "MMO PvP",
+      "activity_tier": "dormant"
+    },
+    {
+      "slug": "atlas-reactor",
+      "name": "Atlas Reactor",
+      "category": "Arena / Class-based PvP",
+      "activity_tier": "dormant"
+    },
+    {
+      "slug": "battlefield-2042",
+      "name": "Battlefield 2042",
+      "category": "FPS / Tactical Shooter",
+      "activity_tier": "casual",
+      "steam_app_id": 1517290
+    },
+    {
+      "slug": "battlerite",
+      "name": "Battlerite",
+      "category": "Arena / Class-based PvP",
+      "activity_tier": "dormant",
+      "steam_app_id": 504370
+    },
+    {
+      "slug": "black-desert-online",
+      "name": "Black Desert Online",
+      "category": "MMO PvP",
+      "scene_status": "steady",
+      "activity_tier": "casual",
+      "steam_app_id": 582660
+    },
+    {
+      "slug": "brawlhalla",
+      "name": "Brawlhalla",
+      "category": "Fighting Game",
+      "activity_tier": "casual",
+      "steam_app_id": 291550
+    },
+    {
+      "slug": "call-of-duty",
+      "name": "Call of Duty (current)",
+      "category": "FPS / Tactical Shooter",
+      "activity_tier": "live"
+    },
+    {
+      "slug": "chess",
+      "name": "Chess",
+      "category": "Strategy / Chess / Card",
+      "scene_status": "hot",
+      "activity_tier": "fading"
+    },
+    {
+      "slug": "chivalry-2",
+      "name": "Chivalry 2",
+      "category": "Arena / Class-based PvP",
+      "activity_tier": "casual",
+      "steam_app_id": 1824220
+    },
+    {
+      "slug": "chivalry",
+      "name": "Chivalry: Medieval Warfare",
+      "category": "Arena / Class-based PvP",
+      "activity_tier": "fading",
+      "steam_app_id": 219640
+    },
+    {
+      "slug": "city-of-heroes",
+      "name": "City of Heroes",
+      "category": "Arena / Class-based PvP",
+      "activity_tier": "fading"
+    },
+    {
+      "slug": "conan-exiles",
+      "name": "Conan Exiles",
+      "category": "Sandbox / Open World PvP",
+      "activity_tier": "casual",
+      "steam_app_id": 440900
+    },
+    {
+      "slug": "counter-strike-2",
+      "name": "Counter-Strike 2",
+      "category": "FPS / Tactical Shooter",
+      "scene_status": "hot",
+      "activity_tier": "live",
+      "steam_app_id": 730
+    },
+    {
+      "slug": "crowfall",
+      "name": "Crowfall",
+      "category": "MMO PvP",
+      "activity_tier": "dormant"
+    },
+    {
+      "slug": "dark-age-of-camelot",
+      "name": "Dark Age of Camelot",
+      "category": "MMO PvP",
+      "activity_tier": "fading"
+    },
+    {
+      "slug": "dark-and-darker",
+      "name": "Dark and Darker",
+      "category": "Extraction Shooter",
+      "scene_status": "hot",
+      "activity_tier": "live",
+      "steam_app_id": 2437180
+    },
+    {
+      "slug": "darkfall-online",
+      "name": "Darkfall Online",
+      "category": "MMO PvP",
+      "activity_tier": "dormant"
+    },
+    {
+      "slug": "dayz",
+      "name": "DayZ",
+      "category": "Sandbox / Open World PvP",
+      "activity_tier": "casual",
+      "steam_app_id": 221100
+    },
+    {
+      "slug": "deadlock",
+      "name": "Deadlock",
+      "category": "Hero Shooter",
+      "activity_tier": "live"
+    },
+    {
+      "slug": "diablo-2",
+      "name": "Diablo II",
+      "category": "Arena / Class-based PvP",
+      "activity_tier": "fading"
+    },
+    {
+      "slug": "diablo-3",
+      "name": "Diablo III",
+      "category": "Arena / Class-based PvP",
+      "activity_tier": "fading"
+    },
+    {
+      "slug": "diablo-4",
+      "name": "Diablo IV",
+      "category": "Arena / Class-based PvP",
+      "scene_status": "steady",
+      "activity_tier": "live",
+      "steam_app_id": 2344520
+    },
+    {
+      "slug": "diablo-immortal",
+      "name": "Diablo Immortal",
+      "category": "MMO PvP",
+      "scene_status": "steady",
+      "activity_tier": "casual",
+      "steam_app_id": 2344740
+    },
+    {
+      "slug": "diablo",
+      "name": "Diablo",
+      "category": "Arena / Class-based PvP",
+      "activity_tier": "fading"
+    },
+    {
+      "slug": "diabotical-rogue",
+      "name": "Diabotical Rogue",
+      "category": "Movement Shooter (Quake-lineage)",
+      "activity_tier": "live"
+    },
+    {
+      "slug": "dota-2",
+      "name": "Dota 2",
+      "category": "MOBA",
+      "scene_status": "steady",
+      "activity_tier": "fading",
+      "steam_app_id": 570
+    },
+    {
+      "slug": "dragon-ball-fighterz",
+      "name": "Dragon Ball FighterZ",
+      "category": "Fighting Game",
+      "activity_tier": "casual",
+      "steam_app_id": 678950
+    },
+    {
+      "slug": "escape-from-tarkov",
+      "name": "Escape from Tarkov",
+      "category": "Extraction Shooter",
+      "scene_status": "steady",
+      "activity_tier": "casual"
+    },
+    {
+      "slug": "eve-online",
+      "name": "EVE Online",
+      "category": "MMO PvP",
+      "scene_status": "steady",
+      "activity_tier": "fading",
+      "steam_app_id": 8500
+    },
+    {
+      "slug": "everquest",
+      "name": "EverQuest",
+      "category": "MMO PvP",
+      "activity_tier": "fading",
+      "steam_app_id": 205710
+    },
+    {
+      "slug": "final-fantasy-xi",
+      "name": "Final Fantasy XI",
+      "category": "MMO PvP",
+      "activity_tier": "fading",
+      "steam_app_id": 39200
+    },
+    {
+      "slug": "final-fantasy-xiv",
+      "name": "Final Fantasy XIV",
+      "category": "Arena / Class-based PvP",
+      "scene_status": "steady",
+      "activity_tier": "fading",
+      "steam_app_id": 39210
+    },
+    {
+      "slug": "for-honor",
+      "name": "For Honor",
+      "category": "Fighting Game",
+      "activity_tier": "casual",
+      "steam_app_id": 304390
+    },
+    {
+      "slug": "fortnite",
+      "name": "Fortnite",
+      "category": "Battle Royale",
+      "activity_tier": "casual"
+    },
+    {
+      "slug": "foxhole",
+      "name": "Foxhole",
+      "category": "Sandbox / Open World PvP",
+      "activity_tier": "live",
+      "steam_app_id": 505460
+    },
+    {
+      "slug": "gran-turismo-7",
+      "name": "Gran Turismo 7",
+      "category": "Racing",
+      "activity_tier": "live"
+    },
+    {
+      "slug": "gta-online",
+      "name": "GTA Online",
+      "category": "Sandbox / Open World PvP",
+      "activity_tier": "fading",
+      "steam_app_id": 271590
+    },
+    {
+      "slug": "guild-wars-2",
+      "name": "Guild Wars 2",
+      "category": "Arena / Class-based PvP",
+      "activity_tier": "fading"
+    },
+    {
+      "slug": "guilty-gear-strive",
+      "name": "Guilty Gear Strive",
+      "category": "Fighting Game",
+      "activity_tier": "casual",
+      "steam_app_id": 1384160
+    },
+    {
+      "slug": "gwent",
+      "name": "Gwent: The Witcher Card Game",
+      "category": "Strategy / Chess / Card",
+      "activity_tier": "casual"
+    },
+    {
+      "slug": "h1z1",
+      "name": "H1Z1: King of the Kill",
+      "category": "Battle Royale",
+      "activity_tier": "dormant"
+    },
+    {
+      "slug": "hearthstone",
+      "name": "Hearthstone",
+      "category": "Strategy / Chess / Card",
+      "activity_tier": "fading"
+    },
+    {
+      "slug": "hell-let-loose",
+      "name": "Hell Let Loose",
+      "category": "FPS / Tactical Shooter",
+      "activity_tier": "casual",
+      "steam_app_id": 686810
+    },
+    {
+      "slug": "heroes-of-newerth",
+      "name": "Heroes of Newerth",
+      "category": "MOBA",
+      "activity_tier": "fading"
+    },
+    {
+      "slug": "heroes-of-the-storm",
+      "name": "Heroes of the Storm",
+      "category": "MOBA",
+      "activity_tier": "casual"
+    },
+    {
+      "slug": "hunt-showdown",
+      "name": "Hunt: Showdown",
+      "category": "Extraction Shooter",
+      "scene_status": "steady",
+      "activity_tier": "casual",
+      "steam_app_id": 594650
+    },
+    {
+      "slug": "iracing",
+      "name": "iRacing",
+      "category": "Racing",
+      "activity_tier": "fading",
+      "steam_app_id": 266410
+    },
+    {
+      "slug": "knight-online",
+      "name": "Knight Online",
+      "category": "MMO PvP",
+      "activity_tier": "fading"
+    },
+    {
+      "slug": "league-of-legends",
+      "name": "League of Legends",
+      "category": "MOBA",
+      "scene_status": "hot",
+      "activity_tier": "fading"
+    },
+    {
+      "slug": "lineage-2",
+      "name": "Lineage II",
+      "category": "MMO PvP",
+      "activity_tier": "fading"
+    },
+    {
+      "slug": "lineage",
+      "name": "Lineage",
+      "category": "MMO PvP",
+      "activity_tier": "fading"
+    },
+    {
+      "slug": "lost-ark",
+      "name": "Lost Ark",
+      "category": "MMO PvP",
+      "activity_tier": "casual",
+      "steam_app_id": 1599340
+    },
+    {
+      "slug": "magic-the-gathering-arena",
+      "name": "Magic: The Gathering Arena",
+      "category": "Strategy / Chess / Card",
+      "activity_tier": "casual",
+      "steam_app_id": 2141910
+    },
+    {
+      "slug": "marathon",
+      "name": "Marathon",
+      "category": "Extraction Shooter",
+      "scene_status": "hot",
+      "activity_tier": "live",
+      "steam_app_id": 2671250
+    },
+    {
+      "slug": "marvel-rivals",
+      "name": "Marvel Rivals",
+      "category": "Hero Shooter",
+      "scene_status": "hot",
+      "activity_tier": "live",
+      "steam_app_id": 2767030
+    },
+    {
+      "slug": "marvel-snap",
+      "name": "Marvel Snap",
+      "category": "Strategy / Chess / Card",
+      "activity_tier": "live",
+      "steam_app_id": 1997040
+    },
+    {
+      "slug": "mechabellum",
+      "name": "Mechabellum",
+      "category": "Auto-battler / Tactics",
+      "activity_tier": "live",
+      "steam_app_id": 669500
+    },
+    {
+      "slug": "meridian-59",
+      "name": "Meridian 59",
+      "category": "MMO PvP",
+      "activity_tier": "fading",
+      "steam_app_id": 215080
+    },
+    {
+      "slug": "mordhau",
+      "name": "Mordhau",
+      "category": "Arena / Class-based PvP",
+      "activity_tier": "casual",
+      "steam_app_id": 629760
+    },
+    {
+      "slug": "mortal-kombat-1",
+      "name": "Mortal Kombat 1",
+      "category": "Fighting Game",
+      "activity_tier": "live",
+      "steam_app_id": 1971870
+    },
+    {
+      "slug": "mortal-online-2",
+      "name": "Mortal Online 2",
+      "category": "MMO PvP",
+      "activity_tier": "live",
+      "steam_app_id": 1170950
+    },
+    {
+      "slug": "mu-online",
+      "name": "Mu Online",
+      "category": "MMO PvP",
+      "activity_tier": "fading"
+    },
+    {
+      "slug": "multiversus",
+      "name": "MultiVersus",
+      "category": "Fighting Game",
+      "activity_tier": "live",
+      "steam_app_id": 1818750
+    },
+    {
+      "slug": "naraka-bladepoint",
+      "name": "Naraka: Bladepoint",
+      "category": "Battle Royale",
+      "activity_tier": "casual",
+      "steam_app_id": 1203220
+    },
+    {
+      "slug": "new-world",
+      "name": "New World",
+      "category": "MMO PvP",
+      "scene_status": "declining",
+      "activity_tier": "casual",
+      "steam_app_id": 1063730
+    },
+    {
+      "slug": "nox",
+      "name": "Nox",
+      "category": "Arena / Class-based PvP",
+      "activity_tier": "dormant"
+    },
+    {
+      "slug": "overwatch-2",
+      "name": "Overwatch 2",
+      "category": "FPS / Tactical Shooter",
+      "scene_status": "steady",
+      "activity_tier": "live",
+      "steam_app_id": 2357570
+    },
+    {
+      "slug": "paladins",
+      "name": "Paladins",
+      "category": "Hero Shooter",
+      "activity_tier": "casual",
+      "steam_app_id": 444090
+    },
+    {
+      "slug": "path-of-exile",
+      "name": "Path of Exile",
+      "category": "Arena / Class-based PvP",
+      "scene_status": "steady",
+      "activity_tier": "fading",
+      "steam_app_id": 238960
+    },
+    {
+      "slug": "pax-dei",
+      "name": "Pax Dei",
+      "category": "MMO PvP",
+      "activity_tier": "live",
+      "steam_app_id": 2406770
+    },
+    {
+      "slug": "planetside-2",
+      "name": "PlanetSide 2",
+      "category": "FPS / Tactical Shooter",
+      "activity_tier": "fading",
+      "steam_app_id": 218230
+    },
+    {
+      "slug": "planetside",
+      "name": "PlanetSide",
+      "category": "FPS / Tactical Shooter",
+      "activity_tier": "dormant"
+    },
+    {
+      "slug": "pokemon-unite",
+      "name": "Pokemon Unite",
+      "category": "MOBA",
+      "activity_tier": "casual"
+    },
+    {
+      "slug": "pubg-battlegrounds",
+      "name": "PUBG: Battlegrounds",
+      "category": "Battle Royale",
+      "activity_tier": "casual",
+      "steam_app_id": 578080
+    },
+    {
+      "slug": "quake-champions",
+      "name": "Quake Champions",
+      "category": "Movement Shooter (Quake-lineage)",
+      "activity_tier": "casual",
+      "steam_app_id": 611500
+    },
+    {
+      "slug": "quake",
+      "name": "Quake",
+      "category": "Movement Shooter (Quake-lineage)",
+      "activity_tier": "fading",
+      "steam_app_id": 2310
+    },
+    {
+      "slug": "ragnarok-online",
+      "name": "Ragnarok Online",
+      "category": "MMO PvP",
+      "activity_tier": "fading"
+    },
+    {
+      "slug": "rainbow-six-siege",
+      "name": "Rainbow Six Siege",
+      "category": "FPS / Tactical Shooter",
+      "scene_status": "steady",
+      "activity_tier": "casual",
+      "steam_app_id": 359550
+    },
+    {
+      "slug": "realm-of-the-mad-god",
+      "name": "Realm of the Mad God",
+      "category": "MMO PvP",
+      "activity_tier": "fading",
+      "steam_app_id": 200210
+    },
+    {
+      "slug": "rocket-league",
+      "name": "Rocket League",
+      "category": "Racing",
+      "scene_status": "steady",
+      "activity_tier": "casual",
+      "steam_app_id": 252950
+    },
+    {
+      "slug": "runescape",
+      "name": "RuneScape",
+      "category": "MMO PvP",
+      "activity_tier": "fading"
+    },
+    {
+      "slug": "rust",
+      "name": "Rust",
+      "category": "Sandbox / Open World PvP",
+      "activity_tier": "casual",
+      "steam_app_id": 252490
+    },
+    {
+      "slug": "sea-of-thieves",
+      "name": "Sea of Thieves",
+      "category": "Sandbox / Open World PvP",
+      "activity_tier": "casual",
+      "steam_app_id": 1172620
+    },
+    {
+      "slug": "shadowbane",
+      "name": "Shadowbane",
+      "category": "MMO PvP",
+      "activity_tier": "dormant"
+    },
+    {
+      "slug": "smite-2",
+      "name": "Smite 2",
+      "category": "MOBA",
+      "activity_tier": "live",
+      "steam_app_id": 2437220
+    },
+    {
+      "slug": "spellbreak",
+      "name": "Spellbreak",
+      "category": "Battle Royale",
+      "activity_tier": "dormant"
+    },
+    {
+      "slug": "splitgate",
+      "name": "Splitgate",
+      "category": "Movement Shooter (Quake-lineage)",
+      "activity_tier": "casual",
+      "steam_app_id": 677620
+    },
+    {
+      "slug": "squad",
+      "name": "Squad",
+      "category": "FPS / Tactical Shooter",
+      "activity_tier": "casual",
+      "steam_app_id": 393380
+    },
+    {
+      "slug": "star-wars-galaxies",
+      "name": "Star Wars Galaxies",
+      "category": "MMO PvP",
+      "activity_tier": "dormant"
+    },
+    {
+      "slug": "star-wars-the-old-republic",
+      "name": "Star Wars: The Old Republic",
+      "category": "MMO PvP",
+      "activity_tier": "fading"
+    },
+    {
+      "slug": "starcraft-2",
+      "name": "StarCraft 2",
+      "category": "Strategy / Chess / Card",
+      "activity_tier": "fading"
+    },
+    {
+      "slug": "stick-fight",
+      "name": "Stick Fight: The Game",
+      "category": "Fighting Game",
+      "activity_tier": "casual",
+      "steam_app_id": 674940
+    },
+    {
+      "slug": "street-fighter-6",
+      "name": "Street Fighter 6",
+      "category": "Fighting Game",
+      "scene_status": "hot",
+      "activity_tier": "live",
+      "steam_app_id": 1364780
+    },
+    {
+      "slug": "subspace",
+      "name": "Subspace",
+      "category": "Arena / Class-based PvP",
+      "activity_tier": "fading"
+    },
+    {
+      "slug": "super-smash-bros-ultimate",
+      "name": "Super Smash Bros Ultimate",
+      "category": "Fighting Game",
+      "activity_tier": "casual"
+    },
+    {
+      "slug": "team-fortress-2",
+      "name": "Team Fortress 2",
+      "category": "FPS / Tactical Shooter",
+      "activity_tier": "fading",
+      "steam_app_id": 440
+    },
+    {
+      "slug": "teamfight-tactics",
+      "name": "Teamfight Tactics",
+      "category": "Auto-battler / Tactics",
+      "activity_tier": "casual"
+    },
+    {
+      "slug": "tekken-8",
+      "name": "Tekken 8",
+      "category": "Fighting Game",
+      "scene_status": "hot",
+      "activity_tier": "live",
+      "steam_app_id": 1778820
+    },
+    {
+      "slug": "tera",
+      "name": "TERA",
+      "category": "MMO PvP",
+      "activity_tier": "dormant",
+      "steam_app_id": 212740
+    },
+    {
+      "slug": "the-realm-online",
+      "name": "The Realm Online",
+      "category": "MMO PvP",
+      "activity_tier": "fading"
+    },
+    {
+      "slug": "throne-and-liberty",
+      "name": "Throne and Liberty",
+      "category": "MMO PvP",
+      "scene_status": "steady",
+      "activity_tier": "live",
+      "steam_app_id": 2429660
+    },
+    {
+      "slug": "tibia",
+      "name": "Tibia",
+      "category": "MMO PvP",
+      "activity_tier": "fading",
+      "steam_app_id": 1602970
+    },
+    {
+      "slug": "tribes-2",
+      "name": "Tribes 2",
+      "category": "Movement Shooter (Quake-lineage)",
+      "activity_tier": "fading"
+    },
+    {
+      "slug": "ultima-online",
+      "name": "Ultima Online",
+      "category": "MMO PvP",
+      "activity_tier": "fading"
+    },
+    {
+      "slug": "unreal-tournament",
+      "name": "Unreal Tournament",
+      "category": "Movement Shooter (Quake-lineage)",
+      "activity_tier": "fading"
+    },
+    {
+      "slug": "valorant",
+      "name": "Valorant",
+      "category": "FPS / Tactical Shooter",
+      "scene_status": "hot",
+      "activity_tier": "casual"
+    },
+    {
+      "slug": "warhammer-online",
+      "name": "Warhammer Online: Age of Reckoning",
+      "category": "MMO PvP",
+      "activity_tier": "dormant"
+    },
+    {
+      "slug": "warzone",
+      "name": "Warzone",
+      "category": "Battle Royale",
+      "activity_tier": "casual"
+    },
+    {
+      "slug": "wildstar",
+      "name": "WildStar",
+      "category": "MMO PvP",
+      "activity_tier": "dormant"
+    },
+    {
+      "slug": "world-of-warcraft",
+      "name": "World of Warcraft",
+      "category": "Arena / Class-based PvP",
+      "scene_status": "steady",
+      "activity_tier": "fading"
+    },
+    {
+      "slug": "wurm-online",
+      "name": "Wurm Online",
+      "category": "Sandbox / Open World PvP",
+      "activity_tier": "fading",
+      "steam_app_id": 1179680
+    },
+    {
+      "slug": "yserbius",
+      "name": "The Shadow of Yserbius",
+      "category": "MMO PvP",
+      "activity_tier": "dormant"
+    }
+  ],
+  "count": 121,
+  "with_steam": 71,
+  "generatedAt": "2026-04-27T06:35:55.407Z"
+}

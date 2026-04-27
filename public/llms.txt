@@ -4,6 +4,8 @@
 
 ## Authoritative pages
 - [Home](https://pvpwire.com/): live and hot games, current esports tournaments, latest news
+- [Live](https://pvpwire.com/live/): every PvP game ranked by current concurrent players, refreshed every 5 minutes via Steam Web API and Twitch Helix API
+- [Wifi](https://pvpwire.com/wifi/): browser-based gaming network test (ping, jitter, packet loss, DNS, download/upload). No app required. Built for competitive gamers.
 - [Games](https://pvpwire.com/games/): every notable competitive PvP game, indexed across thirteen genre categories
 - [Esports](https://pvpwire.com/esports/): tournaments, esports organizations, calendar
 - [News](https://pvpwire.com/news/): aggregated cross-source feed plus original PVPWire articles
@@ -25,11 +27,11 @@
 ## Editorial standards
 - No em dashes anywhere in published content
 - No generic emojis in UI
-- New content publishes under PVPWire Editorial or Ripper bylines
+- New content publishes under the PVPWire Editorial byline
 - Submissions are anonymous and moderated; sources are encouraged
 
 ## Contact
 - Tips: tips@pvpwire.com
 - Submissions: https://pvpwire.com/guilds/submit/
 
-PVPWire is an independent project by Ripper.
+PVPWire is an independent publication.

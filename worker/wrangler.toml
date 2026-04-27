@@ -26,12 +26,12 @@ binding = "BOT_LOG"
 id = "REPLACE_WITH_BOT_LOG_ID"
 
 # Cron triggers:
-#   "*/30 * * * *"  every 30 min: refresh news cache (editorial/Reddit/Steam) + paced X post
-#   "0 */6 * * *"   every 6 h:    refresh Steam current-player counts (Section 22.4 Integration A)
+#   "*/5 * * * *"   every 5 min:  refresh /live snapshot (Steam concurrent players for the catalog)
+#   "*/30 * * * *"  every 30 min: refresh news cache (editorial/Reddit/Steam) + trending + paced X post
 #   "0 4 * * 1"     weekly Mon 4: refresh IGDB enrichment (Integration B; no-op without IGDB creds)
 #   "0 5 * * *"     daily 5am:    refresh PandaScore tournaments + teams (Integration C; no-op without key)
 [triggers]
-crons = ["*/30 * * * *", "0 */6 * * *", "0 4 * * 1", "0 5 * * *"]
+crons = ["*/5 * * * *", "*/30 * * * *", "0 4 * * 1", "0 5 * * *"]
 
 [vars]
 # Public-safe variables. Secrets go via `wrangler secret put`.

@@ -28,7 +28,7 @@ interface FeedResponseV2 {
 }
 
 type Filter = 'all' | 'original' | 'aggregated';
-type AuthorFilter = 'all' | 'editorial' | 'ripper' | 'flosium' | 'og' | 'flipper';
+type AuthorFilter = 'all' | 'editorial' | 'flosium' | 'og' | 'flipper';
 
 const NEWS_API = process.env.NEXT_PUBLIC_NEWS_API ?? 'https://pvpwire-api.workers.dev/api/news';
 
@@ -154,7 +154,6 @@ export function NewsBrowser({ originals }: { originals: Original[] }) {
         >
           <option value="all">All authors</option>
           <option value="editorial">PVPWire Editorial</option>
-          <option value="ripper">Ripper</option>
           <option value="flosium">Flosium (legacy)</option>
           <option value="og">Og (legacy)</option>
           <option value="flipper">Flipper (legacy)</option>

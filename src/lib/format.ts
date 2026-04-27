@@ -20,15 +20,15 @@ export function formatYearRange(range: { start: number; end: number | 'active' }
   return `${range.start} to ${range.end}`;
 }
 
-// Display label for any byline value, including grandfathered persona names.
-// New content uses 'editorial' or 'ripper'; legacy values render the original
-// persona name for the archive surface and for any pre-pivot news article.
+// Display label for any byline value. New content uses 'editorial'. Legacy
+// archive content keeps its original persona name (Flosium / Og / Flipper).
+// The historical 'ripper' byline is folded into 'PVPWire Editorial' since
+// the publication does not surface a founder byline.
 export function authorDisplay(author: string): string {
   switch (author) {
     case 'editorial':
-      return 'PVPWire Editorial';
     case 'ripper':
-      return 'Ripper';
+      return 'PVPWire Editorial';
     case 'flosium':
       return 'Flosium';
     case 'og':

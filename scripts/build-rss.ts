@@ -70,8 +70,9 @@ function readTournaments(): Item[] {
 
 function authorName(a: string): string {
   switch (a) {
-    case 'editorial': return 'PVPWire Editorial';
-    case 'ripper': return 'Ripper';
+    case 'editorial':
+    case 'ripper':
+      return 'PVPWire Editorial';
     case 'flosium': return 'Flosium';
     case 'og': return 'Og';
     case 'flipper': return 'Flipper';
@@ -113,7 +114,7 @@ mkdirSync(join(PUB, 'rss'), { recursive: true });
 
 writeFileSync(
   join(PUB, 'rss.xml'),
-  buildFeed('PVPWire (full feed)', `${BASE}/rss.xml`, 'PVPWire news and esports tournament calendar. A Ripper project.', all)
+  buildFeed('PVPWire (full feed)', `${BASE}/rss.xml`, 'PVPWire news and esports tournament calendar.', all)
 );
 writeFileSync(
   join(PUB, 'rss/news.xml'),

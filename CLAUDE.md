@@ -4,7 +4,7 @@ This is the project context for Claude Code. The single source of truth for acti
 
 ## Project Overview
 
-PVPWire is the hub for competitive PvP and esports. Catalog of every notable PvP game, esports calendar of tournaments and orgs, news aggregator, plus an archive surface for guild lineage and legacy editorial. A Ripper project, independent.
+PVPWire is the hub for competitive PvP and esports. Catalog of every notable PvP game, esports calendar of tournaments and orgs, news aggregator, plus an archive surface for guild lineage and legacy editorial. Independent publication credited as "A Ripper project" in the footer only; do not surface a personal byline on bylines, the about page masthead, or article-level attribution. The publication-first framing dominates everything above the footer.
 
 - Domain: pvpwire.com
 - Stack: Next.js 14 (App Router) + Cloudflare Pages + Cloudflare Worker + KV
@@ -20,8 +20,9 @@ PVPWire is the hub for competitive PvP and esports. Catalog of every notable PvP
 4. **No raw user text passed to any LLM.** Always structured JSON with locked system prompts. (Currently moot since Ask Flosium is removed; rule retained for any future AI feature.)
 
 ### Bylines (post v2 pivot)
-- New content publishes under `editorial` (default; renders as "PVPWire Editorial") or `ripper` (founder; rare).
-- Legacy values `flosium`, `og`, `flipper` are valid only on grandfathered content (the 12 archived stories under `/content/archive/` and the existing news articles). Do not generate new content under those bylines.
+- New content publishes under `editorial` only (renders as "PVPWire Editorial"). Do not surface a personal founder byline anywhere user-facing.
+- The legacy `ripper` byline is preserved in the Author union for any pre-pivot MDX that already uses it, but `authorDisplay()` and the RSS author tag fold it into "PVPWire Editorial" so no public surface attributes content to a person.
+- Legacy values `flosium`, `og`, `flipper` are valid only on grandfathered archive content (the 14 archived stories under `/content/archive/`). Do not generate new content under those bylines.
 - Voice bibles for the retired personas live in `docs/voice-archive.md` for IP preservation only. They are not enforced on new content.
 
 ### Security
