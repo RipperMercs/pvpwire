@@ -22,7 +22,6 @@ export function SiteFooter() {
           <FooterCol title="Site" links={[
             { href: '/about', label: 'About' },
             { href: '/submit', label: 'Submit' },
-            { href: '/wifi/', label: 'Network test', external: true },
           ]}/>
           <FooterCol title="Feeds" links={[
             { href: '/rss.xml', label: 'RSS' },

@@ -9,13 +9,19 @@ import { ThemeToggle } from '@/components/ThemeToggle';
 // v2 pivot: primary nav. Archive promoted from footer to top nav per founder
 // direction 2026-04-26 since it is a real product surface (guild database,
 // legacy stories, and v2.1+ highlights vault), not just historical overflow.
-const NAV_LINKS = [
+//
+// `external: true` marks routes that are NOT Next.js pages (currently /wifi,
+// which is a static HTML tool living in /public/wifi/). Those render as plain
+// anchors so the browser does a full navigation; using next/link would try a
+// client-side transition and 404 since Next has no route for them.
+const NAV_LINKS: { href: string; label: string; external?: boolean }[] = [
   { href: '/', label: 'Home' },
   { href: '/live', label: 'Live' },
   { href: '/games', label: 'Games' },
   { href: '/esports', label: 'Esports' },
   { href: '/news', label: 'News' },
   { href: '/archive', label: 'Archive' },
+  { href: '/wifi/', label: 'WiFi', external: true },
 ];
 
 export function SiteHeader() {
@@ -39,16 +45,27 @@ export function SiteHeader() {
           </Link>
 
           <nav className="hidden lg:flex items-center gap-7" aria-label="Primary">
-            {NAV_LINKS.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className="nav-link"
-                aria-current={isActive(link.href) ? 'page' : undefined}
-              >
-                {link.label}
-              </Link>
-            ))}
+            {NAV_LINKS.map((link) =>
+              link.external ? (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  className="nav-link"
+                  aria-current={isActive(link.href) ? 'page' : undefined}
+                >
+                  {link.label}
+                </a>
+              ) : (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className="nav-link"
+                  aria-current={isActive(link.href) ? 'page' : undefined}
+                >
+                  {link.label}
+                </Link>
+              )
+            )}
           </nav>
 
           <div className="flex items-center gap-2">
@@ -67,17 +84,29 @@ export function SiteHeader() {
 
         {mobileOpen && (
           <nav className="lg:hidden border-t border-ink/15 py-4 flex flex-col gap-3" aria-label="Primary mobile">
-            {NAV_LINKS.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className="nav-link text-base py-1"
-                aria-current={isActive(link.href) ? 'page' : undefined}
-                onClick={() => setMobileOpen(false)}
-              >
-                {link.label}
-              </Link>
-            ))}
+            {NAV_LINKS.map((link) =>
+              link.external ? (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  className="nav-link text-base py-1"
+                  aria-current={isActive(link.href) ? 'page' : undefined}
+                  onClick={() => setMobileOpen(false)}
+                >
+                  {link.label}
+                </a>
+              ) : (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className="nav-link text-base py-1"
+                  aria-current={isActive(link.href) ? 'page' : undefined}
+                  onClick={() => setMobileOpen(false)}
+                >
+                  {link.label}
+                </Link>
+              )
+            )}
           </nav>
         )}
       </div>
