@@ -1,0 +1,361 @@
+{
+  "games": [
+    {
+      "slug": "age-of-conan",
+      "name": "Age of Conan",
+      "steam_app_id": 440880
+    },
+    {
+      "slug": "age-of-empires-iv",
+      "name": "Age of Empires IV",
+      "steam_app_id": 1466860
+    },
+    {
+      "slug": "aion",
+      "name": "Aion",
+      "steam_app_id": 1471980
+    },
+    {
+      "slug": "albion-online",
+      "name": "Albion Online",
+      "steam_app_id": 761890
+    },
+    {
+      "slug": "anarchy-online",
+      "name": "Anarchy Online",
+      "steam_app_id": 233280
+    },
+    {
+      "slug": "apex-legends",
+      "name": "Apex Legends",
+      "steam_app_id": 1172470
+    },
+    {
+      "slug": "arc-raiders",
+      "name": "ARC Raiders",
+      "steam_app_id": 2200520
+    },
+    {
+      "slug": "archeage",
+      "name": "ArcheAge",
+      "steam_app_id": 304030
+    },
+    {
+      "slug": "arena-breakout-infinite",
+      "name": "Arena Breakout: Infinite",
+      "steam_app_id": 2966400
+    },
+    {
+      "slug": "battlefield-2042",
+      "name": "Battlefield 2042",
+      "steam_app_id": 1517290
+    },
+    {
+      "slug": "battlerite",
+      "name": "Battlerite",
+      "steam_app_id": 504370
+    },
+    {
+      "slug": "black-desert-online",
+      "name": "Black Desert Online",
+      "steam_app_id": 582660
+    },
+    {
+      "slug": "brawlhalla",
+      "name": "Brawlhalla",
+      "steam_app_id": 291550
+    },
+    {
+      "slug": "chivalry-2",
+      "name": "Chivalry 2",
+      "steam_app_id": 1824220
+    },
+    {
+      "slug": "chivalry",
+      "name": "Chivalry: Medieval Warfare",
+      "steam_app_id": 219640
+    },
+    {
+      "slug": "conan-exiles",
+      "name": "Conan Exiles",
+      "steam_app_id": 440900
+    },
+    {
+      "slug": "counter-strike-2",
+      "name": "Counter-Strike 2",
+      "steam_app_id": 730
+    },
+    {
+      "slug": "dark-and-darker",
+      "name": "Dark and Darker",
+      "steam_app_id": 2437180
+    },
+    {
+      "slug": "dayz",
+      "name": "DayZ",
+      "steam_app_id": 221100
+    },
+    {
+      "slug": "diablo-4",
+      "name": "Diablo IV",
+      "steam_app_id": 2344520
+    },
+    {
+      "slug": "diablo-immortal",
+      "name": "Diablo Immortal",
+      "steam_app_id": 2344740
+    },
+    {
+      "slug": "dota-2",
+      "name": "Dota 2",
+      "steam_app_id": 570
+    },
+    {
+      "slug": "dragon-ball-fighterz",
+      "name": "Dragon Ball FighterZ",
+      "steam_app_id": 678950
+    },
+    {
+      "slug": "eve-online",
+      "name": "EVE Online",
+      "steam_app_id": 8500
+    },
+    {
+      "slug": "everquest",
+      "name": "EverQuest",
+      "steam_app_id": 205710
+    },
+    {
+      "slug": "final-fantasy-xi",
+      "name": "Final Fantasy XI",
+      "steam_app_id": 39200
+    },
+    {
+      "slug": "final-fantasy-xiv",
+      "name": "Final Fantasy XIV",
+      "steam_app_id": 39210
+    },
+    {
+      "slug": "for-honor",
+      "name": "For Honor",
+      "steam_app_id": 304390
+    },
+    {
+      "slug": "foxhole",
+      "name": "Foxhole",
+      "steam_app_id": 505460
+    },
+    {
+      "slug": "gta-online",
+      "name": "GTA Online",
+      "steam_app_id": 271590
+    },
+    {
+      "slug": "guilty-gear-strive",
+      "name": "Guilty Gear Strive",
+      "steam_app_id": 1384160
+    },
+    {
+      "slug": "hell-let-loose",
+      "name": "Hell Let Loose",
+      "steam_app_id": 686810
+    },
+    {
+      "slug": "hunt-showdown",
+      "name": "Hunt: Showdown",
+      "steam_app_id": 594650
+    },
+    {
+      "slug": "iracing",
+      "name": "iRacing",
+      "steam_app_id": 266410
+    },
+    {
+      "slug": "lost-ark",
+      "name": "Lost Ark",
+      "steam_app_id": 1599340
+    },
+    {
+      "slug": "magic-the-gathering-arena",
+      "name": "Magic: The Gathering Arena",
+      "steam_app_id": 2141910
+    },
+    {
+      "slug": "marathon",
+      "name": "Marathon",
+      "steam_app_id": 2671250
+    },
+    {
+      "slug": "marvel-rivals",
+      "name": "Marvel Rivals",
+      "steam_app_id": 2767030
+    },
+    {
+      "slug": "marvel-snap",
+      "name": "Marvel Snap",
+      "steam_app_id": 1997040
+    },
+    {
+      "slug": "mechabellum",
+      "name": "Mechabellum",
+      "steam_app_id": 669500
+    },
+    {
+      "slug": "meridian-59",
+      "name": "Meridian 59",
+      "steam_app_id": 215080
+    },
+    {
+      "slug": "mordhau",
+      "name": "Mordhau",
+      "steam_app_id": 629760
+    },
+    {
+      "slug": "mortal-kombat-1",
+      "name": "Mortal Kombat 1",
+      "steam_app_id": 1971870
+    },
+    {
+      "slug": "mortal-online-2",
+      "name": "Mortal Online 2",
+      "steam_app_id": 1170950
+    },
+    {
+      "slug": "multiversus",
+      "name": "MultiVersus",
+      "steam_app_id": 1818750
+    },
+    {
+      "slug": "naraka-bladepoint",
+      "name": "Naraka: Bladepoint",
+      "steam_app_id": 1203220
+    },
+    {
+      "slug": "new-world",
+      "name": "New World",
+      "steam_app_id": 1063730
+    },
+    {
+      "slug": "overwatch-2",
+      "name": "Overwatch 2",
+      "steam_app_id": 2357570
+    },
+    {
+      "slug": "paladins",
+      "name": "Paladins",
+      "steam_app_id": 444090
+    },
+    {
+      "slug": "path-of-exile",
+      "name": "Path of Exile",
+      "steam_app_id": 238960
+    },
+    {
+      "slug": "pax-dei",
+      "name": "Pax Dei",
+      "steam_app_id": 2406770
+    },
+    {
+      "slug": "planetside-2",
+      "name": "PlanetSide 2",
+      "steam_app_id": 218230
+    },
+    {
+      "slug": "pubg-battlegrounds",
+      "name": "PUBG: Battlegrounds",
+      "steam_app_id": 578080
+    },
+    {
+      "slug": "quake-champions",
+      "name": "Quake Champions",
+      "steam_app_id": 611500
+    },
+    {
+      "slug": "quake",
+      "name": "Quake",
+      "steam_app_id": 2310
+    },
+    {
+      "slug": "rainbow-six-siege",
+      "name": "Rainbow Six Siege",
+      "steam_app_id": 359550
+    },
+    {
+      "slug": "realm-of-the-mad-god",
+      "name": "Realm of the Mad God",
+      "steam_app_id": 200210
+    },
+    {
+      "slug": "rocket-league",
+      "name": "Rocket League",
+      "steam_app_id": 252950
+    },
+    {
+      "slug": "rust",
+      "name": "Rust",
+      "steam_app_id": 252490
+    },
+    {
+      "slug": "sea-of-thieves",
+      "name": "Sea of Thieves",
+      "steam_app_id": 1172620
+    },
+    {
+      "slug": "smite-2",
+      "name": "Smite 2",
+      "steam_app_id": 2437220
+    },
+    {
+      "slug": "splitgate",
+      "name": "Splitgate",
+      "steam_app_id": 677620
+    },
+    {
+      "slug": "squad",
+      "name": "Squad",
+      "steam_app_id": 393380
+    },
+    {
+      "slug": "stick-fight",
+      "name": "Stick Fight: The Game",
+      "steam_app_id": 674940
+    },
+    {
+      "slug": "street-fighter-6",
+      "name": "Street Fighter 6",
+      "steam_app_id": 1364780
+    },
+    {
+      "slug": "team-fortress-2",
+      "name": "Team Fortress 2",
+      "steam_app_id": 440
+    },
+    {
+      "slug": "tekken-8",
+      "name": "Tekken 8",
+      "steam_app_id": 1778820
+    },
+    {
+      "slug": "tera",
+      "name": "TERA",
+      "steam_app_id": 212740
+    },
+    {
+      "slug": "throne-and-liberty",
+      "name": "Throne and Liberty",
+      "steam_app_id": 2429660
+    },
+    {
+      "slug": "tibia",
+      "name": "Tibia",
+      "steam_app_id": 1602970
+    },
+    {
+      "slug": "wurm-online",
+      "name": "Wurm Online",
+      "steam_app_id": 1179680
+    }
+  ],
+  "count": 71,
+  "generatedAt": "2026-04-27T01:10:46.748Z"
+}
