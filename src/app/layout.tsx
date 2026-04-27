@@ -3,6 +3,7 @@ import { Inter, Source_Serif_4, JetBrains_Mono } from 'next/font/google';
 import './globals.css';
 import { SiteHeader } from '@/components/SiteHeader';
 import { SiteFooter } from '@/components/SiteFooter';
+import { organizationSchema, websiteSchema, jsonLdScript } from '@/lib/jsonld';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -61,6 +62,7 @@ export const metadata: Metadata = {
     title: 'PVPWire',
     description:
       'The competitive gaming reference. Games, guilds, and editorial.',
+    images: [{ url: '/og-default.svg', width: 1200, height: 630, alt: 'PVPWire' }],
   },
   twitter: {
     card: 'summary_large_image',
@@ -68,6 +70,7 @@ export const metadata: Metadata = {
     creator: '@PVPWire',
     title: 'PVPWire',
     description: 'The competitive gaming reference.',
+    images: ['/og-default.svg'],
   },
   robots: {
     index: true,
@@ -118,6 +121,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" data-theme="dark" className={`${inter.variable} ${sourceSerif.variable} ${mono.variable}`}>
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: jsonLdScript(organizationSchema()) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: jsonLdScript(websiteSchema()) }}
+        />
       </head>
       <body className="min-h-screen flex flex-col">
         <a

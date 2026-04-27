@@ -22,6 +22,12 @@
     "fetch-org-logos": "node scripts/fetch-org-logos.mjs",
     "fetch-game-screenshots": "node scripts/fetch-game-screenshots.mjs",
     "backfill-steam-app-ids": "node scripts/backfill-steam-app-ids.mjs",
+    "validate-schema": "node scripts/validate-schema.mjs",
+    "audit-links": "node scripts/audit-links.mjs",
+    "audit-urls": "node scripts/audit-urls.mjs",
+    "audit-meta": "node scripts/audit-meta.mjs",
+    "audit-headings": "node scripts/audit-headings.mjs",
+    "audit-seo": "npm run validate-schema && npm run audit-links && npm run audit-urls && npm run audit-meta && npm run audit-headings",
     "prebuild": "tsx scripts/build-search-index.ts && tsx scripts/build-rss.ts && tsx scripts/build-tournaments-json.ts && tsx scripts/build-steam-app-ids.ts"
   },
   "dependencies": {

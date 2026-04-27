@@ -2,20 +2,37 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { getAllEsportsOrgs } from '@/lib/content';
 import { LogoImg } from '@/components/LogoImg';
+import { buildMetadata, SITE_URL } from '@/lib/seo';
+import { collectionPageSchema, breadcrumbSchema, jsonLdScript } from '@/lib/jsonld';
 
-export const metadata: Metadata = {
-  title: 'Esports orgs',
+export const metadata: Metadata = buildMetadata({
+  title: 'Esports Organizations: Top Pro Teams',
   description:
     'The professional esports organizations index. Tier-1 multi-game brands, regional anchors, scene-specific specialists, and historical orgs across the global competitive scene.',
-};
+  path: '/esports/orgs/',
+});
 
 export default function EsportsOrgsPage() {
   const orgs = getAllEsportsOrgs();
   const active = orgs.filter((o) => o.frontmatter.status === 'active');
   const dissolved = orgs.filter((o) => o.frontmatter.status === 'dissolved');
 
+  const collection = collectionPageSchema({
+    name: 'Esports Organizations',
+    description: 'Professional esports organizations across the global competitive scene.',
+    url: `${SITE_URL}/esports/orgs/`,
+    itemUrls: orgs.map((o) => `${SITE_URL}/esports/orgs/${o.frontmatter.slug}/`),
+  });
+  const breadcrumb = breadcrumbSchema([
+    { name: 'Home', url: `${SITE_URL}/` },
+    { name: 'Esports', url: `${SITE_URL}/esports/` },
+    { name: 'Organizations', url: `${SITE_URL}/esports/orgs/` },
+  ]);
+
   return (
     <article>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdScript(collection) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdScript(breadcrumb) }} />
       <header className="border-b border-ink/15">
         <div className="mx-auto max-w-page px-4 sm:px-6 py-12 sm:py-16">
           <div className="font-mono text-[11px] uppercase tracking-widest text-accent mb-4">Organizations</div>

@@ -1,12 +1,15 @@
 import type { Metadata } from 'next';
 import { getAllArticles } from '@/lib/content';
 import { NewsBrowser } from '@/components/NewsBrowser';
+import { buildMetadata, SITE_URL } from '@/lib/seo';
+import { collectionPageSchema, breadcrumbSchema, jsonLdScript } from '@/lib/jsonld';
 
-export const metadata: Metadata = {
-  title: 'News',
+export const metadata: Metadata = buildMetadata({
+  title: 'Competitive PvP and Esports News',
   description:
-    'Original analysis from Flosium and Og, plus an aggregated cross-genre competitive gaming feed pulling from twenty editorial sources.',
-};
+    'Original PVPWire analysis plus an aggregated cross-genre competitive gaming feed: editorial RSS, Reddit subreddit posts, and Steam developer announcements. Filter by source.',
+  path: '/news/',
+});
 
 export default function NewsPage() {
   const originals = getAllArticles().map((a) => ({
@@ -14,8 +17,21 @@ export default function NewsPage() {
     excerpt: a.frontmatter.description,
   }));
 
+  const collection = collectionPageSchema({
+    name: 'Competitive PvP and Esports News',
+    description: 'Original analysis plus the aggregated cross-genre competitive gaming feed.',
+    url: `${SITE_URL}/news/`,
+    itemUrls: originals.map((o) => `${SITE_URL}/news/${o.slug}/`),
+  });
+  const breadcrumb = breadcrumbSchema([
+    { name: 'Home', url: `${SITE_URL}/` },
+    { name: 'News', url: `${SITE_URL}/news/` },
+  ]);
+
   return (
     <article>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdScript(collection) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdScript(breadcrumb) }} />
       <header className="border-b border-ink/15">
         <div className="mx-auto max-w-page px-4 sm:px-6 py-12 sm:py-16">
           <div className="font-mono text-[11px] uppercase tracking-widest text-accent mb-4">News</div>

@@ -11,6 +11,8 @@ import {
 import { formatDate, formatYearRange, guildStatusDisplay } from '@/lib/format';
 import { LineageTree } from '@/components/LineageTree';
 import { ExternalLinkIcon } from '@/components/icons';
+import { buildMetadata, ogImagePath, truncate, SITE_URL } from '@/lib/seo';
+import { guildOrganizationSchema, breadcrumbSchema, jsonLdScript } from '@/lib/jsonld';
 
 export async function generateStaticParams() {
   return getAllGuilds().map((g) => ({ slug: g.frontmatter.slug }));
@@ -20,12 +22,20 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   const item = getGuildBySlug(params.slug);
   if (!item) return { title: 'Not found' };
   const fm = item.frontmatter;
-  const description = fm.status_note || `${fm.name}, ${formatYearRange(fm.era_active)}. PVPWire guild profile.`;
-  return {
-    title: fm.name,
+  const primaryGameSlug = fm.games?.[0]?.game_slug;
+  const primaryGameLabel = primaryGameSlug ? primaryGameSlug.replace(/-/g, ' ') : 'PvP';
+  const title = `${fm.name}: ${primaryGameLabel} Guild Profile`;
+  const description = truncate(
+    fm.status_note ||
+    `${fm.name} guild profile. ${fm.era}-era PvP organization in ${primaryGameLabel}, notable members, lineage, and key moments. PVPWire archive.`
+  );
+  return buildMetadata({
+    title,
     description,
-    openGraph: { title: fm.name, description, type: 'profile' },
-  };
+    path: `/guilds/${fm.slug}/`,
+    ogImage: ogImagePath('guilds', fm.slug),
+    ogType: 'profile',
+  });
 }
 
 export default function GuildPage({ params }: { params: { slug: string } }) {
@@ -37,19 +47,17 @@ export default function GuildPage({ params }: { params: { slug: string } }) {
   const articles = getRelatedArticlesForGuild(guild.slug);
   const legends = getRelatedLegendsForGuild(guild.slug);
 
-  const breadcrumb = {
-    '@context': 'https://schema.org',
-    '@type': 'BreadcrumbList',
-    itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://pvpwire.com/' },
-      { '@type': 'ListItem', position: 2, name: 'Guilds', item: 'https://pvpwire.com/guilds/' },
-      { '@type': 'ListItem', position: 3, name: guild.name, item: `https://pvpwire.com/guilds/${guild.slug}/` },
-    ],
-  };
+  const breadcrumb = breadcrumbSchema([
+    { name: 'Home', url: `${SITE_URL}/` },
+    { name: 'Guilds', url: `${SITE_URL}/guilds/` },
+    { name: guild.name, url: `${SITE_URL}/guilds/${guild.slug}/` },
+  ]);
+  const orgSchema = guildOrganizationSchema(guild);
 
   return (
     <article>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdScript(orgSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdScript(breadcrumb) }} />
       <header className="border-b border-ink/15">
         <div className="mx-auto max-w-page px-4 sm:px-6 py-12">
           <Link href="/guilds/" className="font-mono text-[11px] uppercase tracking-widest text-accent hover:text-ink transition">

@@ -6,12 +6,15 @@ import { GAME_CATEGORIES } from '@/lib/schemas';
 import { GamesBrowser } from '@/components/GamesBrowser';
 import { GameCover } from '@/components/GameCover';
 import { ArrowRightIcon } from '@/components/icons';
+import { buildMetadata, SITE_URL } from '@/lib/seo';
+import { collectionPageSchema, breadcrumbSchema, jsonLdScript } from '@/lib/jsonld';
 
-export const metadata: Metadata = {
-  title: 'Games',
+export const metadata: Metadata = buildMetadata({
+  title: 'PvP Games Catalog: Every Notable Competitive Title',
   description:
-    'Every notable competitive PvP game, indexed across MMO PvP, MOBA, FPS, fighting games, chess, battle royale, extraction shooters, and more. Sorted by what is currently most contested.',
-};
+    'Cross-genre catalog of every notable competitive PvP game. MMO PvP, MOBA, FPS, fighting games, battle royale, extraction shooters, chess. Sorted by what is currently most contested.',
+  path: '/games/',
+});
 
 export default function GamesPage() {
   const games = getAllGames().map((g) => g.frontmatter);
@@ -19,8 +22,21 @@ export default function GamesPage() {
   const comingSoon = games.filter((g) => g.coming_soon || g.status === 'upcoming')
     .sort((a, b) => (a.priority ?? 100) - (b.priority ?? 100));
 
+  const collection = collectionPageSchema({
+    name: 'PvP Games Catalog',
+    description: 'Every notable competitive PvP game indexed across thirteen genres.',
+    url: `${SITE_URL}/games/`,
+    itemUrls: games.map((g) => `${SITE_URL}/games/${g.slug}/`),
+  });
+  const breadcrumb = breadcrumbSchema([
+    { name: 'Home', url: `${SITE_URL}/` },
+    { name: 'Games', url: `${SITE_URL}/games/` },
+  ]);
+
   return (
     <article>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdScript(collection) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdScript(breadcrumb) }} />
       <header className="border-b border-ink/15">
         <div className="mx-auto max-w-page px-4 sm:px-6 py-12 sm:py-16">
           <div className="font-mono text-[11px] uppercase tracking-widest text-accent mb-4">Games</div>

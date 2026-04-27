@@ -2,15 +2,30 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { getAllTournaments, getGameBySlug } from '@/lib/content';
 import { formatDate } from '@/lib/format';
+import { buildMetadata, SITE_URL } from '@/lib/seo';
+import { collectionPageSchema, breadcrumbSchema, jsonLdScript } from '@/lib/jsonld';
 
-export const metadata: Metadata = {
-  title: 'Esports calendar',
+export const metadata: Metadata = buildMetadata({
+  title: 'Esports Tournament Calendar 2026',
   description:
-    'Full filterable tournament calendar across CS2, Valorant, LoL, Dota 2, fighting games, R6, Apex, Rocket League, and chess.',
-};
+    'Full filterable tournament calendar across CS2, Valorant, LoL, Dota 2, fighting games, Rainbow Six, Apex, Rocket League, and chess. Schedule, prize pools, broadcast links.',
+  path: '/esports/calendar/',
+});
 
 export default function EsportsCalendarPage() {
   const tournaments = getAllTournaments();
+
+  const collection = collectionPageSchema({
+    name: 'Esports Tournament Calendar 2026',
+    description: 'Full filterable tournament calendar across the major competitive PvP scenes.',
+    url: `${SITE_URL}/esports/calendar/`,
+    itemUrls: tournaments.map((t) => `${SITE_URL}/esports/${t.frontmatter.slug}/`),
+  });
+  const breadcrumb = breadcrumbSchema([
+    { name: 'Home', url: `${SITE_URL}/` },
+    { name: 'Esports', url: `${SITE_URL}/esports/` },
+    { name: 'Calendar', url: `${SITE_URL}/esports/calendar/` },
+  ]);
 
   // Group by month for chronological scan.
   const byMonth = new Map<string, typeof tournaments>();
@@ -25,6 +40,8 @@ export default function EsportsCalendarPage() {
 
   return (
     <article>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdScript(collection) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdScript(breadcrumb) }} />
       <header className="border-b border-ink/15">
         <div className="mx-auto max-w-page px-4 sm:px-6 py-12 sm:py-16">
           <div className="font-mono text-[11px] uppercase tracking-widest text-accent mb-4">Calendar</div>

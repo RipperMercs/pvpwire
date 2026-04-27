@@ -9,6 +9,8 @@ import {
 } from '@/lib/content';
 import { ExternalLinkIcon } from '@/components/icons';
 import { LogoImg } from '@/components/LogoImg';
+import { buildMetadata, ogImagePath, truncate, SITE_URL } from '@/lib/seo';
+import { sportsOrganizationSchema, breadcrumbSchema, jsonLdScript } from '@/lib/jsonld';
 
 export async function generateStaticParams() {
   return getAllEsportsOrgs().map((o) => ({ slug: o.frontmatter.slug }));
@@ -18,11 +20,18 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   const item = getEsportsOrgBySlug(params.slug);
   if (!item) return { title: 'Not found' };
   const fm = item.frontmatter;
-  return {
-    title: fm.name,
-    description: fm.description_short,
-    openGraph: { title: fm.name, description: fm.description_short, type: 'profile' },
-  };
+  const title = `${fm.name}: Esports Organization Profile`;
+  const games = (fm.games || []).slice(0, 4).map((g) => g.game_slug.replace(/-/g, ' ')).join(', ');
+  const description = truncate(
+    `${fm.name} esports organization profile. Active rosters across ${games || 'multiple titles'}. Notable titles, recent tournament results. PVPWire esports.`
+  );
+  return buildMetadata({
+    title,
+    description,
+    path: `/esports/orgs/${fm.slug}/`,
+    ogImage: ogImagePath('esports-orgs', fm.slug),
+    ogType: 'profile',
+  });
 }
 
 export default function EsportsOrgPage({ params }: { params: { slug: string } }) {
@@ -30,20 +39,20 @@ export default function EsportsOrgPage({ params }: { params: { slug: string } })
   if (!item) notFound();
   const org = item.frontmatter;
 
-  const orgSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'SportsOrganization',
-    name: org.name,
-    foundingDate: String(org.founded),
-    url: `https://pvpwire.com/esports/orgs/${org.slug}/`,
-    sameAs: org.external_links?.map((l) => l.url) ?? [],
-  };
+  const orgSchema = sportsOrganizationSchema(org);
+  const breadcrumb = breadcrumbSchema([
+    { name: 'Home', url: `${SITE_URL}/` },
+    { name: 'Esports', url: `${SITE_URL}/esports/` },
+    { name: 'Organizations', url: `${SITE_URL}/esports/orgs/` },
+    { name: org.name, url: `${SITE_URL}/esports/orgs/${org.slug}/` },
+  ]);
 
   const tournaments = getTournamentsForOrg(org.slug);
 
   return (
     <article>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(orgSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdScript(orgSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdScript(breadcrumb) }} />
       <header className="border-b border-ink/15">
         <div className="mx-auto max-w-page px-4 sm:px-6 py-12">
           <Link href="/esports/orgs/" className="font-mono text-[11px] uppercase tracking-widest text-accent hover:text-ink transition">

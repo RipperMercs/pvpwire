@@ -1,10 +1,12 @@
 import type { Metadata } from 'next';
 import { GuildSubmitForm } from '@/components/GuildSubmitForm';
+import { buildMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'Submit a guild',
+export const metadata: Metadata = buildMetadata({
+  title: 'Submit a Guild',
   description: 'Add a new guild profile, edit an existing one, contribute a memory, or send a correction. Anonymous and reviewed.',
-};
+  path: '/guilds/submit/',
+});
 
 export default function GuildSubmitPage() {
   return (

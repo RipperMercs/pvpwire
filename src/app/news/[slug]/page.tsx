@@ -9,6 +9,8 @@ import {
 } from '@/lib/content';
 import { authorDisplay, formatDate, readingTime } from '@/lib/format';
 import { ArticleBody } from '@/components/ArticleBody';
+import { buildMetadata, ogImagePath, truncate, SITE_URL } from '@/lib/seo';
+import { newsArticleSchema, breadcrumbSchema, jsonLdScript } from '@/lib/jsonld';
 
 export async function generateStaticParams() {
   return getAllArticles().map((a) => ({ slug: a.frontmatter.slug }));
@@ -18,18 +20,16 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   const item = getArticleBySlug(params.slug);
   if (!item) return { title: 'Not found' };
   const fm = item.frontmatter;
-  return {
+  return buildMetadata({
     title: fm.title,
-    description: fm.description,
-    openGraph: {
-      title: fm.title,
-      description: fm.description,
-      type: 'article',
-      publishedTime: fm.published,
-      modifiedTime: fm.updated,
-      authors: [authorDisplay(fm.author)],
-    },
-  };
+    description: truncate(fm.description),
+    path: `/news/${fm.slug}/`,
+    ogImage: ogImagePath('news', fm.slug),
+    ogType: 'article',
+    publishedTime: fm.published,
+    modifiedTime: fm.updated,
+    authors: [authorDisplay(fm.author)],
+  });
 }
 
 export default function ArticlePage({ params }: { params: { slug: string } }) {
@@ -38,28 +38,20 @@ export default function ArticlePage({ params }: { params: { slug: string } }) {
   const fm = item.frontmatter;
   const minutes = readingTime(item.content);
 
-  const articleSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'Article',
-    headline: fm.title,
-    description: fm.description,
-    datePublished: fm.published,
-    dateModified: fm.updated || fm.published,
-    author: { '@type': 'Person', name: authorDisplay(fm.author) },
-    publisher: {
-      '@type': 'Organization',
-      name: 'PVPWire',
-      url: 'https://pvpwire.com',
-    },
-    mainEntityOfPage: `https://pvpwire.com/news/${fm.slug}/`,
-  };
+  const articleLd = newsArticleSchema(fm, authorDisplay(fm.author));
+  const breadcrumb = breadcrumbSchema([
+    { name: 'Home', url: `${SITE_URL}/` },
+    { name: 'News', url: `${SITE_URL}/news/` },
+    { name: fm.title, url: `${SITE_URL}/news/${fm.slug}/` },
+  ]);
 
   const relatedGames = (fm.related_games || []).map((s) => getGameBySlug(s)).filter(Boolean);
   const relatedGuilds = (fm.related_guilds || []).map((s) => getGuildBySlug(s)).filter(Boolean);
 
   return (
     <article>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdScript(articleLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdScript(breadcrumb) }} />
       <header className="border-b border-ink/15">
         <div className="mx-auto max-w-col px-4 sm:px-6 py-12">
           <Link href="/news/" className="font-mono text-[11px] uppercase tracking-widest text-accent hover:text-ink transition">

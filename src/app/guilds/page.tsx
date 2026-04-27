@@ -2,12 +2,15 @@ import type { Metadata } from 'next';
 import { getAllGuilds, getAllGames } from '@/lib/content';
 import { GuildsBrowser } from '@/components/GuildsBrowser';
 import { OgGuildsInfograph } from '@/components/OgGuildsInfograph';
+import { buildMetadata, SITE_URL } from '@/lib/seo';
+import { collectionPageSchema, breadcrumbSchema, jsonLdScript } from '@/lib/jsonld';
 
-export const metadata: Metadata = {
-  title: 'Guilds',
+export const metadata: Metadata = buildMetadata({
+  title: 'PvP Guild Database: Cross-Game Lineage and History',
   description:
-    'The canonical, cross-game, lineage-aware database of competitive PvP guilds across MMO history and modern competitive gaming.',
-};
+    'Canonical cross-game PvP guild database. Lineage trees, server history, and the people who shaped the eras from late 1990s MMO PvP through modern competitive gaming.',
+  path: '/guilds/',
+});
 
 export default function GuildsPage() {
   const guildsRaw = getAllGuilds();
@@ -17,8 +20,21 @@ export default function GuildsPage() {
 
   const ogGuilds = guilds.filter((g) => g.era === 'og' || g.era === 'classic');
 
+  const collection = collectionPageSchema({
+    name: 'PvP Guild Database',
+    description: 'Canonical cross-game PvP guild database with lineage trees and server history.',
+    url: `${SITE_URL}/guilds/`,
+    itemUrls: guilds.map((g) => `${SITE_URL}/guilds/${g.slug}/`),
+  });
+  const breadcrumb = breadcrumbSchema([
+    { name: 'Home', url: `${SITE_URL}/` },
+    { name: 'Guilds', url: `${SITE_URL}/guilds/` },
+  ]);
+
   return (
     <article>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdScript(collection) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdScript(breadcrumb) }} />
       <header className="border-b border-ink/15">
         <div className="mx-auto max-w-page px-4 sm:px-6 py-12 sm:py-16">
           <div className="font-mono text-[11px] uppercase tracking-widest text-accent mb-4">Guilds</div>

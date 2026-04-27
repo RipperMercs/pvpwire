@@ -3,12 +3,15 @@ import Link from 'next/link';
 import { getAllTournaments, getAllEsportsOrgs, getGameBySlug } from '@/lib/content';
 import { formatDate } from '@/lib/format';
 import { ArrowRightIcon } from '@/components/icons';
+import { buildMetadata, SITE_URL } from '@/lib/seo';
+import { collectionPageSchema, breadcrumbSchema, jsonLdScript } from '@/lib/jsonld';
 
-export const metadata: Metadata = {
-  title: 'Esports',
+export const metadata: Metadata = buildMetadata({
+  title: 'Esports Calendar 2026: Tournaments and Organizations',
   description:
-    'Competitive PvP esports hub. Tournament calendar, professional teams, and the live international scene across CS2, Valorant, LoL, Dota 2, fighting games, R6, Apex, Rocket League, and chess.',
-};
+    'Competitive PvP esports hub. Tournament calendar, professional teams, and the live international scene across CS2, Valorant, LoL, Dota 2, fighting games, Rainbow Six, Apex, Rocket League, and chess.',
+  path: '/esports/',
+});
 
 export default function EsportsPage() {
   const tournaments = getAllTournaments();
@@ -37,8 +40,21 @@ export default function EsportsPage() {
 
   const featuredOrgs = orgs.slice(0, 8);
 
+  const collection = collectionPageSchema({
+    name: 'Esports Calendar 2026',
+    description: 'Tournament calendar, organizations, and live competitive PvP across the major scenes.',
+    url: `${SITE_URL}/esports/`,
+    itemUrls: tournaments.map((t) => `${SITE_URL}/esports/${t.frontmatter.slug}/`),
+  });
+  const breadcrumb = breadcrumbSchema([
+    { name: 'Home', url: `${SITE_URL}/` },
+    { name: 'Esports', url: `${SITE_URL}/esports/` },
+  ]);
+
   return (
     <article>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdScript(collection) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdScript(breadcrumb) }} />
       <header className="border-b border-ink/15">
         <div className="mx-auto max-w-page px-4 sm:px-6 py-12 sm:py-16">
           <div className="font-mono text-[11px] uppercase tracking-widest text-accent mb-4">Esports</div>

@@ -8,8 +8,15 @@ export default function robots(): MetadataRoute.Robots {
         allow: '/',
         disallow: ['/admin/', '/api/'],
       },
+      {
+        userAgent: 'Googlebot-News',
+        allow: '/news/',
+      },
     ],
-    sitemap: 'https://pvpwire.com/sitemap.xml',
+    sitemap: [
+      'https://pvpwire.com/sitemap.xml',
+      'https://pvpwire.com/sitemap-news.xml',
+    ],
     host: 'https://pvpwire.com',
   };
 }

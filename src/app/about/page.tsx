@@ -1,12 +1,13 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { RipperGlyph } from '@/components/icons';
+import { buildMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'About',
-  description:
-    'PVPWire is the hub for competitive PvP and esports. A Ripper project.',
-};
+export const metadata: Metadata = buildMetadata({
+  title: 'About PVPWire',
+  description: 'PVPWire is the hub for competitive PvP and esports. A Ripper project. Editorial standards, masthead, and how to contribute.',
+  path: '/about/',
+});
 
 export default function AboutPage() {
   return (

@@ -9,6 +9,8 @@ import {
 } from '@/lib/content';
 import { formatDate } from '@/lib/format';
 import { ExternalLinkIcon } from '@/components/icons';
+import { buildMetadata, ogImagePath, truncate, SITE_URL } from '@/lib/seo';
+import { sportsEventSchema, breadcrumbSchema, jsonLdScript } from '@/lib/jsonld';
 
 export async function generateStaticParams() {
   return getAllTournaments().map((t) => ({ slug: t.frontmatter.slug }));
@@ -18,11 +20,20 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   const item = getTournamentBySlug(params.slug);
   if (!item) return { title: 'Not found' };
   const fm = item.frontmatter;
-  return {
-    title: fm.name,
-    description: fm.description_short,
-    openGraph: { title: fm.name, description: fm.description_short, type: 'article' },
-  };
+  const year = new Date(fm.date_start).getFullYear();
+  const game = getGameBySlug(fm.game_slug);
+  const title = `${fm.name}: Schedule, Bracket, Prize Pool`;
+  const description = truncate(
+    `${fm.name} ${year} schedule, format, prize pool, and participating organizations. ${game?.frontmatter.name ?? fm.game_slug} esports calendar from PVPWire.`
+  );
+  return buildMetadata({
+    title,
+    description,
+    path: `/esports/${fm.slug}/`,
+    ogImage: ogImagePath('esports', fm.slug),
+    ogType: 'article',
+    publishedTime: fm.date_start,
+  });
 }
 
 export default function TournamentPage({ params }: { params: { slug: string } }) {
@@ -31,26 +42,17 @@ export default function TournamentPage({ params }: { params: { slug: string } })
   const t = item.frontmatter;
   const game = getGameBySlug(t.game_slug);
 
-  const sportsEventSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'SportsEvent',
-    name: t.name,
-    startDate: t.date_start,
-    endDate: t.date_end,
-    eventStatus: t.status === 'live'
-      ? 'https://schema.org/EventScheduled'
-      : t.status === 'cancelled'
-        ? 'https://schema.org/EventCancelled'
-        : 'https://schema.org/EventScheduled',
-    location: t.location ? { '@type': 'Place', name: t.location } : undefined,
-    organizer: { '@type': 'Organization', name: t.organizer },
-    description: t.description_short,
-    url: `https://pvpwire.com/esports/${t.slug}/`,
-  };
+  const eventSchema = sportsEventSchema(t);
+  const breadcrumb = breadcrumbSchema([
+    { name: 'Home', url: `${SITE_URL}/` },
+    { name: 'Esports', url: `${SITE_URL}/esports/` },
+    { name: t.name, url: `${SITE_URL}/esports/${t.slug}/` },
+  ]);
 
   return (
     <article>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(sportsEventSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdScript(eventSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdScript(breadcrumb) }} />
       <header className="border-b border-ink/15">
         <div className="mx-auto max-w-page px-4 sm:px-6 py-12">
           <Link href="/esports/" className="font-mono text-[11px] uppercase tracking-widest text-accent hover:text-ink transition">

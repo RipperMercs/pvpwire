@@ -13,6 +13,8 @@ import { authorDisplay, formatDate } from '@/lib/format';
 import { CategoryGlyph, ExternalLinkIcon, ArrowRightIcon } from '@/components/icons';
 import { GameCover } from '@/components/GameCover';
 import { LogoImg } from '@/components/LogoImg';
+import { buildMetadata, ogImagePath, truncate, SITE_URL } from '@/lib/seo';
+import { videoGameSchema, breadcrumbSchema, jsonLdScript } from '@/lib/jsonld';
 
 export async function generateStaticParams() {
   return getAllGames().map((g) => ({ slug: g.frontmatter.slug }));
@@ -21,15 +23,17 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
   const item = getGameBySlug(params.slug);
   if (!item) return { title: 'Not found' };
-  return {
-    title: item.frontmatter.name,
-    description: item.frontmatter.description_short,
-    openGraph: {
-      title: item.frontmatter.name,
-      description: item.frontmatter.description_short,
-      type: 'article',
-    },
-  };
+  const fm = item.frontmatter;
+  const title = `${fm.name} PvP: Modes, Pro Scene, and Orgs`;
+  const description = truncate(
+    `${fm.name} PvP profile. ${fm.pvp_modes.slice(0, 3).join(', ')}. ${fm.has_pro_scene ? 'Pro scene active.' : 'Community-driven scene.'} Cross-genre PvP catalog from PVPWire.`
+  );
+  return buildMetadata({
+    title,
+    description,
+    path: `/games/${fm.slug}/`,
+    ogImage: ogImagePath('games', fm.slug),
+  });
 }
 
 export default function GamePage({ params }: { params: { slug: string } }) {
@@ -49,22 +53,17 @@ export default function GamePage({ params }: { params: { slug: string } }) {
     .sort((a, b) => (a.priority ?? 100) - (b.priority ?? 100))
     .slice(0, 6);
 
-  const breadcrumb = {
-    '@context': 'https://schema.org',
-    '@type': 'BreadcrumbList',
-    itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://pvpwire.com/' },
-      { '@type': 'ListItem', position: 2, name: 'Games', item: 'https://pvpwire.com/games/' },
-      { '@type': 'ListItem', position: 3, name: game.name, item: `https://pvpwire.com/games/${game.slug}/` },
-    ],
-  };
+  const breadcrumb = breadcrumbSchema([
+    { name: 'Home', url: `${SITE_URL}/` },
+    { name: 'Games', url: `${SITE_URL}/games/` },
+    { name: game.name, url: `${SITE_URL}/games/${game.slug}/` },
+  ]);
+  const gameSchema = videoGameSchema(game, game.cover_image);
 
   return (
     <article>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }}
-      />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdScript(gameSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdScript(breadcrumb) }} />
       <header className="border-b border-ink/15">
         <div className="mx-auto max-w-page px-4 sm:px-6 py-8 sm:py-12">
           <Link

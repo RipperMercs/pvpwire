@@ -2,20 +2,36 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { getAllArchivedStories, getAllGuilds } from '@/lib/content';
 import { authorDisplay, formatDate } from '@/lib/format';
+import { buildMetadata, SITE_URL } from '@/lib/seo';
+import { collectionPageSchema, breadcrumbSchema, jsonLdScript } from '@/lib/jsonld';
 
-export const metadata: Metadata = {
-  title: 'Archive',
+export const metadata: Metadata = buildMetadata({
+  title: 'Archive: PvP Guilds, Stories, and History',
   description:
     'PVPWire archive. Historical guild profiles, legacy editorial pieces, and the lineage map of competitive PvP from the late 1990s through the modern esports era.',
-};
+  path: '/archive/',
+});
 
 export default function ArchivePage() {
   const stories = getAllArchivedStories();
   const guilds = getAllGuilds();
   const ogGuilds = guilds.filter((g) => g.frontmatter.era === 'og').length;
 
+  const collection = collectionPageSchema({
+    name: 'PVPWire Archive',
+    description: 'Historical guild profiles, legacy editorial, and the lineage map of competitive PvP.',
+    url: `${SITE_URL}/archive/`,
+    itemUrls: stories.map((s) => `${SITE_URL}/archive/${s.frontmatter.slug}/`),
+  });
+  const breadcrumb = breadcrumbSchema([
+    { name: 'Home', url: `${SITE_URL}/` },
+    { name: 'Archive', url: `${SITE_URL}/archive/` },
+  ]);
+
   return (
     <article>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdScript(collection) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdScript(breadcrumb) }} />
       <header className="border-b border-ink/15">
         <div className="mx-auto max-w-page px-4 sm:px-6 py-12 sm:py-16">
           <div className="font-mono text-[11px] uppercase tracking-widest text-accent mb-4">Archive</div>

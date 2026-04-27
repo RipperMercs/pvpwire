@@ -1,12 +1,13 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowRightIcon } from '@/components/icons';
+import { buildMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'Submit',
-  description:
-    'Submit a guild profile, edit, memory, or correction. Anonymous and moderated.',
-};
+export const metadata: Metadata = buildMetadata({
+  title: 'Submit to PVPWire',
+  description: 'Submit a guild, a game, or a news tip. Anonymous and moderated. Editorial reviews each submission before publication.',
+  path: '/submit/',
+});
 
 export default function SubmitPage() {
   return (
