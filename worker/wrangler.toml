@@ -5,25 +5,26 @@ compatibility_flags = ["nodejs_compat"]
 
 # Workers AI binding removed in v2 pivot Step 3 (Ask Flosium retired).
 
-# KV namespaces.
-# Run: wrangler kv:namespace create NEWS_CACHE  to populate the IDs below.
+# KV namespaces. Created via `wrangler kv namespace create <NAME>` on
+# 2026-04-27. IDs are not secrets (they're identifiers, not credentials);
+# Cloudflare account auth is required to read or write.
 [[kv_namespaces]]
 binding = "NEWS_CACHE"
-id = "REPLACE_WITH_NEWS_CACHE_ID"
+id = "444f6a75339b49a3b4f4fa8a42c4e923"
 
 [[kv_namespaces]]
 binding = "SUBMISSIONS"
-id = "REPLACE_WITH_SUBMISSIONS_ID"
+id = "e5edd77e3cf2438088cfda26be98393c"
 
 # RATE_LIMIT KV is shared with the X bot (worker/src/twitter.ts paces posts via this namespace).
 # Step 3 removed the Ask Flosium consumer of this namespace; the X bot consumer remains.
 [[kv_namespaces]]
 binding = "RATE_LIMIT"
-id = "REPLACE_WITH_RATE_LIMIT_ID"
+id = "a135692e19b44b3a8e542b679c93c6ed"
 
 [[kv_namespaces]]
 binding = "BOT_LOG"
-id = "REPLACE_WITH_BOT_LOG_ID"
+id = "e29611381e8040a2b13ad7160b568e5a"
 
 # Cron triggers:
 #   "*/5 * * * *"   every 5 min:  refresh /live snapshot (Steam concurrent players for the catalog)
