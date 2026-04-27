@@ -21,8 +21,9 @@ const USER_AGENT = 'PVPWireBot/1.0 (https://pvpwire.com; tips@pvpwire.com)';
 const STEAM_API = (appId) =>
   `https://store.steampowered.com/api/appdetails?appids=${appId}&filters=screenshots`;
 
-// Tunable: how many screenshots per game to download.
-const PER_GAME = 4;
+// Tunable: how many screenshots per game to download. 3 keeps the gallery
+// grid (lg:grid-cols-3) at one clean row on desktop with no orphan tile.
+const PER_GAME = 3;
 // Polite delay between Steam API hits.
 const RATE_LIMIT_MS = 800;
 
