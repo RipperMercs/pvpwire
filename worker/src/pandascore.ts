@@ -20,6 +20,7 @@
 
 import type { Env } from './types';
 import { runtimeKeys } from './runtime-data-shim';
+import pandascoreIndex from './data/pandascore-ids.json';
 
 const PANDASCORE_BASE = 'https://api.pandascore.co';
 const CACHE_TTL_SECONDS = 60 * 60 * 24 * 3; // 3 days
@@ -102,19 +103,9 @@ function hasKey(env: Env): boolean {
   return Boolean(env.PANDASCORE_API_KEY);
 }
 
-async function fetchIndex(env: Env): Promise<PandascoreIndex> {
-  const ctrl = new AbortController();
-  const timer = setTimeout(() => ctrl.abort(), REQUEST_TIMEOUT_MS);
-  try {
-    const res = await fetch(`${env.SITE_URL}/pandascore-ids.json`, {
-      headers: { 'User-Agent': env.USER_AGENT },
-      signal: ctrl.signal,
-    });
-    if (!res.ok) throw new Error(`pandascore-ids.json HTTP ${res.status}`);
-    return res.json();
-  } finally {
-    clearTimeout(timer);
-  }
+// Bundled at build time. Index refreshes require a Worker redeploy.
+async function fetchIndex(_env: Env): Promise<PandascoreIndex> {
+  return pandascoreIndex as PandascoreIndex;
 }
 
 async function ps<T>(env: Env, path: string): Promise<T> {

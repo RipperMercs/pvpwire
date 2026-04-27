@@ -7,6 +7,7 @@
 //   GET https://api.steampowered.com/ISteamNews/GetNewsForApp/v0002/?appid=N&count=5&format=json
 
 import type { Env } from './types';
+import steamAppIds from './data/steam-app-ids.json';
 
 export interface SteamItemPayload {
   source_type: 'steam';
@@ -51,20 +52,12 @@ function hashFor(gid: string): string {
   return `s:${gid}`;
 }
 
-async function fetchCatalogGames(env: Env, timeoutMs = 8000): Promise<CatalogGameRef[]> {
-  const ctrl = new AbortController();
-  const timer = setTimeout(() => ctrl.abort(), timeoutMs);
-  try {
-    const res = await fetch(`${env.SITE_URL}/steam-app-ids.json`, {
-      headers: { 'User-Agent': env.USER_AGENT },
-      signal: ctrl.signal,
-    });
-    if (!res.ok) throw new Error(`steam-app-ids.json HTTP ${res.status}`);
-    const data = await res.json() as { games?: CatalogGameRef[] };
-    return data.games ?? [];
-  } finally {
-    clearTimeout(timer);
-  }
+// Bundled at build time via scripts/sync-worker-data.mjs (see
+// package.json's worker:deploy script). Catalog refreshes require a
+// Worker redeploy.
+async function fetchCatalogGames(_env: Env): Promise<CatalogGameRef[]> {
+  const games = (steamAppIds as { games?: { slug: string; name: string; steam_app_id?: number }[] }).games ?? [];
+  return games.filter((g): g is CatalogGameRef => typeof g.steam_app_id === 'number');
 }
 
 async function fetchOneGame(game: CatalogGameRef, userAgent: string, timeoutMs = 6000): Promise<SteamItemPayload[]> {

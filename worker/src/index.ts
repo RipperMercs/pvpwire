@@ -31,6 +31,7 @@ import { refreshIgdbCatalog, getIgdbRecord } from './igdb';
 import { refreshPandascore, getOrgRuntime, getTournamentRuntime } from './pandascore';
 import { refreshTrending, getTrending } from './trending';
 import { refreshLiveSnapshot, getLiveSnapshot, getLiveHealth } from './live-snapshot';
+import bundledTournaments from './data/tournaments.json';
 
 const NEWS_CACHE_KEY = 'news:editorial:latest';
 const REDDIT_CACHE_KEY = 'news:reddit:latest';
@@ -221,24 +222,15 @@ async function handleTournaments(env: Env): Promise<Response> {
   const cached = await env.NEWS_CACHE.get(TOURNAMENTS_CACHE_KEY, 'json');
   if (cached) return json(cached, 200, 300);
 
-  // Fetch the static JSON published with the Pages site at /tournaments.json.
-  try {
-    const res = await fetch(`${env.SITE_URL}/tournaments.json`, {
-      headers: { 'User-Agent': env.USER_AGENT },
-    });
-    if (!res.ok) {
-      return json({ error: 'tournaments_unavailable', status: res.status }, 502, 0);
-    }
-    const data = await res.json();
-    await env.NEWS_CACHE.put(
-      TOURNAMENTS_CACHE_KEY,
-      JSON.stringify(data),
-      { expirationTtl: TOURNAMENTS_CACHE_TTL_SECONDS }
-    );
-    return json(data, 200, 300);
-  } catch (e) {
-    return json({ error: 'tournaments_fetch_failed', message: String(e) }, 502, 0);
-  }
+  // Bundled at build time via scripts/sync-worker-data.mjs. Tournaments
+  // change rarely enough that requiring a Worker redeploy on update is fine.
+  const data = bundledTournaments;
+  await env.NEWS_CACHE.put(
+    TOURNAMENTS_CACHE_KEY,
+    JSON.stringify(data),
+    { expirationTtl: TOURNAMENTS_CACHE_TTL_SECONDS }
+  );
+  return json(data, 200, 300);
 }
 
 function unauthorized(): Response {

@@ -20,6 +20,7 @@
 
 import type { Env } from './types';
 import { runtimeKeys, type TrendingEntry, type TrendingPayload, type GameRuntimeData } from './runtime-data-shim';
+import steamAppIds from './data/steam-app-ids.json';
 
 const TRENDING_TTL_SECONDS = 60 * 60 * 24; // 24h fallback if cron stalls
 const TOP_N = 12;
@@ -57,20 +58,9 @@ function hasTwitchCreds(env: Env): boolean {
   return Boolean(env.IGDB_CLIENT_ID && env.IGDB_CLIENT_SECRET);
 }
 
-async function fetchCatalogGames(env: Env): Promise<CatalogGameRef[]> {
-  const ctrl = new AbortController();
-  const timer = setTimeout(() => ctrl.abort(), 8000);
-  try {
-    const res = await fetch(`${env.SITE_URL}/steam-app-ids.json`, {
-      headers: { 'User-Agent': env.USER_AGENT },
-      signal: ctrl.signal,
-    });
-    if (!res.ok) throw new Error(`steam-app-ids.json HTTP ${res.status}`);
-    const data = await res.json() as { games?: CatalogGameRef[] };
-    return data.games ?? [];
-  } finally {
-    clearTimeout(timer);
-  }
+// Bundled at build time. Catalog refreshes require a Worker redeploy.
+async function fetchCatalogGames(_env: Env): Promise<CatalogGameRef[]> {
+  return (steamAppIds as { games?: CatalogGameRef[] }).games ?? [];
 }
 
 async function getTwitchToken(env: Env): Promise<string> {

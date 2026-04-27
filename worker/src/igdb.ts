@@ -17,6 +17,7 @@
 
 import type { Env } from './types';
 import { runtimeKeys } from './runtime-data-shim';
+import steamAppIds from './data/steam-app-ids.json';
 
 const TOKEN_KV_KEY = 'igdb:oauth:token';
 const TOKEN_SAFETY_MARGIN_SECONDS = 60 * 60; // refresh 1h before expiry
@@ -80,22 +81,12 @@ function hasIgdbCreds(env: Env): boolean {
   return Boolean(env.IGDB_CLIENT_ID && env.IGDB_CLIENT_SECRET);
 }
 
-async function fetchCatalogGames(env: Env, timeoutMs = 8000): Promise<CatalogGameRef[]> {
-  const ctrl = new AbortController();
-  const timer = setTimeout(() => ctrl.abort(), timeoutMs);
-  try {
-    const res = await fetch(`${env.SITE_URL}/steam-app-ids.json`, {
-      headers: { 'User-Agent': env.USER_AGENT },
-      signal: ctrl.signal,
-    });
-    if (!res.ok) throw new Error(`steam-app-ids.json HTTP ${res.status}`);
-    const data = await res.json() as { games?: CatalogGameRef[] };
-    return (data.games ?? []).filter((g): g is CatalogGameRef & { igdb_id: number } =>
-      typeof g.igdb_id === 'number'
-    );
-  } finally {
-    clearTimeout(timer);
-  }
+// Bundled at build time. Catalog refreshes require a Worker redeploy.
+async function fetchCatalogGames(_env: Env): Promise<CatalogGameRef[]> {
+  const games = (steamAppIds as { games?: CatalogGameRef[] }).games ?? [];
+  return games.filter((g): g is CatalogGameRef & { igdb_id: number } =>
+    typeof g.igdb_id === 'number'
+  );
 }
 
 async function getAccessToken(env: Env): Promise<string> {

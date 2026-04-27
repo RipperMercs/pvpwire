@@ -24,6 +24,7 @@ import {
   type TrendingPayload,
   type GameRuntimeData,
 } from './runtime-data-shim';
+import liveCatalog from './data/live-catalog.json';
 
 const SNAPSHOT_TTL_SECONDS = 60 * 60 * 24;   // 24h fallback if cron stalls
 const HEALTH_TTL_SECONDS = 60 * 60 * 24 * 7; // 7d fallback
@@ -43,20 +44,12 @@ interface SteamPlayerCountResponse {
   response?: { player_count?: number; result?: number };
 }
 
-async function fetchCatalogIndex(env: Env): Promise<CatalogGameRef[]> {
-  const ctrl = new AbortController();
-  const timer = setTimeout(() => ctrl.abort(), 8000);
-  try {
-    const res = await fetch(`${env.SITE_URL}/live-catalog.json`, {
-      headers: { 'User-Agent': env.USER_AGENT },
-      signal: ctrl.signal,
-    });
-    if (!res.ok) throw new Error(`live-catalog.json HTTP ${res.status}`);
-    const data = await res.json() as { games?: CatalogGameRef[] };
-    return data.games ?? [];
-  } finally {
-    clearTimeout(timer);
-  }
+// Bundled-data path: the catalog index is imported at build time so the
+// Worker does not depend on a publicly reachable Pages site. To refresh
+// after MDX content changes, run `npm run worker:sync-data` (which
+// `worker:deploy` invokes automatically).
+async function fetchCatalogIndex(_env: Env): Promise<CatalogGameRef[]> {
+  return (liveCatalog as { games?: CatalogGameRef[] }).games ?? [];
 }
 
 async function fetchOneSteamCount(game: CatalogGameRef, userAgent: string): Promise<number | null> {

@@ -1,0 +1,478 @@
+{
+  "tournaments": [
+    {
+      "slug": "iem-katowice-2026",
+      "name": "IEM Katowice 2026",
+      "aliases": [
+        "Intel Extreme Masters Katowice 2026"
+      ],
+      "game_slug": "counter-strike-2",
+      "organizer": "ESL",
+      "tier": "tier1",
+      "format": "double-elimination",
+      "prize_pool_usd": 1000000,
+      "date_start": "2026-01-29T00:00:00.000Z",
+      "date_end": "2026-02-08T00:00:00.000Z",
+      "region": "international",
+      "location": "Katowice, Poland",
+      "venue": "Spodek Arena",
+      "status": "upcoming",
+      "broadcast_links": [
+        {
+          "name": "Twitch (ESL)",
+          "url": "https://www.twitch.tv/esl_csgo"
+        },
+        {
+          "name": "YouTube (ESL Counter-Strike)",
+          "url": "https://www.youtube.com/eslcs"
+        }
+      ],
+      "external_links": [
+        {
+          "name": "Liquipedia",
+          "url": "https://liquipedia.net/counterstrike/Intel_Extreme_Masters/2026/Katowice"
+        }
+      ],
+      "description_short": "First major CS2 event of 2026. Spodek Arena, Katowice, Poland. The traditional CS year-opener and one of the most prestigious non-Major CS events.",
+      "description_long": "IEM Katowice has been the traditional first major CS event of the calendar year since the early CS:GO era. The Spodek Arena setting in Katowice, Poland gives the event one of the most-cited live atmospheres in competitive CS history."
+    },
+    {
+      "slug": "champions-chess-tour-2026",
+      "name": "Champions Chess Tour 2026",
+      "aliases": [
+        "CCT 2026"
+      ],
+      "game_slug": "chess",
+      "organizer": "Chess.com",
+      "tier": "tier1",
+      "format": "other",
+      "prize_pool_usd": 2000000,
+      "date_start": "2026-02-01T00:00:00.000Z",
+      "date_end": "2026-12-15T00:00:00.000Z",
+      "region": "international",
+      "location": "Online plus LAN finals",
+      "status": "upcoming",
+      "broadcast_links": [
+        {
+          "name": "Twitch (Chess.com)",
+          "url": "https://www.twitch.tv/chess"
+        },
+        {
+          "name": "YouTube (Chess.com)",
+          "url": "https://www.youtube.com/chess"
+        }
+      ],
+      "external_links": [
+        {
+          "name": "Chess.com",
+          "url": "https://www.chess.com/events/champions-chess-tour-2026"
+        }
+      ],
+      "description_short": "Multi-event chess season run by Chess.com across the calendar year. Magnus Carlsen and the world top 10 in Division I.",
+      "description_long": "The Champions Chess Tour is a multi-event chess season run by Chess.com across the calendar year, with Division I featuring Magnus Carlsen, Hikaru Nakamura, Fabiano Caruana, and the rest of the world top 10. Format is a series of online events building to a year-end LAN final."
+    },
+    {
+      "slug": "six-invitational-2026",
+      "name": "Six Invitational 2026",
+      "aliases": [
+        "SI 2026"
+      ],
+      "game_slug": "rainbow-six-siege",
+      "organizer": "Ubisoft",
+      "tier": "tier1",
+      "format": "double-elimination",
+      "prize_pool_usd": 3000000,
+      "date_start": "2026-02-09T00:00:00.000Z",
+      "date_end": "2026-02-22T00:00:00.000Z",
+      "region": "international",
+      "location": "Sao Paulo, Brazil",
+      "status": "upcoming",
+      "broadcast_links": [
+        {
+          "name": "Twitch (Rainbow6)",
+          "url": "https://www.twitch.tv/rainbow6"
+        },
+        {
+          "name": "YouTube (Rainbow Six Esports)",
+          "url": "https://www.youtube.com/rainbow6esports"
+        }
+      ],
+      "external_links": [
+        {
+          "name": "Liquipedia",
+          "url": "https://liquipedia.net/rainbowsix/Six_Invitational/2026"
+        }
+      ],
+      "description_short": "Annual Rainbow Six Siege year-opener and the genre's defining event. February in Sao Paulo, Brazil. $3M+ prize pool.",
+      "description_long": "The Six Invitational is Rainbow Six Siege's annual flagship event and the year-opener for the R6 competitive calendar. The 2026 edition runs in Sao Paulo, Brazil with a $3M+ prize pool."
+    },
+    {
+      "slug": "cs-spring-major-2026",
+      "name": "CS2 Spring Major 2026",
+      "aliases": [
+        "PGL Bucharest Major 2026",
+        "BLAST Spring Major 2026"
+      ],
+      "game_slug": "counter-strike-2",
+      "organizer": "TBC",
+      "tier": "major",
+      "format": "swiss",
+      "prize_pool_usd": 1250000,
+      "date_start": "2026-03-01T00:00:00.000Z",
+      "date_end": "2026-03-22T00:00:00.000Z",
+      "region": "international",
+      "location": "TBC",
+      "status": "upcoming",
+      "broadcast_links": [
+        {
+          "name": "Twitch (PGL)",
+          "url": "https://www.twitch.tv/pgl"
+        }
+      ],
+      "external_links": [
+        {
+          "name": "Liquipedia (CS Majors)",
+          "url": "https://liquipedia.net/counterstrike/Majors"
+        }
+      ],
+      "description_short": "Spring CS Major 2026. The first Major of the calendar year and one of the two flagship CS events of the season. Operator and host city to be confirmed.",
+      "description_long": "CS Majors are the flagship competitive events for Counter-Strike, run by Valve-sanctioned tournament organizers (PGL, BLAST, ESL rotate). The Spring 2026 Major is the year's first Major; operator and host city to be confirmed at the time of authoring."
+    },
+    {
+      "slug": "vct-masters-spring-2026",
+      "name": "VCT Masters Spring 2026",
+      "aliases": [
+        "Valorant Masters Spring 2026"
+      ],
+      "game_slug": "valorant",
+      "organizer": "Riot Games",
+      "tier": "tier1",
+      "format": "double-elimination",
+      "prize_pool_usd": 500000,
+      "date_start": "2026-04-15T00:00:00.000Z",
+      "date_end": "2026-05-03T00:00:00.000Z",
+      "region": "international",
+      "location": "TBC",
+      "status": "upcoming",
+      "broadcast_links": [
+        {
+          "name": "Twitch (VALORANT Champions Tour)",
+          "url": "https://www.twitch.tv/valorant"
+        },
+        {
+          "name": "YouTube (VALORANT Esports)",
+          "url": "https://www.youtube.com/valorantesports"
+        }
+      ],
+      "external_links": [
+        {
+          "name": "Liquipedia (VCT)",
+          "url": "https://liquipedia.net/valorant/VCT"
+        }
+      ],
+      "description_short": "Mid-season Valorant tentpole between regional VCT splits and VCT Champions. April or May, host city TBC.",
+      "description_long": "VCT Masters is the mid-season Valorant international tentpole, slotting between the regional VCT split playoffs and the year-end VCT Champions. The Spring 2026 edition runs in April or May."
+    },
+    {
+      "slug": "esl-pro-league-s22",
+      "name": "ESL Pro League Season 22",
+      "aliases": [
+        "EPL S22"
+      ],
+      "game_slug": "counter-strike-2",
+      "organizer": "ESL",
+      "tier": "tier1",
+      "format": "league",
+      "prize_pool_usd": 850000,
+      "date_start": "2026-05-27T00:00:00.000Z",
+      "date_end": "2026-06-21T00:00:00.000Z",
+      "region": "international",
+      "location": "Stockholm, Sweden",
+      "status": "upcoming",
+      "broadcast_links": [
+        {
+          "name": "Twitch (ESL CS)",
+          "url": "https://www.twitch.tv/esl_csgo"
+        }
+      ],
+      "external_links": [
+        {
+          "name": "Liquipedia",
+          "url": "https://liquipedia.net/counterstrike/ESL_Pro_League/Season_22"
+        }
+      ],
+      "description_short": "ESL Pro League Season 22, the spring half of the year's main CS league competition. Stockholm studio.",
+      "description_long": "ESL Pro League is the year-round CS league competition that captures the in-between-Majors competitive structure for tier-1 Counter-Strike. Season 22 runs in the spring window with the standard round-robin group stage plus single-elimination playoffs at the ESL studio."
+    },
+    {
+      "slug": "ewc-2026",
+      "name": "Esports World Cup 2026",
+      "aliases": [
+        "EWC 2026",
+        "EWC Riyadh 2026"
+      ],
+      "game_slug": "counter-strike-2",
+      "secondary_games": [
+        "league-of-legends",
+        "dota-2",
+        "valorant",
+        "apex-legends",
+        "rocket-league",
+        "street-fighter-6",
+        "tekken-8",
+        "rainbow-six-siege",
+        "call-of-duty"
+      ],
+      "organizer": "Esports World Cup Foundation",
+      "tier": "major",
+      "format": "other",
+      "prize_pool_usd": 60000000,
+      "date_start": "2026-07-01T00:00:00.000Z",
+      "date_end": "2026-08-30T00:00:00.000Z",
+      "region": "mena",
+      "location": "Riyadh, Saudi Arabia",
+      "status": "upcoming",
+      "broadcast_links": [
+        {
+          "name": "Official site",
+          "url": "https://esportsworldcup.com"
+        }
+      ],
+      "external_links": [
+        {
+          "name": "Official site",
+          "url": "https://esportsworldcup.com"
+        }
+      ],
+      "description_short": "Multi-game cross-disciplinary tournament with $60M+ aggregate prize pool. Riyadh, Saudi Arabia. Saudi-funded; politically contentious.",
+      "description_long": "The Esports World Cup is a multi-game cross-disciplinary tournament held annually in Riyadh, Saudi Arabia. The aggregate prize pool of $60M+ across all titles makes it the largest single esports event by total prize money. Funded by the Saudi Public Investment Fund."
+    },
+    {
+      "slug": "evo-2026",
+      "name": "EVO 2026",
+      "aliases": [
+        "Evolution Championship Series 2026",
+        "EVO Las Vegas 2026"
+      ],
+      "game_slug": "street-fighter-6",
+      "secondary_games": [
+        "tekken-8",
+        "guilty-gear-strive",
+        "mortal-kombat-1",
+        "super-smash-bros-ultimate",
+        "dragon-ball-fighterz"
+      ],
+      "organizer": "Sony Interactive Entertainment / RTS",
+      "tier": "major",
+      "format": "double-elimination",
+      "prize_pool_usd": 1500000,
+      "date_start": "2026-08-07T00:00:00.000Z",
+      "date_end": "2026-08-09T00:00:00.000Z",
+      "region": "international",
+      "location": "Las Vegas, Nevada",
+      "venue": "Las Vegas Convention Center",
+      "status": "upcoming",
+      "broadcast_links": [
+        {
+          "name": "Twitch (EVO)",
+          "url": "https://www.twitch.tv/evo"
+        },
+        {
+          "name": "YouTube (EVO)",
+          "url": "https://www.youtube.com/evo"
+        }
+      ],
+      "external_links": [
+        {
+          "name": "Official site",
+          "url": "https://evo.gg"
+        },
+        {
+          "name": "Liquipedia",
+          "url": "https://liquipedia.net/fighters/EVO/2026"
+        }
+      ],
+      "description_short": "Annual fighting-game championship across Street Fighter 6, Tekken 8, Guilty Gear Strive, Mortal Kombat 1, and rotating titles. Las Vegas, August.",
+      "description_long": "EVO is the annual fighting-game championship and the calendar event that holds the entire FGC together. The 2026 edition runs at the Las Vegas Convention Center across the standard multi-title format covering the load-bearing modern fighting games."
+    },
+    {
+      "slug": "rlcs-worlds-2026",
+      "name": "RLCS 2026 World Championship",
+      "aliases": [
+        "Rocket League Championship Series 2026 Worlds"
+      ],
+      "game_slug": "rocket-league",
+      "organizer": "Psyonix / Epic Games",
+      "tier": "tier1",
+      "format": "double-elimination",
+      "prize_pool_usd": 1500000,
+      "date_start": "2026-08-19T00:00:00.000Z",
+      "date_end": "2026-08-30T00:00:00.000Z",
+      "region": "international",
+      "location": "TBC",
+      "status": "upcoming",
+      "broadcast_links": [
+        {
+          "name": "Twitch (RLCS)",
+          "url": "https://www.twitch.tv/rocketleague"
+        },
+        {
+          "name": "YouTube (Rocket League)",
+          "url": "https://www.youtube.com/rocketleague"
+        }
+      ],
+      "external_links": [
+        {
+          "name": "Liquipedia (RLCS)",
+          "url": "https://liquipedia.net/rocketleague/Rocket_League_Championship_Series"
+        }
+      ],
+      "description_short": "Annual Rocket League year-end championship. Tier 1, international, August. The genre-defining Rocket League event.",
+      "description_long": "The Rocket League Championship Series World Championship is the annual year-end event for competitive Rocket League. Run by Psyonix and Epic Games, RLCS Worlds is the calendar tentpole that closes the competitive season."
+    },
+    {
+      "slug": "ti-2026",
+      "name": "The International 2026",
+      "aliases": [
+        "TI 2026",
+        "TI15"
+      ],
+      "game_slug": "dota-2",
+      "organizer": "Valve",
+      "tier": "major",
+      "format": "double-elimination",
+      "prize_pool_usd": 3000000,
+      "date_start": "2026-09-15T00:00:00.000Z",
+      "date_end": "2026-10-04T00:00:00.000Z",
+      "region": "international",
+      "location": "TBC",
+      "status": "upcoming",
+      "broadcast_links": [
+        {
+          "name": "Twitch (Dota 2)",
+          "url": "https://www.twitch.tv/dota2ti"
+        },
+        {
+          "name": "YouTube (Dota 2)",
+          "url": "https://www.youtube.com/dota2"
+        }
+      ],
+      "external_links": [
+        {
+          "name": "Liquipedia",
+          "url": "https://liquipedia.net/dota2/The_International/2026"
+        }
+      ],
+      "description_short": "Dota 2's annual flagship event. October 2026, host city to be confirmed. The defining event of the Dota 2 competitive year.",
+      "description_long": "The International is Dota 2's annual flagship competitive event and the defining tournament of the Dota 2 calendar year. Run by Valve since 2011, even with the prize-pool decline post-Battle-Pass discontinuation, TI remains the genre-defining Dota 2 event."
+    },
+    {
+      "slug": "lol-worlds-2026",
+      "name": "League of Legends World Championship 2026",
+      "aliases": [
+        "Worlds 2026",
+        "LoL Worlds 2026"
+      ],
+      "game_slug": "league-of-legends",
+      "organizer": "Riot Games",
+      "tier": "major",
+      "format": "double-elimination",
+      "prize_pool_usd": 2250000,
+      "date_start": "2026-10-10T00:00:00.000Z",
+      "date_end": "2026-11-08T00:00:00.000Z",
+      "region": "international",
+      "location": "TBC",
+      "status": "upcoming",
+      "broadcast_links": [
+        {
+          "name": "Twitch (LoL Esports)",
+          "url": "https://www.twitch.tv/lolesports"
+        },
+        {
+          "name": "YouTube (LoL Esports)",
+          "url": "https://www.youtube.com/lolesports"
+        }
+      ],
+      "external_links": [
+        {
+          "name": "Liquipedia",
+          "url": "https://liquipedia.net/leagueoflegends/World_Championship/2026"
+        }
+      ],
+      "description_short": "League of Legends Worlds 2026. October to November tentpole. Single most-watched esports event of the year by viewership.",
+      "description_long": "The League of Legends World Championship is the annual tentpole event for competitive LoL and the single most-watched esports event of the year by viewership. Worlds 2026 runs October to November."
+    },
+    {
+      "slug": "vct-champions-2026",
+      "name": "VCT Champions 2026",
+      "aliases": [
+        "Valorant Champions 2026"
+      ],
+      "game_slug": "valorant",
+      "organizer": "Riot Games",
+      "tier": "major",
+      "format": "double-elimination",
+      "prize_pool_usd": 2250000,
+      "date_start": "2026-10-15T00:00:00.000Z",
+      "date_end": "2026-11-08T00:00:00.000Z",
+      "region": "international",
+      "location": "TBC",
+      "status": "upcoming",
+      "broadcast_links": [
+        {
+          "name": "Twitch (VCT)",
+          "url": "https://www.twitch.tv/valorant"
+        },
+        {
+          "name": "YouTube (VALORANT Esports)",
+          "url": "https://www.youtube.com/valorantesports"
+        }
+      ],
+      "external_links": [
+        {
+          "name": "Liquipedia",
+          "url": "https://liquipedia.net/valorant/VCT/2026/Champions"
+        }
+      ],
+      "description_short": "Valorant year-end championship across VCT Americas, EMEA, Pacific, and China. The Valorant calendar's defining event.",
+      "description_long": "VCT Champions is the year-end Valorant championship across the four regional VCT leagues (Americas, EMEA, Pacific, China). Run by Riot Games since 2021, Champions is the calendar's defining Valorant event."
+    },
+    {
+      "slug": "algs-championship-2026",
+      "name": "ALGS 2026 Championship",
+      "aliases": [
+        "Apex Legends Global Series 2026 Championship"
+      ],
+      "game_slug": "apex-legends",
+      "organizer": "Electronic Arts / Respawn",
+      "tier": "tier1",
+      "format": "other",
+      "prize_pool_usd": 2000000,
+      "date_start": "2026-11-12T00:00:00.000Z",
+      "date_end": "2026-11-22T00:00:00.000Z",
+      "region": "international",
+      "location": "TBC",
+      "status": "upcoming",
+      "broadcast_links": [
+        {
+          "name": "Twitch (PlayApex)",
+          "url": "https://www.twitch.tv/playapex"
+        },
+        {
+          "name": "YouTube (Apex Legends)",
+          "url": "https://www.youtube.com/playapex"
+        }
+      ],
+      "external_links": [
+        {
+          "name": "Liquipedia (ALGS)",
+          "url": "https://liquipedia.net/apexlegends/Apex_Legends_Global_Series"
+        }
+      ],
+      "description_short": "Apex Legends Global Series year-end finals. The defining BR esports calendar event.",
+      "description_long": "The ALGS Championship is the year-end finals of the Apex Legends Global Series. ALGS is one of the few BR esports formats that reads on a calendar (Fortnite is event-bursty by comparison) and the Championship closes the competitive season."
+    }
+  ],
+  "count": 13,
+  "generatedAt": "2026-04-27T06:35:54.045Z"
+}
