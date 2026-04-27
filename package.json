@@ -20,6 +20,7 @@
     "build-tournaments-json": "tsx scripts/build-tournaments-json.ts",
     "build-steam-app-ids": "tsx scripts/build-steam-app-ids.ts",
     "fetch-org-logos": "node scripts/fetch-org-logos.mjs",
+    "fetch-game-screenshots": "node scripts/fetch-game-screenshots.mjs",
     "backfill-steam-app-ids": "node scripts/backfill-steam-app-ids.mjs",
     "prebuild": "tsx scripts/build-search-index.ts && tsx scripts/build-rss.ts && tsx scripts/build-tournaments-json.ts && tsx scripts/build-steam-app-ids.ts"
   },
