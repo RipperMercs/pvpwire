@@ -202,11 +202,14 @@
     width: 180px; height: 180px;
   }
 
+  /* Darker, lower-contrast ring. The outer circle border is removed so the
+     ring blends into the page; the track is barely visible (ink at 6%); the
+     fill stroke is thinner (3px not 5px) and uses a subtle glow rather than
+     a halo. */
   .score-ring-bg {
     position: absolute; inset: 0;
     border-radius: 50%;
-    background: radial-gradient(circle at center, var(--bg-card) 60%, var(--bg-inset) 100%);
-    border: 1px solid var(--border);
+    background: radial-gradient(circle at center, var(--bg-inset) 50%, var(--bg) 100%);
   }
 
   .score-ring-svg {
@@ -214,14 +217,19 @@
     transform: rotate(-90deg);
   }
 
-  .score-ring-track { fill: none; stroke: var(--border); stroke-width: 5; }
+  .score-ring-track {
+    fill: none;
+    stroke: rgba(232, 228, 220, 0.06);
+    stroke-width: 3;
+  }
 
   .score-ring-fill {
     fill: none;
-    stroke-width: 5;
+    stroke-width: 3;
     stroke-linecap: round;
     transition: stroke-dashoffset 1.2s cubic-bezier(0.4, 0, 0.2, 1), stroke 0.4s;
-    filter: drop-shadow(0 0 6px currentColor);
+    filter: drop-shadow(0 0 4px currentColor);
+    opacity: 0.85;
   }
 
   .score-center {
