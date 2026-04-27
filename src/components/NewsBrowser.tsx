@@ -30,7 +30,7 @@ interface FeedResponseV2 {
 type Filter = 'all' | 'original' | 'aggregated';
 type AuthorFilter = 'all' | 'editorial' | 'flosium' | 'og' | 'flipper';
 
-const NEWS_API = process.env.NEXT_PUBLIC_NEWS_API ?? 'https://pvpwire-api.workers.dev/api/news';
+const NEWS_API = process.env.NEXT_PUBLIC_NEWS_API ?? 'https://pvpwire-api.rippertm.workers.dev/api/news';
 
 function timeAgo(iso: string): string {
   const ms = Date.now() - new Date(iso).getTime();

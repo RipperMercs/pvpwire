@@ -17,7 +17,7 @@ import type { GameFrontmatter } from '@/lib/schemas';
 const TRENDING_API =
   process.env.NEXT_PUBLIC_TRENDING_API ??
   process.env.NEXT_PUBLIC_NEWS_API?.replace(/\/api\/news$/, '/api/trending-now') ??
-  'https://pvpwire-api.workers.dev/api/trending-now';
+  'https://pvpwire-api.rippertm.workers.dev/api/trending-now';
 
 interface TrendingItem {
   game_slug: string;

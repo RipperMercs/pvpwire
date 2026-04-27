@@ -44,7 +44,7 @@ interface SnapshotResponse {
 const LIVE_API =
   process.env.NEXT_PUBLIC_LIVE_API ??
   process.env.NEXT_PUBLIC_NEWS_API?.replace(/\/api\/news$/, '/api/live-now') ??
-  'https://pvpwire-api.workers.dev/api/live-now';
+  'https://pvpwire-api.rippertm.workers.dev/api/live-now';
 
 const POLL_INTERVAL_MS = 60_000;
 const FRESHNESS_GREEN_MS = 5 * 60_000;

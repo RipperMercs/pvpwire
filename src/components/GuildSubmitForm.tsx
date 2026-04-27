@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { ArrowRightIcon } from '@/components/icons';
 
-const SUBMIT_API = process.env.NEXT_PUBLIC_SUBMIT_API ?? 'https://pvpwire-api.workers.dev/api/submit-guild';
+const SUBMIT_API = process.env.NEXT_PUBLIC_SUBMIT_API ?? 'https://pvpwire-api.rippertm.workers.dev/api/submit-guild';
 
 type Status = 'idle' | 'submitting' | 'success' | 'error';
 

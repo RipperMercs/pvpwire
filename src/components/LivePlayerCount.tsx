@@ -10,7 +10,7 @@ import { useEffect, useState } from 'react';
 const RUNTIME_API =
   process.env.NEXT_PUBLIC_GAME_RUNTIME_API ??
   process.env.NEXT_PUBLIC_NEWS_API?.replace(/\/api\/news$/, '/api/game-runtime') ??
-  'https://pvpwire-api.workers.dev/api/game-runtime';
+  'https://pvpwire-api.rippertm.workers.dev/api/game-runtime';
 
 interface RuntimeResponse {
   game_slug: string;

@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { ArrowRightIcon } from '@/components/icons';
 import { GAME_CATEGORIES } from '@/lib/schemas';
 
-const SUBMIT_API = process.env.NEXT_PUBLIC_GAME_SUBMIT_API ?? 'https://pvpwire-api.workers.dev/api/submit-game';
+const SUBMIT_API = process.env.NEXT_PUBLIC_GAME_SUBMIT_API ?? 'https://pvpwire-api.rippertm.workers.dev/api/submit-game';
 
 type Status = 'idle' | 'submitting' | 'success' | 'error';
 
