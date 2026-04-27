@@ -10,18 +10,18 @@ import { ThemeToggle } from '@/components/ThemeToggle';
 // direction 2026-04-26 since it is a real product surface (guild database,
 // legacy stories, and v2.1+ highlights vault), not just historical overflow.
 //
-// `external: true` marks routes that are NOT Next.js pages (currently /wifi,
-// which is a static HTML tool living in /public/wifi/). Those render as plain
-// anchors so the browser does a full navigation; using next/link would try a
-// client-side transition and 404 since Next has no route for them.
+// `external: true` marks routes that bypass Next's router (e.g. standalone
+// HTML tools in /public/). Those render as plain anchors. Currently none in
+// the primary nav: /tools is a real Next page that lists individual tools
+// (some of which are static HTML and link out from there).
 const NAV_LINKS: { href: string; label: string; external?: boolean }[] = [
   { href: '/', label: 'Home' },
   { href: '/live', label: 'Live' },
   { href: '/games', label: 'Games' },
   { href: '/esports', label: 'Esports' },
   { href: '/news', label: 'News' },
+  { href: '/tools', label: 'Tools' },
   { href: '/archive', label: 'Archive' },
-  { href: '/wifi/', label: 'WiFi', external: true },
 ];
 
 export function SiteHeader() {

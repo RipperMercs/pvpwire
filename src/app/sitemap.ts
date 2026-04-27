@@ -28,6 +28,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const staticRoutes: MetadataRoute.Sitemap = [
     { url: `${BASE}/`, lastModified: now, changeFrequency: 'daily', priority: 1.0 },
     { url: `${BASE}/live/`, lastModified: now, changeFrequency: 'always', priority: 0.95 },
+    { url: `${BASE}/tools/`, lastModified: now, changeFrequency: 'monthly', priority: 0.85 },
     { url: `${BASE}/wifi/`, lastModified: now, changeFrequency: 'monthly', priority: 0.85 },
     { url: `${BASE}/games/`, lastModified: now, changeFrequency: 'weekly', priority: 0.9 },
     { url: `${BASE}/esports/`, lastModified: now, changeFrequency: 'daily', priority: 0.9 },
