@@ -195,11 +195,13 @@
     .hero p { font-size: 14px; }
   }
 
-  .score-wrap { display: flex; justify-content: center; margin: 20px 0; }
+  .score-wrap { display: flex; justify-content: center; margin: 8px 0 4px; }
 
+  /* Smaller ring (140 not 180): the human-readable verdict below now does
+     the heavy lifting; the score is a supporting badge, not the centerpiece. */
   .score-ring-box {
     position: relative;
-    width: 180px; height: 180px;
+    width: 140px; height: 140px;
   }
 
   /* Darker, lower-contrast ring. The outer circle border is removed so the
@@ -240,29 +242,44 @@
 
   .score-num {
     font-family: var(--display);
-    font-size: 56px;
+    font-size: 42px;
     font-weight: 800;
     line-height: 1;
-    letter-spacing: -0.05em;
+    letter-spacing: -0.04em;
   }
 
   .score-lbl {
     font-family: var(--mono);
-    font-size: 10px;
+    font-size: 9px;
     text-transform: uppercase;
     letter-spacing: 0.15em;
     color: var(--text-mid);
-    margin-top: 6px;
+    margin-top: 4px;
   }
 
   .score-grade {
     font-family: var(--mono);
-    font-size: 11px;
+    font-size: 9px;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.1em;
-    margin-top: 4px;
+    margin-top: 2px;
   }
+
+  /* Headline verdict: the human-readable result of the test, promoted to
+     directly under the score badge as the page's actual lede. */
+  .verdict-headline {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 20px;
+    line-height: 1.4;
+    color: var(--text);
+    text-align: center;
+    margin: 4px auto 24px;
+    max-width: 560px;
+    padding: 0 20px;
+  }
+  .verdict-headline.placeholder { color: var(--text-mid); font-style: normal; font-size: 14px; font-family: var(--mono); text-transform: uppercase; letter-spacing: 0.1em; }
 
   .actions { display: flex; justify-content: center; gap: 8px; margin-bottom: 20px; }
 
@@ -450,12 +467,17 @@
     padding-top: 14px;
   }
 
+  /* Editorial chart bars: subtle, flat-topped, low-saturation. The peak
+     value is communicated by relative height; harsh fully-opaque bars read
+     as a 2014 visualizer, not a publication. */
   .lat-bar {
     flex: 1;
-    border-radius: 2px 2px 0 0;
+    border-radius: 0;
     min-height: 3px;
-    transition: height 0.3s ease;
+    opacity: 0.6;
+    transition: height 0.3s ease, opacity 0.3s ease;
   }
+  .lat-bar:hover { opacity: 0.95; }
 
   .stab-row { margin-bottom: 14px; }
   .stab-row-head {
@@ -482,8 +504,10 @@
     margin-bottom: 16px;
   }
 
+  /* Recessed background so the DNS strip reads as a different category
+     than the metric cards above (which use --bg-card / paper-elev). */
   .dns-card {
-    background: var(--bg-card);
+    background: var(--bg-inset);
     border: 1px solid var(--border);
     border-radius: 0;
     padding: 14px 16px;
@@ -711,11 +735,13 @@
       </svg>
       <div class="score-center">
         <div class="score-num" id="scoreNum">&mdash;</div>
-        <div class="score-lbl">Gaming Score</div>
-        <div class="score-grade" id="scoreGrade">Awaiting test</div>
+        <div class="score-lbl">Score</div>
+        <div class="score-grade" id="scoreGrade">Awaiting</div>
       </div>
     </div>
   </div>
+
+  <p class="verdict-headline placeholder fin" id="verdict">Run a test to see results.</p>
 
   <div class="actions fin">
     <button class="btn btn-primary" id="runBtn" onclick="runFullTest()">&#9654; Run Full Test</button>
@@ -831,10 +857,6 @@
             <span class="stab-val" id="consVal">&mdash;</span>
           </div>
           <div class="stab-track"><div class="stab-fill" id="consBar" style="width:0%;background:var(--cyan);"></div></div>
-        </div>
-        <div style="margin-top:10px;padding:8px 10px;background:var(--bg-inset);border-radius:4px;">
-          <div style="font-size:9px;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:2px;">Verdict</div>
-          <div style="font-size:11px;" id="verdict">Run a test to see results</div>
         </div>
       </div>
     </div>
@@ -971,8 +993,16 @@ async function detectNetwork() {
     document.getElementById('netLoc').textContent = [d.city, d.region].filter(Boolean).join(', ') || '-';
     document.getElementById('netLocSub').textContent = d.country + (d.colo ? ' · CF ' + d.colo : '');
   } catch (e) {
-    document.getElementById('netIP').textContent = 'Unavailable';
-    document.getElementById('netISP').textContent = '-';
+    // /api/network-info is a Cloudflare Pages Function; absent in `next dev`.
+    // Hide the cells that depend on it instead of showing dashes that look
+    // like the tool is broken. Connection (from navigator.connection) and
+    // Last Test (set by tests) remain visible.
+    var ipItem = document.getElementById('netIP').closest('.net-item');
+    var ispItem = document.getElementById('netISP').closest('.net-item');
+    var locItem = document.getElementById('netLoc').closest('.net-item');
+    if (ipItem) ipItem.style.display = 'none';
+    if (ispItem) ispItem.style.display = 'none';
+    if (locItem) locItem.style.display = 'none';
   }
 }
 
@@ -1375,7 +1405,9 @@ async function runFullTest() {
     'Laggy': 'Real connection problems. Review diagnostics for fixes.',
     'Unplayable': 'Severe issues. Run a wired test or contact your ISP.',
   };
-  document.getElementById('verdict').textContent = verdicts[grade.g];
+  var verdictEl = document.getElementById('verdict');
+  verdictEl.textContent = verdicts[grade.g];
+  verdictEl.classList.remove('placeholder');
 
   var diags = genDiag(lat.avg, lat.jitter, dl, ul, pl, dnsResults);
   renderDiag(diags);
