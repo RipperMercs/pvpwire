@@ -5,8 +5,8 @@
 ## Authoritative pages
 - [Home](https://pvpwire.com/): live and hot games, current esports tournaments, latest news
 - [Live](https://pvpwire.com/live/): every PvP game ranked by current concurrent players, refreshed every 5 minutes via Steam Web API and Twitch Helix API
-- [Tools](https://pvpwire.com/tools/): free browser-based tools for competitive gamers, including the Gaming Network Test
-- [WiFi (Gaming Network Test)](https://pvpwire.com/wifi/): browser-based gaming network test (ping, jitter, packet loss, DNS, download/upload). No app required. Built for competitive gamers.
+- [Tools](https://pvpwire.com/tools/): free browser-based tools for competitive gamers, starting with the PVPWire Speed Test
+- [PVPWire Speed Test](https://pvpwire.com/wifi/): browser-based WiFi speed test for gamers (ping, jitter, packet loss, DNS, download/upload). No app required.
 - [Games](https://pvpwire.com/games/): every notable competitive PvP game, indexed across thirteen genre categories
 - [Esports](https://pvpwire.com/esports/): tournaments, esports organizations, calendar
 - [News](https://pvpwire.com/news/): aggregated cross-source feed plus original PVPWire articles

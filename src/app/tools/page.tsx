@@ -30,7 +30,7 @@ interface Tool {
 const TOOLS: Tool[] = [
   {
     slug: 'wifi',
-    title: 'Gaming Network Test',
+    title: 'PVPWire Speed Test',
     href: '/wifi/index.html',
     external: true,
     status: 'live',
